@@ -6,6 +6,7 @@
     ../modules/locale.nix
     ../modules/networking.nix
     ../modules/user.nix
+    ../modules/vm.nix
     ../profiles/vm.nix
 
     # Per-user overlay for this VM (personal)
