@@ -15,6 +15,8 @@
     # Laptop-specific features
     ../features/desktop-environments/desktop-environment.nix
     ../features/applications/browsers.nix
+    ../features/applications/system-tools.nix
+    ../features/applications/other-applications.nix
     ../modules/hibernate.nix
     ../features/development/dev.nix
     ../modules/power.nix
