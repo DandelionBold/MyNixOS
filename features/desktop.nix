@@ -3,7 +3,7 @@
 {
   # Desktop role: workstation + fonts + power management
   imports = [
-    ../features/workstation.nix
+    ../roles/workstation.nix
     ../modules/fonts.nix
     ../modules/power.nix
   ];
