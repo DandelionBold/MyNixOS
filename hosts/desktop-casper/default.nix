@@ -11,8 +11,7 @@
     ../../modules/users-casper.nix
     # ../../modules/filesystems-btrfs.nix  # enable after disk layout is finalized
 
-    ../../roles/workstation.nix
-    ../../profiles/desktop.nix
+    ../../roles/desktop.nix
   ];
 
   networking.hostName = "desktop-casper";
