@@ -89,7 +89,7 @@
   - Verify: Imports resolve; structure is visible in repository tree.
 - [x] Add base NixOS modules (scaffold only)
   - [x] Filesystems: BTRFS subvolumes + LUKS options; snapper disabled by default
-  - [ ] Hibernate: swap+resume toggles
+  - [x] Hibernate: swap+resume toggles
   - [x] Networking: NetworkManager enable
   - [x] Bluetooth: enable
   - [x] Printing/Scanning: CUPS + SANE enable
@@ -110,9 +110,9 @@
   - [x] Import base modules + workstation role + laptop profile
   - [ ] HM: user `casper` linked
   - Verify: `nixos-rebuild build --flake .#laptop-casper` succeeds.
- - [ ] Documentation touchpoints
+ - [x] Documentation touchpoints
   - [x] Update ROADMAP checkboxes per milestone
-  - [ ] Add brief `README.md` explaining how to build a host (later)
+  - [x] Add brief `README.md` explaining how to build a host (later)
 
 ---
 
@@ -133,7 +133,7 @@
   - Verify: SSH reachable; nginx default site; DB services disabled by default until enabled
 - [x] `hosts/vm-lab/`
   - [ ] UEFI; simple disk; headless
-  - [ ] Import: base modules + `profiles/vm`
+  - [x] Import: base modules + `profiles/vm`
   - Verify: boots under common hypervisors
 - [x] `hosts/wsl/`
   - [ ] WSL specifics; no systemd journal quirks TBD
@@ -168,16 +168,16 @@
   - Verify: Services start and bind only when host enables
 - [x] `roles/dev`
  - [x] Docker engine + group membership
-  - [ ] Language toolchains: Python initial; extend later
+  - [x] Language toolchains: Python initial; extend later
   - Verify: `docker run hello-world` works for user when enabled
 
 ---
 
 ## Modules (system-wide building blocks)
 - [x] Filesystems: BTRFS subvolumes, compression, snapshots (snapper)
-  - [ ] Subvolumes: `@`, `@home`, `@nix`, `@log`, `@cache` (example)
-  - [ ] Compression: zstd; noatime; SSD opts
-  - [ ] Snapper: config skeleton (disabled by default)
+  - [x] Subvolumes: `@`, `@home`, `@nix`, `@log`, `@cache` (example)
+  - [x] Compression: zstd; noatime; SSD opts
+  - [x] Snapper: config skeleton (disabled by default)
   - Verify: Mounts match design; `btrfs subvolume list` shows expected
 - [x] Hibernate: swap + resume settings (laptop-only)
   - [ ] Create swapfile/partition; set `boot.resumeDevice`
@@ -204,13 +204,13 @@
   - [x] Unit files and basics; services off by default
   - Verify: Services start when host enables
 - [x] Firewall rules module: off by default; declarative allowed ports list
-  - [ ] Option `allowedTCPPorts`/`allowedUDPPorts` per host
+  - [x] Option `allowedTCPPorts`/`allowedUDPPorts` per host
   - Verify: Only declared ports open
 - [x] Users: `casper` base user
-  - [ ] Create user; groups; optional sudo
+  - [x] Create user; groups; optional sudo
   - Verify: Login works
 - [x] Locale/time/keyboard module
-  - [ ] Timezone Cairo; locales en_US/ar_EG; `us,ara` Alt+Shift
+  - [x] Timezone Cairo; locales en_US/ar_EG; `us,ara` Alt+Shift
   - Verify: `locale`, `timedatectl`, layout switch
 
 ---
@@ -243,18 +243,18 @@
 ---
 
 ## Tasks Status Log
-- [ ] Initialize Git, set remote, sync `main`
+- [x] Initialize Git, set remote, sync `main`
   - [x] Init local repo
   - [x] Set `origin` to GitHub
   - [x] Fetch and track `main`
   - [x] Push changes
-- [ ] Capture requirements and decisions in this roadmap
+- [x] Capture requirements and decisions in this roadmap
   - [x] Questionnaire answered and recorded
   - [x] Structure and conventions defined
-- [ ] Implement `flake.nix` skeleton
-  - [ ] Inputs/outputs defined; `nix flake check` passes
-- [ ] Add base modules and roles scaffolding
-  - [ ] Modules compile standalone; roles toggle cleanly
+- [x] Implement `flake.nix` skeleton
+  - [x] Inputs/outputs defined; `nix flake check` passes
+- [x] Add base modules and roles scaffolding
+  - [x] Modules compile standalone; roles toggle cleanly
 - [ ] Create first host (`laptop-casper`) and HM user `casper`
   - [ ] `nixos-rebuild build --flake .#laptop-casper` succeeds
 - [ ] Test `nixos-rebuild switch --flake` locally (later)
