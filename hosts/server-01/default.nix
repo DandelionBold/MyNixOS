@@ -24,6 +24,7 @@
   #   enable = true;
   #   allowedTCPPorts = [ 22 80 443 ];
   # };
+  # See docs/FIREWALL.md for more presets and tips.
 
   # Example: enable nginx with a simple HTTP site
   # services.nginx = {
