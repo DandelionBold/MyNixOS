@@ -3,9 +3,10 @@
 {
   # VM host type
   imports = [
-    ../modules/locale.nix
-    ../modules/networking.nix
-    ../modules/user.nix
+    # Base modules (common to all hosts)
+    ../modules/base.nix
+    
+    # VM-specific modules
     ../modules/vm.nix
     ../profiles/vm.nix
 

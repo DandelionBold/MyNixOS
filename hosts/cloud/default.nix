@@ -3,8 +3,10 @@
 {
   # Cloud host type
   imports = [
-    ../modules/locale.nix
-    ../modules/networking.nix
+    # Base modules (common to all hosts)
+    ../modules/base.nix
+    
+    # Cloud-specific roles
     ../roles/server.nix
   ];
 

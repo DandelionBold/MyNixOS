@@ -3,14 +3,16 @@
 {
   # Laptop host type
   imports = [
-    ../modules/locale.nix
-    ../modules/networking.nix
+    # Base modules (common to all hosts)
+    ../modules/base.nix
+    
+    # Laptop-specific modules
     ../modules/bluetooth.nix
     ../modules/printing.nix
     ../modules/audio.nix
-    ../modules/user.nix
     # ../modules/filesystems-btrfs.nix  # enable after disk layout is finalized
 
+    # Laptop-specific roles
     ../roles/laptop.nix
     ../roles/dev.nix
 

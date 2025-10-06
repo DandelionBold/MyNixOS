@@ -3,13 +3,15 @@
 {
   # Server host type
   imports = [
-    ../modules/locale.nix
-    ../modules/networking.nix
-    ../modules/user.nix
+    # Base modules (common to all hosts)
+    ../modules/base.nix
+    
+    # Server-specific modules
     ../modules/databases.nix
     ../modules/nginx.nix
     ../modules/firewall-allowlist.nix
 
+    # Server-specific roles
     ../roles/server.nix
   ];
 

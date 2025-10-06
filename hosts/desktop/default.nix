@@ -3,14 +3,16 @@
 {
   # Desktop host type
   imports = [
-    ../modules/locale.nix
-    ../modules/networking.nix
+    # Base modules (common to all hosts)
+    ../modules/base.nix
+    
+    # Desktop-specific modules
     ../modules/bluetooth.nix
     ../modules/printing.nix
     ../modules/audio.nix
-    ../modules/user.nix
     # ../modules/filesystems-btrfs.nix
 
+    # Desktop-specific roles
     ../roles/desktop.nix
   ];
 

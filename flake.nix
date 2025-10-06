@@ -63,20 +63,37 @@
       };
     });
 
-    # NixOS configurations for all hosts
-    nixosConfigurations = {
-      # Base configurations (core functionality only)
-      laptop = mkNixOSConfig "laptop" defaultSystem;
-      desktop = mkNixOSConfig "desktop" defaultSystem;
-      server = mkNixOSConfig "server" defaultSystem;
-      vm = mkNixOSConfig "vm" defaultSystem;
-      wsl = mkNixOSConfig "wsl" defaultSystem;
-      cloud = mkNixOSConfig "cloud" defaultSystem;
-      
-      # Personal configurations (base + personal overrides)
-      "laptop@personal" = mkNixOSConfig "laptop/personal" defaultSystem;
-      "vm@personal" = mkNixOSConfig "vm/personal" defaultSystem;
+    # Host tree structure - defines which hosts have variants and their names
+    hostTree = {
+      laptop = [ "personal" ];
+      desktop = [ ];
+      server = [ ];
+      vm = [ "personal" ];
+      wsl = [ ];
+      cloud = [ ];
     };
+    
+    # Helper to check if variant config exists for a host
+    hasVariantConfig = hostName: variantName: 
+      builtins.pathExists ./hosts/${hostName}/${variantName}/${variantName}.nix;
+    
+    # Helper to create all configurations dynamically
+    mkAllConfigs = builtins.foldl' (acc: hostName: 
+      let
+        hostConfig = hostTree.${hostName} or [];
+        baseConfig = { ${hostName} = mkNixOSConfig hostName defaultSystem; };
+        variantConfigs = builtins.foldl' (variantAcc: variantName:
+          if hasVariantConfig hostName variantName then
+            variantAcc // { "${hostName}@${variantName}" = mkNixOSConfig "${hostName}/${variantName}" defaultSystem; }
+          else
+            variantAcc
+        ) {} hostConfig;
+      in
+        acc // baseConfig // variantConfigs
+    ) {} (builtins.attrNames hostTree);
+
+    # NixOS configurations for all hosts (dynamically generated)
+    nixosConfigurations = mkAllConfigs;
 
     # Home Manager configurations (standalone)
     homeConfigurations = {
