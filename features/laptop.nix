@@ -3,7 +3,7 @@
 {
   # Laptop role: desktop + hibernate + power tweaks
   imports = [
-    ../roles/desktop.nix
+    ../features/desktop.nix
     ../modules/hibernate.nix
   ];
 

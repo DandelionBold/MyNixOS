@@ -6,8 +6,8 @@
     # Base modules (common to all hosts)
     ../modules/base.nix
     
-    # Cloud-specific roles
-    ../roles/server.nix
+    # Cloud-specific features
+    ../features/server.nix
   ];
 
   networking.hostName = "cloud";

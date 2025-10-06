@@ -11,8 +11,8 @@
     ../modules/nginx.nix
     ../modules/firewall-allowlist.nix
 
-    # Server-specific roles
-    ../roles/server.nix
+    # Server-specific features
+    ../features/server.nix
   ];
 
   networking.hostName = "server";

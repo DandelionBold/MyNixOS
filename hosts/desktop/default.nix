@@ -12,8 +12,8 @@
     ../modules/audio.nix
     # ../modules/filesystems-btrfs.nix
 
-    # Desktop-specific roles
-    ../roles/desktop.nix
+    # Desktop-specific features
+    ../features/desktop.nix
   ];
 
   networking.hostName = "desktop";

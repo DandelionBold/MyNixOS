@@ -12,9 +12,9 @@
     ../modules/audio.nix
     # ../modules/filesystems-btrfs.nix  # enable after disk layout is finalized
 
-    # Laptop-specific roles
-    ../roles/laptop.nix
-    ../roles/dev.nix
+    # Laptop-specific features
+    ../features/laptop.nix
+    ../features/dev.nix
 
     # Hardware configuration (auto-generated)
     ./personal/hardware-configuration.nix
