@@ -117,61 +117,111 @@
 ---
 
 ## Hosts (examples; to be created later)
-- [ ] `hosts/laptop-casper/` (UEFI, BTRFS+LUKS, KDE Plasma, Hibernate)
-- [ ] `hosts/desktop-casper/` (UEFI, BTRFS+LUKS, KDE Plasma)
-- [ ] `hosts/server-01/` (UEFI, BTRFS+LUKS, headless, k3s, DB role)
-- [ ] `hosts/vm-lab/` (UEFI, simple disk, headless)
-- [ ] `hosts/wsl/` (WSL specific, no systemd journal quirks TBD)
-- [ ] `hosts/cloud-01/` (cloud-init compatible, headless, k3s)
+- [ ] `hosts/laptop-casper/`
+  - [ ] UEFI; BTRFS+LUKS; Hibernate enabled
+  - [ ] Import: base modules + `roles/workstation` + `profiles/laptop`
+  - [ ] GPU: auto (tune later if NVIDIA/AMD)
+  - Verify: Wayland session works, sleep/hibernate OK, Wi‑Fi/Bluetooth OK
+- [ ] `hosts/desktop-casper/`
+  - [ ] UEFI; BTRFS+LUKS; Hibernate optional
+  - [ ] Import: base modules + `roles/workstation` + `profiles/desktop`
+  - [ ] GPU: auto (tune later if NVIDIA/AMD)
+  - Verify: Wayland session, audio, printing OK
+- [ ] `hosts/server-01/`
+  - [ ] UEFI; BTRFS+LUKS; headless
+  - [ ] Import: base modules + `roles/server` (+ `roles/db` + `roles/k3s` optional)
+  - Verify: SSH reachable; nginx default site; DB services disabled by default until enabled
+- [ ] `hosts/vm-lab/`
+  - [ ] UEFI; simple disk; headless
+  - [ ] Import: base modules + `profiles/vm`
+  - Verify: boots under common hypervisors
+- [ ] `hosts/wsl/`
+  - [ ] WSL specifics; no systemd journal quirks TBD
+  - [ ] Import: minimal services; HM for user envs
+  - Verify: HM works; networking OK
+- [ ] `hosts/cloud-01/`
+  - [ ] cloud-init compatible; headless
+  - [ ] Import: base modules + `roles/server` (+ `roles/k3s` optional)
+  - Verify: SSH with keys; firewall port list applied if enabled
 
 ---
 
 ## Roles (toggle per host)
-- [ ] `roles/workstation`:
-  - [ ] KDE Plasma 6 + SDDM
-  - [ ] Firefox, fonts, printing, scanning, Bluetooth
-  - [ ] PipeWire + WirePlumber
-  - [ ] NetworkManager
-- [ ] `roles/server`:
-  - [ ] Headless
-  - [ ] OpenSSH enabled; harden auth; optional selected firewall ports
-  - [ ] k3s (optional)
-  - [ ] nginx
-- [ ] `roles/gaming` (opt‑in):
-  - [ ] Steam + Proton (disabled by default)
-  - [ ] Gamescope (optional)
-- [ ] `roles/db`:
-  - [ ] MySQL server + client
-  - [ ] MSSQL server + tools (EULA)
-  - [ ] Redis server + client
-- [ ] `roles/dev`:
-  - [ ] Docker
-  - [ ] Language toolchains: Python (initial), expand later
+- [ ] `roles/workstation`
+  - [ ] Enable KDE Plasma 6 + SDDM (Wayland)
+  - [ ] PipeWire + WirePlumber; Bluetooth; printing/scanning
+  - [ ] Apps: Firefox; fonts: Inter + JetBrainsMono Nerd
+  - Verify: Login via SDDM; audio/Bluetooth/printing OK
+- [ ] `roles/server`
+  - [ ] Headless; OpenSSH enabled; hardened auth (no root login, no password auth)
+  - [ ] Optional firewall allow‑list per host
+  - [ ] nginx base service (off by default until host enables)
+  - Verify: SSH key auth works; ports as declared
+- [ ] `roles/gaming` (opt‑in)
+  - [ ] Steam + Proton (disabled by default); Gamescope optional
+  - [ ] NVIDIA toggles available (only if needed later)
+  - Verify: Steam runs when role enabled
+- [ ] `roles/db`
+  - [ ] MySQL server + client (disabled by default)
+  - [ ] MSSQL server + tools (EULA) (disabled by default)
+  - [ ] Redis server + client (disabled by default)
+  - Verify: Services start and bind only when host enables
+- [ ] `roles/dev`
+  - [ ] Docker engine + group membership
+  - [ ] Language toolchains: Python initial; extend later
+  - Verify: `docker run hello-world` works for user when enabled
 
 ---
 
 ## Modules (system-wide building blocks)
 - [ ] Filesystems: BTRFS subvolumes, compression, snapshots (snapper)
+  - [ ] Subvolumes: `@`, `@home`, `@nix`, `@log`, `@cache` (example)
+  - [ ] Compression: zstd; noatime; SSD opts
+  - [ ] Snapper: config skeleton (disabled by default)
+  - Verify: Mounts match design; `btrfs subvolume list` shows expected
 - [ ] Hibernate: swap + resume settings (laptop-only)
+  - [ ] Create swapfile/partition; set `boot.resumeDevice`
+  - Verify: Hibernation cycle succeeds
 - [ ] Networking: NetworkManager defaults
+  - [ ] Enable service; disable legacy wpa_supplicant management
+  - Verify: `nmcli` works
 - [ ] Bluetooth: enable + codec support
+  - [ ] Enable service; add `bluez` utils; media keys support
+  - Verify: Pairing/codec OK
 - [ ] Printing/Scanning: CUPS + SANE
+  - [ ] Enable `services.printing` and `hardware.sane`
+  - Verify: Test page prints; scanner detected
 - [ ] Audio: PipeWire stack
+  - [ ] Enable PipeWire, WirePlumber, ALSA/JACK compatibility
+  - Verify: Default sink/source present
 - [ ] nginx: base config + vhost templates
+  - [ ] Provide example vhost; TLS placeholder
+  - Verify: Curl http(s) returns expected
 - [ ] k3s: single-node server/agent modules
+  - [ ] Toggle server/agent with token
+  - Verify: `kubectl get nodes` OK
 - [ ] Databases: MySQL, MSSQL, Redis service modules
+  - [ ] Unit files and basics; services off by default
+  - Verify: Services start when host enables
 - [ ] Firewall rules module: off by default; declarative allowed ports list
+  - [ ] Option `allowedTCPPorts`/`allowedUDPPorts` per host
+  - Verify: Only declared ports open
 - [ ] Users: `casper` base user
+  - [ ] Create user; groups; optional sudo
+  - Verify: Login works
 - [ ] Locale/time/keyboard module
+  - [ ] Timezone Cairo; locales en_US/ar_EG; `us,ara` Alt+Shift
+  - Verify: `locale`, `timedatectl`, layout switch
 
 ---
 
 ## Home Manager (standalone)
 - [ ] Define `home/` for `casper` with:
-  - [ ] Shell (bash) config
+  - [ ] Shell (bash) config; prompt; aliases; history policy
   - [ ] Editor/terminal defaults (later)
-  - [ ] Fonts/theming (KDE integration later)
-  - [ ] App defaults (Firefox)
+  - [ ] Fonts/Theming (align with KDE later)
+  - [ ] Apps: Firefox
+  - Verify: `home-manager switch` completes with no changes pending
 
 ---
 
@@ -180,20 +230,33 @@
   - [ ] sops-nix (age or GPG)
   - [ ] agenix (age only)
 - [ ] Create `secrets/README.md` with bootstrap steps (when chosen)
+  - For sops-nix: create age key; store in `secrets/`; example secret
+  - For agenix: generate age key; map users; example secret
 
 ---
 
 ## Per-Host Firewall Rules (disabled globally)
 - [ ] Example per-host allowed ports list (SSH 22, HTTP 80, HTTPS 443, DB ports as needed)
+  - [ ] Template: `allowedTCPPorts = [ 22 80 443 ]; allowedUDPPorts = [ ];`
+  - Verify: `ss -tulpen` shows only listed ports when firewall enabled per host
 
 ---
 
 ## Tasks Status Log
 - [ ] Initialize Git, set remote, sync `main`
+  - [x] Init local repo
+  - [x] Set `origin` to GitHub
+  - [x] Fetch and track `main`
+  - [x] Push changes
 - [ ] Capture requirements and decisions in this roadmap
+  - [x] Questionnaire answered and recorded
+  - [x] Structure and conventions defined
 - [ ] Implement `flake.nix` skeleton
+  - [ ] Inputs/outputs defined; `nix flake check` passes
 - [ ] Add base modules and roles scaffolding
+  - [ ] Modules compile standalone; roles toggle cleanly
 - [ ] Create first host (`laptop-casper`) and HM user `casper`
+  - [ ] `nixos-rebuild build --flake .#laptop-casper` succeeds
 - [ ] Test `nixos-rebuild switch --flake` locally (later)
 
 -NoNewline
