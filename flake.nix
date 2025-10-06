@@ -80,6 +80,27 @@
           ./hosts/desktop-casper/default.nix
         ];
       };
+
+      vm-lab = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/vm-lab/default.nix
+        ];
+      };
+
+      wsl = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/wsl/default.nix
+        ];
+      };
+
+      cloud-01 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/cloud-01/default.nix
+        ];
+      };
     };
 
     # Home Manager configurations (standalone), addressable via flake
