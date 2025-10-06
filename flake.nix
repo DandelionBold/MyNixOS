@@ -34,6 +34,9 @@
     systems = [ "x86_64-linux" "aarch64-linux" ];
     forAllSystems = nixpkgs.lib.genAttrs systems;
     
+    # Default system for hosts
+    defaultSystem = "x86_64-linux";
+    
     # Helper to make pkgs for a given system
     forSystem = system: import nixpkgs {
       inherit system;
@@ -62,18 +65,18 @@
 
     # NixOS configurations for all hosts
     nixosConfigurations = {
-      laptop-casper = mkNixOSConfig "laptop-casper" "x86_64-linux";
-      desktop-casper = mkNixOSConfig "desktop-casper" "x86_64-linux";
-      server-01 = mkNixOSConfig "server-01" "x86_64-linux";
-      vm-lab = mkNixOSConfig "vm-lab" "x86_64-linux";
-      wsl = mkNixOSConfig "wsl" "x86_64-linux";
-      cloud-01 = mkNixOSConfig "cloud-01" "x86_64-linux";
+      laptop-casper = mkNixOSConfig "laptop-casper" defaultSystem;
+      desktop-casper = mkNixOSConfig "desktop-casper" defaultSystem;
+      server-01 = mkNixOSConfig "server-01" defaultSystem;
+      vm-lab = mkNixOSConfig "vm-lab" defaultSystem;
+      wsl = mkNixOSConfig "wsl" defaultSystem;
+      cloud-01 = mkNixOSConfig "cloud-01" defaultSystem;
     };
 
     # Home Manager configurations (standalone)
     homeConfigurations = {
       "casper@laptop-casper" = hmLib.homeManagerConfiguration {
-        pkgs = forSystem "x86_64-linux";
+        pkgs = forSystem defaultSystem;
         modules = [ ./home/casper/default.nix ];
         # Optional: extraSpecialArgs = { inherit inputs; };
       };
