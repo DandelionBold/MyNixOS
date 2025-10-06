@@ -10,6 +10,7 @@
     ../../modules/bluetooth.nix
     ../../modules/printing.nix
     ../../modules/audio.nix
+    ../../modules/hibernate.nix
     ../../modules/users-casper.nix
     # ../../modules/filesystems-btrfs.nix  # enable after disk layout is finalized
 

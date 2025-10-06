@@ -179,7 +179,7 @@
   - [ ] Compression: zstd; noatime; SSD opts
   - [ ] Snapper: config skeleton (disabled by default)
   - Verify: Mounts match design; `btrfs subvolume list` shows expected
-- [ ] Hibernate: swap + resume settings (laptop-only)
+- [x] Hibernate: swap + resume settings (laptop-only)
   - [ ] Create swapfile/partition; set `boot.resumeDevice`
   - Verify: Hibernation cycle succeeds
 - [x] Networking: NetworkManager defaults
