@@ -38,6 +38,7 @@
         allowUnfree = true;
       };
     };
+    hmLib = home-manager.lib;
   in {
     # Example dev shell (optional, can add languages later)
     devShells = {
@@ -64,6 +65,18 @@
           # (We are using standalone HM primarily; this line shows how to wire it if desired.)
           # home-manager.nixosModules.home-manager
         ];
+      };
+    };
+
+    # Home Manager configurations (standalone), addressable via flake
+    homeConfigurations = {
+      # Usage: home-manager switch --flake .#casper@laptop-casper
+      "casper@laptop-casper" = hmLib.homeManagerConfiguration {
+        pkgs = forSystem "x86_64-linux";
+        modules = [
+          ./home/casper/default.nix
+        ];
+        # Optional: extraSpecialArgs = { inherit inputs; };
       };
     };
   };
