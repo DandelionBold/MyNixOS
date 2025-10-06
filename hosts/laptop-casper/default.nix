@@ -20,9 +20,6 @@
 
   networking.hostName = "laptop-casper";
 
-  # Global policy set in flake; keep here if we later split configs
-  nixpkgs.config.allowUnfree = true;
-
   # Firewall off globally as per roadmap; per-host allowed ports will be templated later
   networking.firewall.enable = false;
 }

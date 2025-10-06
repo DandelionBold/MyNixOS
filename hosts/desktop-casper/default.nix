@@ -16,9 +16,6 @@
 
   networking.hostName = "desktop-casper";
 
-  # Global policy set in flake; keep here if we later split configs
-  nixpkgs.config.allowUnfree = true;
-
   # Firewall off globally; enable per-host if needed
   networking.firewall.enable = false;
 }
