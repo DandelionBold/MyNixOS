@@ -102,8 +102,9 @@ services.new-service = {
 
 ### Creating New Host
 1. Create `hosts/my-host/default.nix`
-2. Add to `flake.nix` nixosConfigurations
-3. Import desired features
+2. Add host-specific settings directly in the file
+3. Add to `flake.nix` nixosConfigurations
+4. Import desired features
 
 ### Creating New Feature
 1. Create file in appropriate `features/` subfolder
@@ -115,8 +116,9 @@ services.new-service = {
 MyNixOS/
 ├── flake.nix                    # Main configuration
 ├── hosts/                       # Host configurations
-│   ├── laptop/default.nix
-│   ├── desktop/default.nix
+│   ├── laptop/default.nix       # Laptop + power management
+│   ├── desktop/default.nix      # Desktop + optimizations
+│   ├── vm/default.nix           # VM + minimal services
 │   └── ...
 ├── features/                    # Reusable features
 │   ├── applications/            # Apps by category
@@ -125,7 +127,6 @@ MyNixOS/
 │   ├── hardware/                # Hardware features
 │   └── system/                  # System features
 ├── modules/                     # Basic components
-├── profiles/                    # Machine-specific
 └── home/                        # User environments
 ```
 
@@ -209,7 +210,6 @@ MyNixOS/
 ├── hosts/                       # Different computer types
 ├── features/                    # Reusable functionality
 ├── modules/                     # Basic system components
-├── profiles/                    # Machine-specific settings
 ├── home/                        # User environments
 └── docs/                        # Documentation
 ```
@@ -245,10 +245,7 @@ Contains basic system components that are used by features:
 - `firewall-allowlist.nix` - Security rules
 
 ### profiles/ Folder
-Contains machine-specific settings:
-- `laptop.nix` - Laptop power management
-- `desktop.nix` - Desktop optimizations
-- `vm.nix` - Virtual machine optimizations
+~~Contains machine-specific settings~~ **REMOVED** - All profile settings have been moved directly into their corresponding host `default.nix` files for better organization and clarity.
 
 ### home/ Folder
 Contains user environment configurations:
@@ -519,6 +516,9 @@ services.new-service = {
      ];
    
      networking.hostName = "my-computer";
+     
+     # Add host-specific settings here
+     # (previously in profiles/)
    }
    ```
 
