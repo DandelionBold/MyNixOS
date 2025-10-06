@@ -73,6 +73,13 @@
           ./hosts/server-01/default.nix
         ];
       };
+
+      desktop-casper = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/desktop-casper/default.nix
+        ];
+      };
     };
 
     # Home Manager configurations (standalone), addressable via flake
