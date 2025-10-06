@@ -1,16 +1,18 @@
 { config, lib, pkgs, ... }:
 
 {
-  # MySQL (MariaDB) off by default
+  # Database services - all disabled by default
+  
+  # MySQL (MariaDB)
   services.mysql = {
     enable = lib.mkDefault false;
     package = pkgs.mariadb;
   };
 
-  # MSSQL off by default (requires EULA acceptance and extra channel)
+  # Microsoft SQL Server
   services.mssql.enable = lib.mkDefault false;
 
-  # Redis off by default
+  # Redis
   services.redis.enable = lib.mkDefault false;
 }
 
