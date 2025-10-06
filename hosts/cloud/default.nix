@@ -3,8 +3,8 @@
 {
   # Cloud host type
   imports = [
-    # Base modules (common to all hosts)
-    ../modules/base.nix
+    # Base features (common to all hosts)
+    ../features/base.nix
     
     # Cloud-specific features
     ../features/server.nix

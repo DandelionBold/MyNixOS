@@ -3,8 +3,8 @@
 {
   # VM host type
   imports = [
-    # Base modules (common to all hosts)
-    ../modules/base.nix
+    # Base features (common to all hosts)
+    ../features/base.nix
     
     # VM-specific modules
     ../modules/vm.nix

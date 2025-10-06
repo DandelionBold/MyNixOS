@@ -3,8 +3,8 @@
 {
   # Laptop host type
   imports = [
-    # Base modules (common to all hosts)
-    ../modules/base.nix
+    # Base features (common to all hosts)
+    ../features/base.nix
     
     # Laptop-specific modules
     ../modules/bluetooth.nix
@@ -12,9 +12,11 @@
     ../modules/audio.nix
     # ../modules/filesystems-btrfs.nix  # enable after disk layout is finalized
 
-    # Laptop-specific features
-    ../features/laptop.nix
+    # Laptop-specific features (workstation + hibernate + power + dev)
+    ../features/workstation.nix
+    ../modules/hibernate.nix
     ../features/dev.nix
+    ../modules/power.nix
 
     # Hardware configuration (auto-generated)
     ./personal/hardware-configuration.nix
