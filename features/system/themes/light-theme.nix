@@ -1,32 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
-  # Light theme configuration
-  # Based on nixy light themes
-  
-  # GTK Light Theme
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Adwaita";
-      package = pkgs.gnome.gnome-themes-extra;
-    };
-    iconTheme = {
-      name = "Adwaita";
-      package = pkgs.gnome.adwaita-icon-theme;
-    };
-    cursorTheme = {
-      name = "Adwaita";
-      package = pkgs.gnome.adwaita-icon-theme;
-    };
-  };
-
-  # Qt Light Theme
-  qt = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita";
-  };
+  # Light theme configuration - imports base theme and adds light colors
+  imports = [ ./themes.nix ];
 
   # Light color scheme
   colorScheme = {
@@ -52,10 +28,7 @@
     };
   };
 
-  # KDE Plasma light theme
-  services.desktopManager.plasma6 = lib.mkIf config.services.desktopManager.plasma6.enable {
-    enable = true;
-    theme = "breeze";
-    lookAndFeel = "org.kde.breeze.desktop";
-  };
+  # Override GTK theme to light
+  gtk.theme.name = "Adwaita";
+  qt.style = "adwaita";
 }

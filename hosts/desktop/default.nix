@@ -21,7 +21,6 @@
     ../features/hardware/bluetooth.nix
     ../features/hardware/printing.nix
     ../features/hardware/audio.nix
-    ../features/system/fonts.nix
     ../features/system/power.nix
     ../features/system/themes/themes.nix
     ../features/system/themes/dark-theme.nix

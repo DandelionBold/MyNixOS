@@ -1,32 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
-  # Dark theme configuration
-  # Based on nixy dark themes
-  
-  # GTK Dark Theme
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Adwaita-dark";
-      package = pkgs.gnome.gnome-themes-extra;
-    };
-    iconTheme = {
-      name = "Adwaita-dark";
-      package = pkgs.gnome.adwaita-icon-theme;
-    };
-    cursorTheme = {
-      name = "Adwaita-dark";
-      package = pkgs.gnome.adwaita-icon-theme;
-    };
-  };
-
-  # Qt Dark Theme
-  qt = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita-dark";
-  };
+  # Dark theme configuration - imports base theme and adds dark colors
+  imports = [ ./themes.nix ];
 
   # Dark color scheme
   colorScheme = {
@@ -52,10 +28,7 @@
     };
   };
 
-  # KDE Plasma dark theme
-  services.desktopManager.plasma6 = lib.mkIf config.services.desktopManager.plasma6.enable {
-    enable = true;
-    theme = "breeze-dark";
-    lookAndFeel = "org.kde.breezedark.desktop";
-  };
+  # Override GTK theme to dark
+  gtk.theme.name = "Adwaita-dark";
+  qt.style = "adwaita-dark";
 }
