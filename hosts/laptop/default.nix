@@ -14,9 +14,9 @@
 
     # Laptop-specific features
     ../features/desktop-environments/desktop-environment.nix
-    ../features/browsers.nix
+    ../features/applications/browsers.nix
     ../modules/hibernate.nix
-    ../features/dev.nix
+    ../features/development/dev.nix
     ../modules/power.nix
 
     # Hardware configuration (auto-generated)

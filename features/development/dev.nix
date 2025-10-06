@@ -3,9 +3,9 @@
 {
   # Development environment - imports containers, programming languages, and databases
   imports = [
-    ../features/containers.nix
-    ../features/programming-languages.nix
-    ../features/databases.nix
+    ./containers.nix
+    ./programming-languages.nix
+    ./databases.nix
   ];
 }
 

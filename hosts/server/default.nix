@@ -7,7 +7,7 @@
     ../features/base.nix
     
     # Server-specific modules
-    ../features/databases.nix
+    ../features/development/databases.nix
     ../modules/nginx.nix
     ../modules/firewall-allowlist.nix
   ];
