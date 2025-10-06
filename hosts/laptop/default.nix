@@ -13,8 +13,8 @@
     # ../modules/filesystems-btrfs.nix  # enable after disk layout is finalized
 
     # Laptop-specific features
-    ../features/desktop-environment.nix
-    ../features/browser.nix
+    ../features/desktop-environments/desktop-environment.nix
+    ../features/browsers.nix
     ../modules/hibernate.nix
     ../features/dev.nix
     ../modules/power.nix

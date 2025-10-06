@@ -5,7 +5,7 @@
   imports = [
     ../features/containers.nix
     ../features/programming-languages.nix
-    ../modules/databases.nix
+    ../features/databases.nix
   ];
 }
 

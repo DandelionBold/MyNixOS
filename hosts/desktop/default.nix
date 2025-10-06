@@ -13,8 +13,8 @@
     # ../modules/filesystems-btrfs.nix
 
     # Desktop-specific features
-    ../features/desktop-environment.nix
-    ../features/browser.nix
+    ../features/desktop-environments/desktop-environment.nix
+    ../features/browsers.nix
     ../modules/fonts.nix
     ../modules/power.nix
   ];

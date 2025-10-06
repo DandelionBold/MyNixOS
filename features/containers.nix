@@ -1,9 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  # Docker and Kubernetes containerization
+  # Docker containerization
   virtualisation.docker.enable = true;
-  
-  # Kubernetes (k3s) - disabled by default
-  services.k3s.enable = lib.mkDefault false;
 }
