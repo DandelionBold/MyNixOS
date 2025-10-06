@@ -8,7 +8,7 @@
     ../modules/bluetooth.nix
     ../modules/printing.nix
     ../modules/audio.nix
-    ../modules/users-casper.nix
+    ../modules/user.nix
     # ../modules/filesystems-btrfs.nix
 
     ../roles/desktop.nix

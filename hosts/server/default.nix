@@ -5,6 +5,7 @@
   imports = [
     ../modules/locale.nix
     ../modules/networking.nix
+    ../modules/user.nix
     ../modules/databases.nix
     ../modules/nginx.nix
     ../modules/firewall-allowlist.nix

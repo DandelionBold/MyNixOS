@@ -5,10 +5,11 @@
   imports = [
     ../modules/locale.nix
     ../modules/networking.nix
+    ../modules/user.nix
     ../profiles/vm.nix
 
     # Per-user overlay for this VM (personal)
-    ./personal/casper.nix
+    ./personal/personal.nix
     ./personal/hardware-configuration.nix
   ];
 
