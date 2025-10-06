@@ -10,23 +10,22 @@ To build a specific host configuration:
 
 ```bash
 # Build the configuration (dry run)
-nixos-rebuild build --flake .#laptop-casper
+nixos-rebuild build --flake .#laptop
 
 # Switch to the configuration (on a NixOS system)
-nixos-rebuild switch --flake .#laptop-casper
+nixos-rebuild switch --flake .#laptop
 
 # Build for a different host
-nixos-rebuild build --flake .#desktop-casper
+nixos-rebuild build --flake .#desktop
 ```
 
 ### Available Hosts
 
-- `laptop-casper` - Laptop with KDE Plasma, hibernate support
-- `desktop-casper` - Desktop with KDE Plasma, no hibernate
-- `server-01` - Headless server with SSH, nginx, databases
-- `vm-lab` - Virtual machine optimized configuration
-- `wsl` - WSL-specific configuration
-- `cloud-01` - Cloud instance configuration
+- `laptop` - Laptop with KDE Plasma, hibernate support
+- `desktop` - Desktop with KDE Plasma, no hibernate
+- `server` - Headless server with SSH, nginx, databases
+- `vm` - Virtual machine optimized configuration
+- `cloud` - Cloud instance configuration
 
 ### Home Manager
 
@@ -34,7 +33,7 @@ To manage user environments with Home Manager:
 
 ```bash
 # Switch user environment for casper
-home-manager switch --flake .#casper@laptop-casper
+home-manager switch --flake .#casper@laptop
 ```
 
 ## Architecture

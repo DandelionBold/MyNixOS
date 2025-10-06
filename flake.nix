@@ -65,17 +65,17 @@
 
     # NixOS configurations for all hosts
     nixosConfigurations = {
-      laptop-casper = mkNixOSConfig "laptop-casper" defaultSystem;
-      desktop-casper = mkNixOSConfig "desktop-casper" defaultSystem;
-      server-01 = mkNixOSConfig "server-01" defaultSystem;
-      vm-lab = mkNixOSConfig "vm-lab" defaultSystem;
+      laptop = mkNixOSConfig "laptop" defaultSystem;
+      desktop = mkNixOSConfig "desktop" defaultSystem;
+      server = mkNixOSConfig "server" defaultSystem;
+      vm = mkNixOSConfig "vm" defaultSystem;
       wsl = mkNixOSConfig "wsl" defaultSystem;
-      cloud-01 = mkNixOSConfig "cloud-01" defaultSystem;
+      cloud = mkNixOSConfig "cloud" defaultSystem;
     };
 
     # Home Manager configurations (standalone)
     homeConfigurations = {
-      "casper@laptop-casper" = hmLib.homeManagerConfiguration {
+      "casper@laptop" = hmLib.homeManagerConfiguration {
         pkgs = forSystem defaultSystem;
         modules = [ ./home/casper/default.nix ];
         # Optional: extraSpecialArgs = { inherit inputs; };
