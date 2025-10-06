@@ -16,10 +16,10 @@
   - [ ] Definition: Install HM and configure per‑user in standalone mode.
   - [ ] Acceptance: `home-manager switch` works for `casper`.
 - [x] Multi-host design: laptop, desktop, server, VM, WSL, cloud
-  - [ ] Definition: `hosts/` contains per‑host trees using shared modules/roles.
+  - [x] Definition: `hosts/` contains per‑host trees using shared modules/roles.
   - [ ] Acceptance: Two distinct hosts build successfully with shared modules.
 - [x] Roles + profiles + modules; minimal overlays initially
-  - [ ] Definition: Features are composable via `roles/` and `modules/` with small focused files.
+  - [x] Definition: Features are composable via `roles/` and `modules/` with small focused files.
   - [ ] Acceptance: Enabling/disabling a role changes the build predictably.
 - [x] Allow unfree packages
   - [ ] Definition: `nixpkgs.config.allowUnfree = true;` set globally, overridable per host.
@@ -119,12 +119,12 @@
 ## Hosts (examples; to be created later)
 - [x] `hosts/laptop-casper/`
   - [ ] UEFI; BTRFS+LUKS; Hibernate enabled
-  - [ ] Import: base modules + `roles/workstation` + `profiles/laptop`
+  - [ ] Import: base modules + `roles/laptop`
   - [ ] GPU: auto (tune later if NVIDIA/AMD)
   - Verify: Wayland session works, sleep/hibernate OK, Wi‑Fi/Bluetooth OK
 - [x] `hosts/desktop-casper/`
   - [ ] UEFI; BTRFS+LUKS; Hibernate optional
-  - [ ] Import: base modules + `roles/workstation` + `profiles/desktop`
+  - [ ] Import: base modules + `roles/desktop`
   - [ ] GPU: auto (tune later if NVIDIA/AMD)
   - Verify: Wayland session, audio, printing OK
 - [x] `hosts/server-01/`
