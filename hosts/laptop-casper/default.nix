@@ -16,6 +16,9 @@
     ../../roles/workstation.nix
     ../../roles/dev.nix
     # ../../roles/gaming.nix   # opt-in, leave disabled by default
+
+    # Profile toggles for laptops (hibernate, power tweaks)
+    ../../profiles/laptop.nix
   ];
 
   networking.hostName = "laptop-casper";
