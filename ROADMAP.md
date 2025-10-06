@@ -10,19 +10,19 @@
 
 ## Principles
 - [x] Use flakes; pin `nixpkgs` to unstable
-  - [ ] Definition: Use `flake.nix`/`flake.lock`; track `nixpkgs` on unstable.
+ - [x] Definition: Use `flake.nix`/`flake.lock`; track `nixpkgs` on unstable.
   - [ ] Acceptance: `nix flake metadata` works; `flake.lock` committed.
 - [x] Home Manager standalone; manage full user envs
-  - [ ] Definition: Install HM and configure per‑user in standalone mode.
+ - [x] Definition: Install HM and configure per‑user in standalone mode.
   - [ ] Acceptance: `home-manager switch` works for `casper`.
 - [x] Multi-host design: laptop, desktop, server, VM, WSL, cloud
   - [x] Definition: `hosts/` contains per‑host trees using shared modules/roles.
   - [ ] Acceptance: Two distinct hosts build successfully with shared modules.
 - [x] Roles + profiles + modules; minimal overlays initially
   - [x] Definition: Features are composable via `roles/` and `modules/` with small focused files.
-  - [ ] Acceptance: Enabling/disabling a role changes the build predictably.
+ - [ ] Acceptance: Enabling/disabling a role changes the build predictably.
 - [x] Allow unfree packages
-  - [ ] Definition: `nixpkgs.config.allowUnfree = true;` set globally, overridable per host.
+ - [x] Definition: `nixpkgs.config.allowUnfree = true;` set globally, overridable per host.
   - [ ] Acceptance: Unfree packages (e.g., `steam`) evaluate when role enabled.
 
 ## Open Questions (to revisit later)
@@ -110,8 +110,8 @@
   - [x] Import base modules + workstation role + laptop profile
   - [ ] HM: user `casper` linked
   - Verify: `nixos-rebuild build --flake .#laptop-casper` succeeds.
-- [ ] Documentation touchpoints
-  - [ ] Update ROADMAP checkboxes per milestone
+ - [ ] Documentation touchpoints
+  - [x] Update ROADMAP checkboxes per milestone
   - [ ] Add brief `README.md` explaining how to build a host (later)
 
 ---
@@ -129,7 +129,7 @@
   - Verify: Wayland session, audio, printing OK
 - [x] `hosts/server-01/`
   - [ ] UEFI; BTRFS+LUKS; headless
-  - [ ] Import: base modules + `roles/server` (+ `roles/db` + `roles/k3s` optional)
+ - [x] Import: base modules + `roles/server` (+ `roles/db` + `roles/k3s` optional)
   - Verify: SSH reachable; nginx default site; DB services disabled by default until enabled
 - [x] `hosts/vm-lab/`
   - [ ] UEFI; simple disk; headless
@@ -148,17 +148,17 @@
 
 ## Roles (toggle per host)
 - [x] `roles/workstation`
-  - [ ] Enable KDE Plasma 6 + SDDM (Wayland)
-  - [ ] PipeWire + WirePlumber; Bluetooth; printing/scanning
-  - [ ] Apps: Firefox; fonts: Inter + JetBrainsMono Nerd
+ - [x] Enable KDE Plasma 6 + SDDM (Wayland)
+  - [x] PipeWire + WirePlumber; Bluetooth; printing/scanning
+  - [x] Apps: Firefox; fonts: Inter + JetBrainsMono Nerd
   - Verify: Login via SDDM; audio/Bluetooth/printing OK
 - [x] `roles/server`
-  - [ ] Headless; OpenSSH enabled; hardened auth (no root login, no password auth)
-  - [ ] Optional firewall allow‑list per host
-  - [ ] nginx base service (off by default until host enables)
+ - [x] Headless; OpenSSH enabled; hardened auth (no root login, no password auth)
+  - [x] Optional firewall allow‑list per host
+  - [x] nginx base service (off by default until host enables)
   - Verify: SSH key auth works; ports as declared
 - [x] `roles/gaming` (opt‑in)
-  - [ ] Steam + Proton (disabled by default); Gamescope optional
+ - [x] Steam + Proton (disabled by default); Gamescope optional
   - [ ] NVIDIA toggles available (only if needed later)
   - Verify: Steam runs when role enabled
 - [x] `roles/db`
@@ -167,7 +167,7 @@
   - [ ] Redis server + client (disabled by default)
   - Verify: Services start and bind only when host enables
 - [x] `roles/dev`
-  - [ ] Docker engine + group membership
+ - [x] Docker engine + group membership
   - [ ] Language toolchains: Python initial; extend later
   - Verify: `docker run hello-world` works for user when enabled
 
@@ -183,25 +183,25 @@
   - [ ] Create swapfile/partition; set `boot.resumeDevice`
   - Verify: Hibernation cycle succeeds
 - [x] Networking: NetworkManager defaults
-  - [ ] Enable service; disable legacy wpa_supplicant management
+  - [x] Enable service; disable legacy wpa_supplicant management
   - Verify: `nmcli` works
 - [x] Bluetooth: enable + codec support
-  - [ ] Enable service; add `bluez` utils; media keys support
+  - [x] Enable service; add `bluez` utils; media keys support
   - Verify: Pairing/codec OK
 - [x] Printing/Scanning: CUPS + SANE
-  - [ ] Enable `services.printing` and `hardware.sane`
+  - [x] Enable `services.printing` and `hardware.sane`
   - Verify: Test page prints; scanner detected
 - [x] Audio: PipeWire stack
-  - [ ] Enable PipeWire, WirePlumber, ALSA/JACK compatibility
+  - [x] Enable PipeWire, WirePlumber, ALSA/JACK compatibility
   - Verify: Default sink/source present
 - [x] nginx: base config + vhost templates
-  - [ ] Provide example vhost; TLS placeholder
+  - [x] Provide example vhost; TLS placeholder
   - Verify: Curl http(s) returns expected
 - [x] k3s: single-node server/agent modules
-  - [ ] Toggle server/agent with token
+  - [x] Toggle server/agent with token
   - Verify: `kubectl get nodes` OK
 - [x] Databases: MySQL, MSSQL, Redis service modules
-  - [ ] Unit files and basics; services off by default
+  - [x] Unit files and basics; services off by default
   - Verify: Services start when host enables
 - [x] Firewall rules module: off by default; declarative allowed ports list
   - [ ] Option `allowedTCPPorts`/`allowedUDPPorts` per host
