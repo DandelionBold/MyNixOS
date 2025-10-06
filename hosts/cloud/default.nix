@@ -5,10 +5,22 @@
   imports = [
     # Base features (common to all hosts)
     ../features/base.nix
-    
-    # Cloud-specific features
-    ../features/server.nix
   ];
+
+  # Headless server defaults
+  services.xserver.enable = false;
+
+  # SSH hardened defaults
+  services.openssh = {
+    enable = true;
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+    };
+  };
+
+  # nginx baseline (disabled by default; enable per host)
+  services.nginx.enable = lib.mkDefault false;
 
   networking.hostName = "cloud";
   networking.firewall.enable = false;
