@@ -3,9 +3,9 @@
 {
   # Base modules that ALL hosts should have
   imports = [
-    ./locale.nix
-    ./networking.nix
-    ./user.nix
+    ./system/locale.nix
+    ./system/networking.nix
+    ../modules/user.nix
     # Add other common modules here that every host needs
   ];
 }

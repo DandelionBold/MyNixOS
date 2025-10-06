@@ -10,13 +10,6 @@
     htop
     tree
     
-    # Network tools
-    nmap
-    wireshark
-    netcat
-    wget
-    curl
-    
     # Archive tools
     ark
     file-roller
