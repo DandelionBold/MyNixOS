@@ -1,41 +1,27 @@
 { config, lib, pkgs, ... }:
 
 {
-  # System tools and utilities
+  # System monitoring and utilities
   environment.systemPackages = with pkgs; [
-    # Terminals
-    alacritty
-    kitty
-    gnome.gnome-terminal
-    
-    # File managers
-    dolphin
-    thunar
-    ranger
-    
-    # GUI text editors
-    kate
-    gedit
-    mousepad
-    
-    # Screenshot tools
-    spectacle
-    flameshot
-    scrot
-    
     # System monitoring
     neofetch
     btop
     lshw
+    htop
+    tree
     
     # Network tools
     nmap
     wireshark
     netcat
+    wget
+    curl
     
     # Archive tools
     ark
     file-roller
     p7zip
+    unzip
+    zip
   ];
 }

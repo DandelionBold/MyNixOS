@@ -15,6 +15,12 @@
     # Laptop-specific features
     ../features/desktop-environments/desktop-environment.nix
     ../features/applications/browsers.nix
+    ../features/applications/terminals.nix
+    ../features/applications/file-managers.nix
+    ../features/applications/gui-text-editors.nix
+    ../features/applications/screenshot-tools.nix
+    ../features/applications/media-tools.nix
+    ../features/applications/office-suite.nix
     ../features/applications/system-tools.nix
     ../features/applications/other-applications.nix
     ../modules/hibernate.nix
