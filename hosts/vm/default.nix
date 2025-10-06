@@ -9,8 +9,7 @@
     ../modules/vm.nix
     ../profiles/vm.nix
 
-    # Per-user overlay for this VM (personal)
-    ./personal/personal.nix
+    # Hardware configuration (auto-generated)
     ./personal/hardware-configuration.nix
   ];
 

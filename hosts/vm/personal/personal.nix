@@ -1,9 +1,14 @@
 { config, pkgs, lib, ... }:
 
 {
-  # User selection for this host
-  _module.args.user = "casper";
+  # Import the base VM configuration
+  imports = [ ../default.nix ];
   
-  # VM type selection (virtualbox, vmware, qemu, hyperv, docker)
+  # Personal overrides for VM
+  _module.args.user = "casper";
   _module.args.vmType = "virtualbox";
+  
+  # Add any personal VM-specific customizations here
+  # Example: services.nginx.enable = true;
+  # Example: services.mysql.enable = true;
 }

@@ -14,8 +14,7 @@
     ../roles/laptop.nix
     ../roles/dev.nix
 
-    # Per-user overlay for this laptop (personal)
-    ./personal/personal.nix
+    # Hardware configuration (auto-generated)
     ./personal/hardware-configuration.nix
   ];
 

@@ -65,12 +65,17 @@
 
     # NixOS configurations for all hosts
     nixosConfigurations = {
+      # Base configurations (core functionality only)
       laptop = mkNixOSConfig "laptop" defaultSystem;
       desktop = mkNixOSConfig "desktop" defaultSystem;
       server = mkNixOSConfig "server" defaultSystem;
       vm = mkNixOSConfig "vm" defaultSystem;
       wsl = mkNixOSConfig "wsl" defaultSystem;
       cloud = mkNixOSConfig "cloud" defaultSystem;
+      
+      # Personal configurations (base + personal overrides)
+      "laptop@personal" = mkNixOSConfig "laptop/personal" defaultSystem;
+      "vm@personal" = mkNixOSConfig "vm/personal" defaultSystem;
     };
 
     # Home Manager configurations (standalone)
