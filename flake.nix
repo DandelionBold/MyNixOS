@@ -66,6 +66,13 @@
           # home-manager.nixosModules.home-manager
         ];
       };
+
+      server-01 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/server-01/default.nix
+        ];
+      };
     };
 
     # Home Manager configurations (standalone), addressable via flake
