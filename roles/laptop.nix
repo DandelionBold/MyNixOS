@@ -7,6 +7,6 @@
     ../modules/hibernate.nix
   ];
 
-  # Enable powertop for laptops
+  # Power management for laptops
   powerManagement.powertop.enable = true;
 }

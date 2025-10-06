@@ -13,10 +13,8 @@
     };
   };
 
-  # nginx baseline (left disabled by default; enable per host)
+  # nginx baseline (disabled by default; enable per host)
   services.nginx.enable = lib.mkDefault false;
-
-  # Firewall globally off per roadmap; per-host allow-lists can override later
 }
 
 

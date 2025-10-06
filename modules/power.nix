@@ -4,7 +4,7 @@
   # Power management defaults
   powerManagement = {
     enable = true;
-    powertop.enable = lib.mkDefault false; # enable per profile if needed
+    powertop.enable = lib.mkDefault false;
   };
 
   services.power-profiles-daemon.enable = true;

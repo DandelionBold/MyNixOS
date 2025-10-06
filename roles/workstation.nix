@@ -6,10 +6,8 @@
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
-  # Apps and fonts
+  # Applications
   programs.firefox.enable = true;
-
-  # Align with modules for audio, bluetooth, printing, and networking
 }
 
 
