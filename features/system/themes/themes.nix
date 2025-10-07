@@ -15,10 +15,8 @@
       name = "Adwaita";
       package = pkgs.gnome.adwaita-icon-theme;
     };
-    cursorTheme = {
-      name = "Adwaita";
-      package = pkgs.gnome.adwaita-icon-theme;
-    };
+    # Note: cursorTheme is not a standard NixOS GTK option
+    # Cursor themes are typically set via desktop environment or user configuration
   };
 
   # Qt Theme
