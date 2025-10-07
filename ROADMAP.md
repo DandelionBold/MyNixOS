@@ -57,7 +57,7 @@
   - Verify: Default vhost responds on 80/443 when enabled.
 - [ ] Containers: Docker; Kubernetes via k3s (servers/cloud role)
   - Verify: `docker run hello-world`; `kubectl get nodes` on k3s hosts.
-- [ ] Databases: MySQL, MSSQL, Redis (client and server via roles)
+- [x] Databases: MySQL, Redis (client and server via features)
   - Verify: Services start and accept local connections.
 - [ ] Desktop: KDE Plasma 6 + SDDM on desktop/laptop (Wayland)
   - Verify: Wayland session works; SDDM greeter loads.
@@ -101,7 +101,7 @@
 - [x] Add features (formerly roles)
   - [x] desktop-environments: KDE Plasma 6 + SDDM + Wayland
   - [x] applications: browsers, terminals, editors, media tools, office suite
-  - [x] development: Docker, databases (MySQL, MSSQL, Redis), IDEs, version control
+  - [x] development: Docker, databases (MySQL, Redis), IDEs, version control
   - [x] hardware: audio (PipeWire), bluetooth, printing
   - [x] system: locale, networking, themes, power management, hibernate
   - [x] gaming: Steam/Proton (opt-in, disabled by default)
@@ -166,7 +166,7 @@
   - Verify: Steam runs when role enabled
 - [x] `roles/db`
   - [ ] MySQL server + client (disabled by default)
-  - [ ] MSSQL server + tools (EULA) (disabled by default)
+  - [x] ~~MSSQL server + tools (EULA)~~ - Not available in standard NixOS, use Docker
   - [ ] Redis server + client (disabled by default)
   - Verify: Services start and bind only when host enables
 - [x] `roles/dev`
@@ -203,7 +203,7 @@
 - [x] k3s: single-node server/agent modules
   - [x] Toggle server/agent with token
   - Verify: `kubectl get nodes` OK
-- [x] Databases: MySQL, MSSQL, Redis service modules
+  - [x] Databases: MySQL, Redis service modules
   - [x] Unit files and basics; services off by default
   - Verify: Services start when host enables
 - [x] Firewall rules module: off by default; declarative allowed ports list

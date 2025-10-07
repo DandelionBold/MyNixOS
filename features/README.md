@@ -34,7 +34,7 @@ Desktop environment configurations:
 Development tool configurations:
 - `dev.nix` - Main development feature importer
 - `containers.nix` - Docker and Kubernetes (k3s)
-- `databases.nix` - MySQL, MSSQL, Redis
+- `databases.nix` - MySQL, Redis
 - `programming-languages.nix` - Language toolchains (Python, etc.)
 - `ides.nix` - IDEs and code editors (VSCode)
 - `version-control.nix` - Git and related tools

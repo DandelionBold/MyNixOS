@@ -9,8 +9,9 @@
     package = pkgs.mariadb;
   };
 
-  # Microsoft SQL Server
-  services.mssql.enable = lib.mkDefault false;
+  # Microsoft SQL Server (not available in standard NixOS)
+  # Note: MSSQL Server is not available as a standard NixOS service
+  # Consider using Docker or alternative solutions
 
   # Redis
   services.redis.enable = lib.mkDefault false;

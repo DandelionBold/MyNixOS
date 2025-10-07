@@ -62,7 +62,7 @@ For experienced users who want to get started quickly.
 ### Development
 - **Languages**: Python, Node.js (extensible)
 - **Containers**: Docker, Kubernetes (k3s)
-- **Databases**: MySQL, MSSQL, Redis
+- **Databases**: MySQL, Redis
 - **IDEs**: VSCode
 - **Version Control**: Git, GitHub CLI
 
@@ -223,7 +223,7 @@ MyNixOS/
 ├── flake.nix                    # Main recipe file
 ├── nixos-settings/              # Centralized configuration
 │   ├── usersList.nix           # All user definitions
-│   └── hostTree.nix            # Host hierarchy
+│   └── README.md               # User management documentation
 ├── hosts/                       # Different computer types
 ├── features/                    # Reusable functionality
 ├── modules/                     # Basic system components
@@ -258,15 +258,16 @@ Contains basic system components that are used by features:
 - `users-manager.nix` - Dynamic user creation from usersList
 - `home-manager-generator.nix` - Automatic Home Manager config generation
 - `vm-manager.nix` - VM detection and shared optimizations
+- `theme.nix` - Home Manager theme module (GTK, icons, cursor)
 - `nginx.nix` - Web server
 - `firewall-allowlist.nix` - Security rules
 
 ### nixos-settings/ Folder
-**NEW** - Centralized configuration management:
+**Centralized configuration management**:
 - `usersList.nix` - Single source of truth for ALL users (system + Home Manager)
 - `README.md` - Documentation for the centralized user system
 - All user data in ONE place for consistency
-- **Note**: Hosts are now auto-discovered from the `hosts/` directory - no manual configuration needed!
+- **Note**: Hosts are auto-discovered from the `hosts/` directory - no manual configuration needed!
 
 ### profiles/ Folder
 ~~Contains machine-specific settings~~ **REMOVED** - All profile settings have been moved directly into their corresponding host `default.nix` files for better organization and clarity.
@@ -591,16 +592,26 @@ services.new-service = {
 
 ### Modifying Themes
 
-Edit `features/system/themes/themes.nix` to change:
-- Color schemes
-- Fonts
-- Desktop themes
-- Wallpapers
+**Theming is now handled per-user via Home Manager:**
+
+Edit `nixos-settings/usersList.nix` to configure themes for each user:
+
+```nix
+theme = {
+  enable       = true;
+  gtkThemeName = "adw-gtk3-dark";
+  iconName     = "Papirus-Dark";
+  cursorName   = "Bibata-Modern-Ice";
+  cursorSize   = 24;
+};
+```
+
+Each user can have their own theme preferences (dark/light, different themes, etc.).
 
 ### Adding Background Images
 
-1. Place images in `features/system/themes/backgrounds/`
-2. Name them appropriately:
+1. Place images in user's home directory or use system-wide wallpapers
+2. Configure via desktop environment settings:
    - `default.jpg` - Desktop wallpaper
    - `sddm.jpg` - Login screen
 3. The system will automatically use them
@@ -989,53 +1000,28 @@ For users who want to go beyond basic configuration.
 
 ## Custom Themes
 
-### Creating Custom Color Schemes
+### Creating Custom User Themes
 
-Create a new theme file in `features/system/themes/`:
+Themes are now configured per-user in `nixos-settings/usersList.nix`:
 
 ```nix
-# features/system/themes/custom-theme.nix
-{ config, lib, pkgs, ... }:
-
-{
-  imports = [ ./themes.nix ];
-
-  colorScheme = {
-    name = "Custom Theme";
-    colors = {
-      base00 = "1a1a1a"; # Background
-      base01 = "2a2a2a"; # Lighter background
-      base02 = "3a3a3a"; # Selection background
-      base03 = "4a4a4a"; # Comments
-      base04 = "aaaaaa"; # Dark foreground
-      base05 = "cccccc"; # Default foreground
-      base06 = "eeeeee"; # Light foreground
-      base07 = "ffffff"; # Lightest foreground
-      base08 = "ff5555"; # Red
-      base09 = "ffaa00"; # Orange
-      base0A = "ffff55"; # Yellow
-      base0B = "55ff55"; # Green
-      base0C = "55ffff"; # Cyan
-      base0D = "5555ff"; # Blue
-      base0E = "ff55ff"; # Magenta
-      base0F = "aa55ff"; # Brown
-    };
-  };
-
-  # Custom GTK theme
-  gtk.theme.name = "Custom-GTK-Theme";
-  qt.style = "custom-qt-style";
-}
+# In usersList.nix
+theme = {
+  enable = true;
+  gtkThemeName = "Custom-Theme";
+  gtkThemePackage = pkgs.my-custom-theme;
+  iconName = "Custom-Icons";
+  iconPackage = pkgs.my-icon-theme;
+  cursorName = "Custom-Cursor";
+  cursorPackage = pkgs.my-cursor-theme;
+  cursorSize = 32;
+};
 ```
 
 ### Custom Wallpapers
 
-1. Add images to `features/system/themes/backgrounds/`
-2. Configure in `backgrounds.nix`:
-
-```nix
-# features/system/themes/backgrounds/backgrounds.nix
-{ config, lib, pkgs, ... }:
+1. Place wallpapers in `/usr/share/backgrounds/` or user's home directory
+2. Configure via desktop environment settings:
 
 {
   environment.etc = {

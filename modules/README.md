@@ -1,21 +1,35 @@
 # Modules
 
-System-wide building blocks: audio, bluetooth, filesystems, locale, networking, printing, nginx, k3s, databases, firewall rules, users.
+System-wide building blocks and Home Manager modules for reusable functionality.
 
-- Purpose: small, focused NixOS modules exporting options.
-- Style: clear option names, sensible defaults off unless safe to enable.
-- Testing: each module should evaluate standalone in a minimal host.
+## Purpose
+- Small, focused modules that export clear options
+- Home Manager modules for user-specific configurations
+- Sensible defaults (off unless safe to enable)
+- Each module should evaluate standalone in a minimal host
 
-Checklist (planned):
-- filesystems (BTRFS+LUKS, subvolumes, compression, snapper skeleton)
-- hibernate (swap + resume toggles)
-- networking (NetworkManager)
-- bluetooth (enable + codecs)
-- printing/scanning (CUPS + SANE)
-- audio (PipeWire + WirePlumber)
-- nginx (base + vhost template)
-- k3s (server/agent)
-- databases (MySQL, MSSQL, Redis)
-- firewall rules (allowed ports list per host)
-- users (casper)
-- locale/time/keyboard
+## Current Modules
+
+### System Modules
+- `users-manager.nix` - Dynamic user creation from centralized usersList
+- `home-manager-generator.nix` - Automatic Home Manager config generation
+- `vm-manager.nix` - VM detection and shared optimizations
+- `nginx.nix` - Web server configuration
+- `firewall-allowlist.nix` - Security rules
+
+### Home Manager Modules
+- `theme.nix` - Per-user theming (GTK, icons, cursor themes)
+
+## Usage
+
+Modules are imported by features, which are then imported by hosts:
+
+```
+Hosts → Features → Modules
+```
+
+Example:
+```nix
+# In a feature
+imports = [ ../modules/theme.nix ];
+```

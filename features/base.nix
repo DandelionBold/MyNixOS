@@ -6,6 +6,7 @@
     ./system/locale.nix
     ./system/networking.nix
     ./system/boot-loader.nix
+    ./system/home-manager.nix
     ../modules/users-manager.nix
     # Add other common modules here that every host needs
   ];

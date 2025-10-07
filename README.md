@@ -57,7 +57,7 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 ### 💻 Development
 - **Languages**: Python (extensible to others)
 - **Containers**: Docker, Kubernetes (k3s)
-- **Databases**: MySQL, MSSQL, Redis
+- **Databases**: MySQL, Redis
 - **IDEs**: VSCode
 - **Version Control**: Git, GitHub CLI
 
@@ -349,7 +349,7 @@ MyNixOS/
 │   ├── development/               # Development tools
 │   │   ├── dev.nix
 │   │   ├── containers.nix        # Docker, k3s
-│   │   ├── databases.nix         # MySQL, MSSQL, Redis
+│   │   ├── databases.nix         # MySQL, Redis
 │   │   ├── programming-languages.nix
 │   │   ├── ides.nix              # VSCode, etc.
 │   │   └── version-control.nix   # Git
@@ -616,37 +616,45 @@ touch features/applications/my-app.nix
 
 ```nix
 # nixos-settings/usersList.nix
-{
-  usersList = [
-    # ... existing users
-    
-    # Add new user
-    rec {
-      # === NixOS System User Configuration ===
-      username = "bob";
-      isNormalUser = true;
-      description = "Bob - Developer";
-      extraGroups = [ "wheel" "networkmanager" "docker" ];
-      shell = pkgs.bashInteractive;
-      homeDirectory = "/home/${username}";
-      
-      # === Home Manager Configuration ===
-      bash = {
-        enable = true;
-        shellAliases = {
-          ll = "ls -la";
-          gs = "git status";
-        };
-      };
-      
-      git = {
-        enable = true;
-        userName = "Bob";
-        userEmail = "bob@example.com";
-      };
-    };
-  ];
-}
+   {
+     users = {
+       # ... existing users
+       
+       # Add new user
+       bob = {
+         # === NixOS System User Configuration ===
+         username = "bob";
+         isNormalUser = true;
+         description = "Bob - Developer";
+         extraGroups = [ "wheel" "networkmanager" "docker" ];
+         shell = pkgs.bashInteractive;
+         homeDirectory = "/home/bob";
+         
+         # === Home Manager Configuration ===
+         hm = {
+           bash = {
+             enable = true;
+             shellAliases = {
+               ll = "ls -la";
+               gs = "git status";
+             };
+           };
+           
+           git = {
+             enable = true;
+             userName = "Bob";
+             userEmail = "bob@example.com";
+           };
+           
+           theme = {
+             enable = true;
+             gtkThemeName = "adw-gtk3";
+             iconName = "Papirus";
+           };
+         };
+       };
+     };
+   }
 ```
 
 #### 2. Select User in Host
