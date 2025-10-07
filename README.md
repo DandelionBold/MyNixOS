@@ -320,3 +320,183 @@ bash = {
 ```
 
 ---
+
+## 🎨 Customization
+
+### Creating New Hosts
+
+#### 1. Create Host Directory and Configuration
+
+```bash
+# Create new host folder
+mkdir -p hosts/workstation
+
+# Create configuration file
+touch hosts/workstation/default.nix
+```
+
+#### 2. Configure the Host
+
+```nix
+# hosts/workstation/default.nix
+{ config, pkgs, lib, ... }:
+
+{
+  imports = [
+    ../features/base.nix
+    ../features/desktop-environments/kde-plasma.nix
+    ../features/applications/browsers.nix
+    # Add more features as needed
+  ];
+
+  networking.hostName = "workstation";
+  networking.firewall.enable = false;
+  
+  # NixOS state version
+  system.stateVersion = "25.05";
+  
+  # Select users for this host
+  system.selectedUsers = [ "casper" ];
+}
+```
+
+#### 3. Build It
+
+```bash
+# No need to modify flake.nix - auto-discovered!
+sudo nixos-rebuild switch --flake .#workstation
+```
+
+### Creating Host Variants
+
+#### 1. Create Variant Directory
+
+```bash
+# Create variant folder
+mkdir -p hosts/laptop/work
+```
+
+#### 2. Create Variant Configuration
+
+```nix
+# hosts/laptop/work/work.nix
+{ config, pkgs, lib, ... }:
+
+{
+  # Import base laptop configuration
+  imports = [ ../default.nix ];
+  
+  # Override or add work-specific settings
+  services.nginx.enable = true;
+  
+  # Different users for work laptop
+  system.selectedUsers = [ "alice" ];
+}
+```
+
+#### 3. Build It
+
+```bash
+# Auto-discovered! No flake.nix changes needed
+sudo nixos-rebuild switch --flake .#laptop@work
+```
+
+### Adding Features
+
+#### 1. Create Feature File
+
+```bash
+# Create in appropriate category
+touch features/applications/my-app.nix
+```
+
+#### 2. Configure the Feature
+
+```nix
+# features/applications/my-app.nix
+{ config, lib, pkgs, ... }:
+
+{
+  # Install packages
+  environment.systemPackages = with pkgs; [
+    my-application
+  ];
+  
+  # Configure the application (if needed)
+  programs.my-application = {
+    enable = true;
+    # settings...
+  };
+}
+```
+
+#### 3. Import in Host
+
+```nix
+# hosts/laptop/default.nix
+{
+  imports = [
+    ../features/applications/my-app.nix  # Add this line
+  ];
+}
+```
+
+### Adding Users
+
+#### 1. Edit Users List
+
+```nix
+# nixos-settings/usersList.nix
+{
+  usersList = [
+    # ... existing users
+    
+    # Add new user
+    rec {
+      # === NixOS System User Configuration ===
+      username = "bob";
+      isNormalUser = true;
+      description = "Bob - Developer";
+      extraGroups = [ "wheel" "networkmanager" "docker" ];
+      shell = pkgs.bashInteractive;
+      homeDirectory = "/home/${username}";
+      
+      # === Home Manager Configuration ===
+      bash = {
+        enable = true;
+        shellAliases = {
+          ll = "ls -la";
+          gs = "git status";
+        };
+      };
+      
+      git = {
+        enable = true;
+        userName = "Bob";
+        userEmail = "bob@example.com";
+      };
+    };
+  ];
+}
+```
+
+#### 2. Select User in Host
+
+```nix
+# hosts/desktop/default.nix
+{
+  system.selectedUsers = [ "casper" "bob" ];  # Add bob
+}
+```
+
+#### 3. Build
+
+```bash
+# Build system (creates user)
+sudo nixos-rebuild switch --flake .#desktop
+
+# Build Home Manager for bob
+home-manager switch --flake .#bob
+```
+
+---
