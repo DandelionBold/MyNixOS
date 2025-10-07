@@ -115,6 +115,9 @@ services.new-service = {
 ```
 MyNixOS/
 ├── flake.nix                    # Main configuration
+├── nixos-settings/              # Centralized configuration
+│   ├── usersList.nix           # All user definitions
+│   └── hostTree.nix            # Host hierarchy
 ├── hosts/                       # Host configurations
 │   ├── laptop/default.nix       # Laptop + power management
 │   ├── desktop/default.nix      # Desktop + optimizations
@@ -126,8 +129,7 @@ MyNixOS/
 │   ├── desktop-environments/    # Desktop UI
 │   ├── hardware/                # Hardware features
 │   └── system/                  # System features
-├── modules/                     # Basic components
-└── home/                        # User environments
+└── modules/                     # Basic components
 ```
 
 ## Commands
@@ -207,10 +209,12 @@ Let's explore the project folder by folder:
 ```
 MyNixOS/
 ├── flake.nix                    # Main recipe file
+├── nixos-settings/              # Centralized configuration
+│   ├── usersList.nix           # All user definitions
+│   └── hostTree.nix            # Host hierarchy
 ├── hosts/                       # Different computer types
 ├── features/                    # Reusable functionality
 ├── modules/                     # Basic system components
-├── home/                        # User environments
 └── docs/                        # Documentation
 ```
 
@@ -239,17 +243,23 @@ Contains reusable functionality organized by category:
 
 ### modules/ Folder
 Contains basic system components that are used by features:
-- `user.nix` - User account management
+- `users-manager.nix` - Dynamic user creation from usersList
+- `home-manager-generator.nix` - Automatic Home Manager config generation
 - `vm.nix` - Virtual machine support
 - `nginx.nix` - Web server
 - `firewall-allowlist.nix` - Security rules
+
+### nixos-settings/ Folder
+**NEW** - Centralized configuration management:
+- `usersList.nix` - Single source of truth for ALL users (system + Home Manager)
+- `hostTree.nix` - Defines all hosts and their variants
+- All user and host data in ONE place for consistency
 
 ### profiles/ Folder
 ~~Contains machine-specific settings~~ **REMOVED** - All profile settings have been moved directly into their corresponding host `default.nix` files for better organization and clarity.
 
 ### home/ Folder
-Contains user environment configurations:
-- `casper/` - Personal settings for user "casper"
+~~Contains user environment configurations~~ **REMOVED** - User configurations are now centrally managed in `nixos-settings/usersList.nix` with automatic Home Manager generation.
 
 ### docs/ Folder
 Contains documentation files explaining how everything works.
