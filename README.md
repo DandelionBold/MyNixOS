@@ -192,12 +192,12 @@ Then you can use `sudo nixos-rebuild switch` instead of `sudo nixos-rebuild swit
 
 ### Step 4: Build and Apply
 
-> **Note:** If you see a prompt asking about experimental features, type `y` and press Enter. This is normal on first use.
-
 1. **Test the build first** (doesn't make any changes yet):
    ```bash
    nixos-rebuild build --flake .#laptop
    ```
+   
+   > **Note:** If you see a prompt asking about experimental features, type `y` and press Enter. This is normal on first use.
    
    Replace `laptop` with your chosen configuration (`desktop`, `server`, `vm`, etc.)
    
