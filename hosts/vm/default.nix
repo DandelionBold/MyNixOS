@@ -16,6 +16,9 @@
   networking.hostName = "vm";
   networking.firewall.enable = false;
 
+  # Select which users to create on this host
+  system.selectedUsers = [ "casper" ];
+
   # VM profile: minimal services for virtual machines
   # Disable unnecessary services for VM environments
   

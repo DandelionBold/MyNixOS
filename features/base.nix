@@ -5,7 +5,7 @@
   imports = [
     ./system/locale.nix
     ./system/networking.nix
-    ../modules/user.nix
+    ../modules/users-manager.nix
     # Add other common modules here that every host needs
   ];
 }

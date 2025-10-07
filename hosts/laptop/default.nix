@@ -35,6 +35,9 @@
   networking.hostName = "laptop";
   networking.firewall.enable = false;
 
+  # Select which users to create on this host
+  system.selectedUsers = [ "casper" ];
+
   # Laptop profile: power tweaks and hibernation toggle
   powerManagement.powertop.enable = true;
   services.power-profiles-daemon.enable = true;

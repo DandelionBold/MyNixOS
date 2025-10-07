@@ -29,6 +29,9 @@
 
   networking.hostName = "server";
   networking.firewall.enable = false;
+
+  # Select which users to create on this host
+  system.selectedUsers = [ "casper" ];
 }
 
 

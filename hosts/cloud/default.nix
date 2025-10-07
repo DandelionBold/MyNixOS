@@ -24,6 +24,9 @@
 
   networking.hostName = "cloud";
   networking.firewall.enable = false;
+
+  # Select which users to create on this host
+  system.selectedUsers = [ "casper" ];
 }
 
 

@@ -63,15 +63,8 @@
       };
     });
 
-    # Host tree structure - defines which hosts have variants and their names
-    hostTree = {
-      laptop = [ "personal" ];
-      desktop = [ ];
-      server = [ ];
-      vm = [ "personal" ];
-      wsl = [ ];
-      cloud = [ ];
-    };
+    # Import host tree structure from nixos-settings
+    hostTree = (import ./nixos-settings/hostTree.nix).hostTree;
     
     # Helper to check if variant config exists for a host
     hasVariantConfig = hostName: variantName: 
@@ -95,14 +88,10 @@
     # NixOS configurations for all hosts (dynamically generated)
     nixosConfigurations = mkAllConfigs;
 
-    # Home Manager configurations (standalone)
-    homeConfigurations = {
-      "casper" = hmLib.homeManagerConfiguration {
-        pkgs = forSystem defaultSystem;
-        modules = [ ./home/casper/default.nix ];
-        # Optional: extraSpecialArgs = { inherit inputs; };
-      };
-    };
+    # Home Manager configurations (dynamically generated from usersList)
+    homeConfigurations = (import ./modules/home-manager-generator.nix {
+      inherit pkgs home-manager;
+    }).homeConfigurations;
   };
 }
 

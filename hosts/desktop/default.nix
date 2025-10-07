@@ -30,6 +30,9 @@
   networking.hostName = "desktop";
   networking.firewall.enable = false;
 
+  # Select which users to create on this host
+  system.selectedUsers = [ "casper" "koko" ];
+
   # Desktop profile: no laptop-specific power tweaks by default
   services.power-profiles-daemon.enable = true;
 }
