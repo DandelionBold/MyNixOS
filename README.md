@@ -500,3 +500,117 @@ home-manager switch --flake .#bob
 ```
 
 ---
+
+## 🏗️ Architecture
+
+### System Overview
+
+```mermaid
+graph TB
+    A[flake.nix] --> B[Auto-Discovery]
+    B --> C[Scan hosts/ directory]
+    B --> D[Import nixos-settings/]
+    
+    C --> E[Generate nixosConfigurations]
+    D --> F[Generate homeConfigurations]
+    
+    E --> G[laptop]
+    E --> H[laptop@personal]
+    E --> I[desktop]
+    E --> J[server]
+    
+    F --> K[casper]
+    F --> L[koko]
+    
+    style A fill:#5277c3
+    style B fill:#7ebae4
+    style E fill:#a3be8c
+    style F fill:#ebcb8b
+```
+
+### Configuration Flow
+
+```mermaid
+flowchart LR
+    A[nixos-settings/usersList.nix] --> B[modules/users-manager.nix]
+    A --> C[modules/home-manager-generator.nix]
+    
+    B --> D[NixOS System Users]
+    C --> E[Home Manager Configs]
+    
+    F[hosts/laptop/default.nix] --> G[system.selectedUsers]
+    G --> B
+    
+    H[features/base.nix] --> I[All Hosts]
+    J[features/applications/] --> I
+    K[features/development/] --> I
+    
+    style A fill:#bf616a
+    style D fill:#a3be8c
+    style E fill:#ebcb8b
+    style I fill:#5277c3
+```
+
+### Host Hierarchy
+
+```mermaid
+graph TD
+    A[hosts/] --> B[laptop/]
+    A --> C[desktop/]
+    A --> D[server/]
+    A --> E[vm/]
+    A --> F[cloud/]
+    
+    B --> B1[default.nix]
+    B --> B2[personal/]
+    B2 --> B3[personal.nix]
+    B2 --> B4[hardware-configuration.nix]
+    
+    C --> C1[default.nix]
+    D --> D1[default.nix]
+    E --> E1[default.nix]
+    E --> E2[personal/]
+    F --> F1[default.nix]
+    
+    style A fill:#5277c3
+    style B fill:#a3be8c
+    style B2 fill:#ebcb8b
+    style E2 fill:#ebcb8b
+```
+
+### User Management Flow
+
+```mermaid
+sequenceDiagram
+    participant U as nixos-settings/usersList.nix
+    participant H as Host Config
+    participant M as users-manager.nix
+    participant S as NixOS System
+    participant HM as Home Manager
+    
+    U->>M: Define users (casper, koko)
+    H->>M: selectedUsers = ["casper"]
+    M->>S: Create system user "casper"
+    U->>HM: Generate HM config for all users
+    HM->>S: Apply dotfiles for "casper"
+    
+    Note over U,HM: Single source of truth ensures consistency
+```
+
+### Feature Organization
+
+```
+features/
+├── base.nix (imported by ALL hosts)
+│   ├── locale.nix
+│   ├── networking.nix
+│   └── users-manager.nix
+│
+├── applications/ (user apps)
+├── desktop-environments/ (UI)
+├── development/ (dev tools)
+├── hardware/ (audio, bluetooth, printing)
+└── system/ (locale, power, themes)
+```
+
+---
