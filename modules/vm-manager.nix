@@ -33,7 +33,7 @@ in {
     qemuGuest.enable = (vmType == "qemu");
     
     # Hyper-V
-    hyperv-daemons.enable = (vmType == "hyperv");
+    #hyperv-daemons.enable = (vmType == "hyperv");
   };
 
   # VM-optimized hardware settings
