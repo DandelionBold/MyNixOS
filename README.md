@@ -71,3 +71,62 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 - **Firewall**: Configurable per-host rules
 
 ---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **NixOS** installed on your machine
+- **Git** for cloning the repository
+- Basic understanding of Nix and flakes
+- **Enable flakes** in your NixOS configuration:
+  ```nix
+  # /etc/nixos/configuration.nix
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  ```
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/DandelionBold/MyNixOS.git
+   cd MyNixOS
+   ```
+
+2. **Review available configurations:**
+   ```bash
+   nix flake show
+   ```
+
+3. **Customize for your needs:**
+   - Edit `nixos-settings/usersList.nix` to add/modify users
+   - Choose which features to enable in `hosts/<hostname>/default.nix`
+   - Set your timezone/locale in `features/system/locale.nix`
+
+### First Build
+
+1. **Test build (doesn't apply changes):**
+   ```bash
+   nixos-rebuild build --flake .#laptop
+   ```
+
+2. **Apply configuration:**
+   ```bash
+   sudo nixos-rebuild switch --flake .#laptop
+   ```
+
+3. **Build Home Manager configuration (optional):**
+   ```bash
+   home-manager switch --flake .#casper
+   ```
+
+**Available Hosts:**
+- `laptop` - Laptop configuration with power management
+- `laptop@personal` - Personal laptop variant
+- `desktop` - Desktop configuration
+- `server` - Headless server
+- `vm` - Virtual machine
+- `vm@personal` - Personal VM variant
+- `cloud` - Cloud instance
+
+---
