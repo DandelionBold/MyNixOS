@@ -4,12 +4,12 @@
   # Server host type
   imports = [
     # Base features (common to all hosts)
-    ../features/base.nix
+    ../../features/base.nix
     
     # Server-specific modules
-    ../features/development/databases.nix
-    ../modules/nginx.nix
-    ../modules/firewall-allowlist.nix
+    ../../features/development/databases.nix
+    ../../modules/nginx.nix
+    ../../modules/firewall-allowlist.nix
   ];
 
   # Headless server defaults

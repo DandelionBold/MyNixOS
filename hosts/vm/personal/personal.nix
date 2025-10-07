@@ -2,7 +2,11 @@
 
 {
   # Import the base VM configuration
-  imports = [ ../default.nix ];
+  imports = [ 
+    ../default.nix
+    # Hardware configuration (auto-generated, specific to this VM)
+    ./hardware-configuration.nix
+  ];
   
   # Personal overrides for VM
   _module.args.vmType = "virtualbox";

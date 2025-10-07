@@ -4,13 +4,10 @@
   # VM host type
   imports = [
     # Base features (common to all hosts)
-    ../features/base.nix
+    ../../features/base.nix
     
     # VM-specific modules
-    ../modules/vm.nix
-
-    # Hardware configuration (auto-generated)
-    ./personal/hardware-configuration.nix
+    ../../modules/vm.nix
   ];
 
   networking.hostName = "vm";

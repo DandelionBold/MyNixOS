@@ -4,7 +4,7 @@
   # Cloud host type
   imports = [
     # Base features (common to all hosts)
-    ../features/base.nix
+    ../../features/base.nix
   ];
 
   # Headless server defaults
