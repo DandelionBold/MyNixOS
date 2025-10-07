@@ -5,7 +5,6 @@
   imports = [ ../default.nix ];
   
   # Personal overrides for VM
-  _module.args.user = "casper";
   _module.args.vmType = "virtualbox";
   
   # Add any personal VM-specific customizations here

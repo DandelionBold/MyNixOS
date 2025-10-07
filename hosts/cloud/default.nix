@@ -25,6 +25,9 @@
   networking.hostName = "cloud";
   networking.firewall.enable = false;
 
+  # NixOS state version (for compatibility)
+  system.stateVersion = "25.05";
+
   # Select which users to create on this host
   system.selectedUsers = [ "casper" ];
 }

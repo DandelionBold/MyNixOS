@@ -7,7 +7,6 @@ This directory contains the **single source of truth** for users and hosts in th
 ```
 nixos-settings/
 ├── usersList.nix    # All user definitions (system + home-manager)
-├── hostTree.nix     # Host hierarchy and variants
 └── README.md        # This file
 ```
 
@@ -72,49 +71,30 @@ rec {
 
 3. Select the user in a host configuration (see below)
 
-## 🖥️ Host Management (`hostTree.nix`)
+## 🖥️ Host Management (Automatic Discovery)
 
-### Structure
-
-```nix
-{
-  hostTree = {
-    laptop = [ "personal" ];  # Has variant
-    desktop = [ ];             # No variant
-    server = [ ];              # No variant
-  };
-}
-```
+Hosts are **automatically discovered** by scanning the `hosts/` directory. No manual configuration needed!
 
 ### Adding a New Host
 
-1. Open `hostTree.nix`
-2. Add host to the tree:
-
-```nix
-{
-  hostTree = {
-    # ... existing hosts
-    workstation = [ ];  # Add new host
-  };
-}
-```
-
-3. Create host directory: `hosts/workstation/default.nix`
+1. Create host directory: `hosts/workstation/default.nix`
+2. That's it! It will automatically be available as `#workstation`
 
 ### Adding a Host Variant
 
-1. Add variant name to host in `hostTree.nix`:
+1. Create variant directory: `hosts/laptop/work/`
+2. Create variant file: `hosts/laptop/work/work.nix`
+3. That's it! It will automatically be available as `#laptop@work`
 
-```nix
-{
-  hostTree = {
-    laptop = [ "personal" "work" ];  # Add "work" variant
-  };
-}
-```
+**Pattern:**
+- `hosts/<hostName>/default.nix` → Available as `#<hostName>`
+- `hosts/<hostName>/<variant>/<variant>.nix` → Available as `#<hostName>@<variant>`
 
-2. Create variant directory: `hosts/laptop/work/work.nix`
+**Examples:**
+- `hosts/laptop/default.nix` → `#laptop`
+- `hosts/laptop/personal/personal.nix` → `#laptop@personal`
+- `hosts/laptop/work/work.nix` → `#laptop@work`
+- `hosts/desktop/office/office.nix` → `#desktop@office`
 
 ## 🔧 Using the System
 
@@ -182,9 +162,11 @@ User activates with: home-manager switch --flake .#casper
 ### 3. Host Generation Flow
 
 ```
-nixos-settings/hostTree.nix (defines hosts)
+hosts/ directory (contains hosts)
         ↓
-flake.nix (reads tree)
+flake.nix scans directory automatically
+        ↓
+Finds base configs and variants
         ↓
 NixOS configurations generated dynamically
         ↓
