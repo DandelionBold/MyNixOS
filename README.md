@@ -197,10 +197,11 @@ Then you can use `sudo nixos-rebuild switch` instead of `sudo nixos-rebuild swit
    nixos-rebuild build --flake .#laptop
    ```
    
-   > **Note:** If you see prompts asking about experimental features:
-   > - First prompt: `do you want to allow configuration setting 'experimental-features'...` → Type `y` and press Enter
-   > - Second prompt: `do you want to permanently mark this value as trusted...` → Type `y` and press Enter
-   > This is normal on first use and won't happen again.
+   > **Note:** If you see prompts asking about configuration settings:
+   > - `do you want to allow configuration setting 'experimental-features'...` → Type `y` and press Enter
+   > - `do you want to permanently mark this value as trusted...` → Type `y` and press Enter  
+   > - `do you want to allow configuration setting 'substituters'...` → Type `y` and press Enter
+   > These are normal on first use and enable faster downloads and flakes support.
    
    Replace `laptop` with your chosen configuration (`desktop`, `server`, `vm`, etc.)
    
