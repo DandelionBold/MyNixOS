@@ -76,48 +76,149 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 
 ### Prerequisites
 
-- **NixOS** installed on your machine
-- **Git** for cloning the repository
-- Basic understanding of Nix and flakes
-- **Enable flakes** in your NixOS configuration:
-  ```nix
-  # /etc/nixos/configuration.nix
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  ```
+- **NixOS** installed on your system (minimal installation is fine)
+- Basic understanding of Nix and flakes (this guide will walk you through)
 
-### Installation
+### Step 1: Enable Flakes (Required First!)
 
-1. **Clone the repository:**
+Before you can use this configuration, you need to enable flakes in NixOS.
+
+1. **Open the configuration file with nano (text editor):**
+   ```bash
+   sudo nano /etc/nixos/configuration.nix
+   ```
+
+2. **Find the line that looks like `}` at the end of the file.** Scroll down using arrow keys until you see it.
+
+3. **Add this line BEFORE the final `}`:**
+   ```nix
+   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   ```
+   
+   **Example of what it should look like:**
+   ```nix
+   { config, pkgs, ... }:
+   {
+     # ... other configurations ...
+     
+     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   }
+   ```
+
+4. **Save and exit nano:**
+   - Press `Ctrl + O` (WriteOut) to save
+   - Press `Enter` to confirm the filename
+   - Press `Ctrl + X` to exit
+
+5. **Apply the change to your system:**
+   ```bash
+   sudo nixos-rebuild switch
+   ```
+   
+   Wait for it to finish (it will download and install git automatically if needed).
+
+### Step 2: Clone This Repository
+
+1. **Choose where to put the configuration** (recommendation: your home directory):
+   ```bash
+   cd ~
+   ```
+
+2. **Clone the repository:**
    ```bash
    git clone https://github.com/DandelionBold/MyNixOS.git
+   ```
+   
+   This creates a folder called `MyNixOS` in your current directory.
+
+3. **Enter the directory:**
+   ```bash
    cd MyNixOS
    ```
 
-2. **Review available configurations:**
+### Step 3: Customize for Your System
+
+1. **See what configurations are available:**
    ```bash
    nix flake show
    ```
+   
+   You'll see options like `laptop`, `laptop@personal`, `desktop`, `server`, `vm`, etc.
 
-3. **Customize for your needs:**
-   - Edit `nixos-settings/usersList.nix` to add/modify users
-   - Choose which features to enable in `hosts/<hostname>/default.nix`
-   - Set your timezone/locale in `features/system/locale.nix`
+2. **Edit the user list** (if you want to add yourself):
+   ```bash
+   nano nixos-settings/usersList.nix
+   ```
+   
+   Follow the pattern you see there. Press `Ctrl + X` to exit after making changes.
 
-### First Build
+3. **Choose which host configuration to use.** For example, if you have a laptop:
+   ```bash
+   nano hosts/laptop/default.nix
+   ```
+   
+   Change the line `system.selectedUsers = [ "casper" ];` to use your username.
 
-1. **Test build (doesn't apply changes):**
+4. **Set your timezone and locale:**
+   ```bash
+   nano features/system/locale.nix
+   ```
+   
+   Edit the timezone and keyboard layout as needed.
+
+### Step 4: Build and Apply
+
+1. **Test the build first** (doesn't make any changes yet):
    ```bash
    nixos-rebuild build --flake .#laptop
    ```
+   
+   Replace `laptop` with your chosen configuration (`desktop`, `server`, `vm`, etc.)
+   
+   If you see errors, fix them before proceeding.
 
-2. **Apply configuration:**
+2. **Apply the configuration to your system:**
    ```bash
    sudo nixos-rebuild switch --flake .#laptop
    ```
+   
+   This will:
+   - Install all packages
+   - Configure your system
+   - Create users
+   - Set up desktop environment (if applicable)
+   
+   **This may take 10-30 minutes on first run!**
 
-3. **Build Home Manager configuration (optional):**
+3. **Reboot your system** (recommended after first build):
    ```bash
-   home-manager switch --flake .#casper
+   sudo reboot
+   ```
+
+### Step 5: Home Manager (Optional - User Environment)
+
+Home Manager manages user-specific configurations (like dotfiles, shell aliases).
+
+1. **After logging in, activate Home Manager for your user:**
+   ```bash
+   home-manager switch --flake ~/MyNixOS#yourusername
+   ```
+   
+   Replace `yourusername` with your actual username (e.g., `casper`).
+
+### Making Future Changes
+
+Whenever you want to update your configuration:
+
+1. **Edit the files** in `~/MyNixOS/` using nano or your preferred editor
+2. **Rebuild and apply:**
+   ```bash
+   cd ~/MyNixOS
+   sudo nixos-rebuild switch --flake .#laptop
+   ```
+3. **For Home Manager updates:**
+   ```bash
+   home-manager switch --flake ~/MyNixOS#yourusername
    ```
 
 **Available Hosts:**
