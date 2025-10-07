@@ -6,7 +6,6 @@
   
   # GTK Theme
   gtk = {
-    enable = true;
     theme = {
       name = "Adwaita-dark";
       package = pkgs.gnome.gnome-themes-extra;
@@ -21,7 +20,6 @@
 
   # Qt Theme
   qt = {
-    enable = true;
     platformTheme = "gnome";
     style = "adwaita-dark";
   };
