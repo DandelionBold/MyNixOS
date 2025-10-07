@@ -642,3 +642,46 @@ Comprehensive documentation is available in the `docs/` directory:
 | **Users** | Centrally defined in `usersList.nix`, selected per host |
 
 ---
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can help:
+
+### Reporting Issues
+
+1. **Check existing issues** to avoid duplicates
+2. **Provide details**:
+   - What you tried to do
+   - What happened (error messages, logs)
+   - What you expected to happen
+   - Your NixOS version and system info
+
+### Submitting Changes
+
+1. **Fork the repository**
+2. **Create a feature branch**:
+   ```bash
+   git checkout -b feature/my-improvement
+   ```
+3. **Make your changes**:
+   - Follow the existing code style
+   - Add comments explaining complex logic
+   - Test your changes thoroughly
+4. **Commit with clear messages**:
+   ```bash
+   git commit -m "feat: add support for XYZ"
+   ```
+5. **Push and create PR**:
+   ```bash
+   git push origin feature/my-improvement
+   ```
+
+### Guidelines
+
+- **Features**: Place in appropriate `features/` subfolder
+- **Documentation**: Update relevant docs when changing behavior
+- **Comments**: Explain WHY, not just WHAT
+- **Testing**: Test on a VM before submitting
+- **Compatibility**: Ensure changes work across host types
+
+---
