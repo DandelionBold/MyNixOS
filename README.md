@@ -685,3 +685,26 @@ Contributions are welcome! Here's how you can help:
 - **Compatibility**: Ensure changes work across host types
 
 ---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- [NixOS](https://nixos.org/) - The purely functional Linux distribution
+- [Home Manager](https://github.com/nix-community/home-manager) - Declarative user environment management
+- [nixy themes](https://github.com/anotherhadi/nixy/tree/main/themes) - Theme system inspiration
+- The NixOS community for excellent documentation and support
+
+---
+
+## ⭐ Star History
+
+If you find this project useful, please consider giving it a star! ⭐
+
+---
+
+**Built with ❤️ using NixOS**
