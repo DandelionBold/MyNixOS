@@ -33,11 +33,10 @@
     ../../../features/hardware/printing.nix
     ../../../features/hardware/audio.nix
     
-    # System Features
-    ../../../features/system/hibernate.nix
-    ../../../features/system/power.nix
-    ../../../features/system/themes/themes.nix
-    ../../../features/system/themes/dark-theme.nix
+   # System Features
+   ../../../features/system/hibernate.nix
+   ../../../features/system/power.nix
+   ../../../features/system/themes/dark-theme.nix
   ];
   
   # Personal overrides for VM
