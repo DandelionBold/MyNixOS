@@ -17,19 +17,18 @@
     # Primary channel: nixpkgs unstable per roadmap
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # Home Manager (optional - commented out, not needed for basic usage)
-    # All user configurations can be done at system level
-    # home-manager = {
-    #   url = "github:nix-community/home-manager";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    # Home Manager as flake input (standalone usage, but providing modules as well)
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Optional hardware db for specific devices (left for later enablement)
     # nixos-hardware.url = "github:NixOS/nixos-hardware";
   };
 
   outputs = inputs: let
-    inherit (inputs) nixpkgs; # home-manager nixos-hardware (optional)
+    inherit (inputs) nixpkgs home-manager; # nixos-hardware (optional)
     
     # Supported systems
     systems = [ "x86_64-linux" "aarch64-linux" ];
@@ -52,6 +51,8 @@
       inherit system;
       modules = [ ./hosts/${hostName}/default.nix ];
     };
+    
+    hmLib = home-manager.lib;
   in {
     # Development shells for all supported systems
     devShells = forAllSystems (system: {
@@ -94,14 +95,14 @@
     # NixOS configurations for all hosts (dynamically generated)
     nixosConfigurations = mkAllConfigs;
 
-    # Home Manager is optional and commented out
-    # All user configurations can be done at system level in feature files
-    # homeConfigurations = {
-    #   "casper" = hmLib.homeManagerConfiguration {
-    #     pkgs = forSystem defaultSystem;
-    #     modules = [ ./home/casper/default.nix ];
-    #   };
-    # };
+    # Home Manager configurations (standalone)
+    homeConfigurations = {
+      "casper" = hmLib.homeManagerConfiguration {
+        pkgs = forSystem defaultSystem;
+        modules = [ ./home/casper/default.nix ];
+        # Optional: extraSpecialArgs = { inherit inputs; };
+      };
+    };
   };
 }
 
