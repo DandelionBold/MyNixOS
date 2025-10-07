@@ -7,7 +7,7 @@
     ../../features/base.nix
     
     # VM-specific modules
-    ../../modules/vm.nix
+    ../../modules/vm-manager.nix
   ];
 
   networking.hostName = "vm";
@@ -24,6 +24,8 @@
   
   # Disable power management in VMs
   powerManagement.enable = false;
+  
+  # === VM-SPECIFIC SETTINGS (centralized here) ===
   
   # Disable audio in VMs (usually not needed)
   services.pipewire.enable = false;

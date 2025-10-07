@@ -3,6 +3,9 @@
 let
   vmType = config._module.args.vmType or "virtualbox";
 in {
+  # VM Manager - provides VM detection and shared VM optimizations
+  # Note: VM-specific settings (audio, printing, etc.) are in hosts/vm/default.nix
+  
   # VM-specific configurations based on _module.args.vmType
   virtualisation = {
     # VirtualBox guest additions
@@ -43,7 +46,4 @@ in {
     # Disable Bluetooth in VMs
     bluetooth.enable = lib.mkDefault false;
   };
-  
-  # Disable audio services in VMs by default (can be overridden)
-  services.pipewire.enable = lib.mkDefault false;
 }
