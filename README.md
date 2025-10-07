@@ -90,9 +90,17 @@ Before you can use this configuration, you need to enable flakes in NixOS.
 
 2. **Find the line that looks like `}` at the end of the file.** Scroll down using arrow keys until you see it.
 
-3. **Add these lines BEFORE the final `}`:**
+3. **Add the flakes line BEFORE the final `}`:**
    ```nix
    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   ```
+
+4. **Add git to existing systemPackages** (if you see `environment.systemPackages` already exists):
+   - Find the line that looks like `environment.systemPackages = with pkgs; [ ... ];`
+   - Add `git` to the list inside the brackets: `environment.systemPackages = with pkgs; [ ... git ];`
+   
+   **If you DON'T see `environment.systemPackages` anywhere, add this line:**
+   ```nix
    environment.systemPackages = with pkgs; [ git ];
    ```
    
@@ -103,16 +111,17 @@ Before you can use this configuration, you need to enable flakes in NixOS.
      # ... other configurations ...
      
      nix.settings.experimental-features = [ "nix-command" "flakes" ];
-     environment.systemPackages = with pkgs; [ git ];
+     environment.systemPackages = with pkgs; [ git ];  # Add this if not present
+     # OR add 'git' to existing systemPackages list
    }
    ```
 
-4. **Save and exit nano:**
+5. **Save and exit nano:**
    - Press `Ctrl + O` (WriteOut) to save
    - Press `Enter` to confirm the filename
    - Press `Ctrl + X` to exit
 
-5. **Apply the change to your system:**
+6. **Apply the change to your system:**
    ```bash
    sudo nixos-rebuild switch
    ```
