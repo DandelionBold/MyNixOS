@@ -214,3 +214,109 @@ MyNixOS/
 ```
 
 ---
+
+## 💻 Usage
+
+### Building Configurations
+
+#### Build and Apply System Configuration
+
+```bash
+# Test build without applying (safe)
+nixos-rebuild build --flake .#laptop
+
+# Apply configuration (requires sudo)
+sudo nixos-rebuild switch --flake .#laptop
+
+# Build with variant
+sudo nixos-rebuild switch --flake .#laptop@personal
+
+# Update flake inputs and rebuild
+nix flake update
+sudo nixos-rebuild switch --flake .#laptop
+```
+
+#### Build Home Manager Configuration
+
+```bash
+# Apply Home Manager for a user
+home-manager switch --flake .#casper
+
+# Build without applying
+home-manager build --flake .#casper
+```
+
+### Common Commands
+
+```bash
+# Show all available configurations
+nix flake show
+
+# Check flake for errors
+nix flake check
+
+# Update specific input
+nix flake lock --update-input nixpkgs
+
+# List system generations
+nix-env --list-generations --profile /nix/var/nix/profiles/system
+
+# Rollback to previous generation
+sudo nixos-rebuild switch --rollback
+
+# Garbage collection (free space)
+sudo nix-collect-garbage -d
+
+# Optimize nix store
+sudo nix-store --optimise
+```
+
+### Managing Users
+
+#### Select Users for a Host
+
+```nix
+# hosts/laptop/default.nix
+{
+  system.selectedUsers = [ "casper" "alice" ];
+}
+```
+
+#### Define New User
+
+```nix
+# nixos-settings/usersList.nix
+rec {
+  username = "alice";
+  isNormalUser = true;
+  extraGroups = [ "wheel" "networkmanager" ];
+  shell = pkgs.bashInteractive;
+  homeDirectory = "/home/${username}";
+  
+  # Home Manager config
+  bash = { ... };
+  git = { ... };
+}
+```
+
+### Adding Packages
+
+#### System-Wide Packages
+
+```nix
+# features/applications/other-applications.nix
+environment.systemPackages = with pkgs; [
+  my-new-package
+];
+```
+
+#### User-Specific Packages (Home Manager)
+
+```nix
+# nixos-settings/usersList.nix (in user definition)
+bash = {
+  packages = with pkgs; [ my-user-package ];
+};
+```
+
+---
