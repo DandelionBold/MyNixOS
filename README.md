@@ -119,6 +119,8 @@ Before you can use this configuration, you need to enable flakes in NixOS.
 
 ### Step 2: Clone This Repository
 
+> **Important:** With flakes, your configuration does NOT need to be in `/etc/nixos/`. You can keep it anywhere (like your home directory) and point to it with the `--flake` flag. This guide uses `~/MyNixOS`.
+
 1. **Choose where to put the configuration** (recommendation: your home directory):
    ```bash
    cd ~
@@ -129,12 +131,23 @@ Before you can use this configuration, you need to enable flakes in NixOS.
    git clone https://github.com/DandelionBold/MyNixOS.git
    ```
    
-   This creates a folder called `MyNixOS` in your current directory.
+   This creates a folder called `MyNixOS` in your current directory (e.g., `/home/yourusername/MyNixOS`).
 
 3. **Enter the directory:**
    ```bash
    cd MyNixOS
    ```
+
+**Optional: Link to `/etc/nixos/` (if you want to use `nixos-rebuild` without `--flake` flag)**
+
+If you prefer to have your configuration in the traditional location:
+
+```bash
+sudo rm -rf /etc/nixos
+sudo ln -s ~/MyNixOS /etc/nixos
+```
+
+Then you can use `sudo nixos-rebuild switch` instead of `sudo nixos-rebuild switch --flake .#laptop`.
 
 ### Step 3: Customize for Your System
 
