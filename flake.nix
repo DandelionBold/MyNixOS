@@ -97,7 +97,7 @@
 
     # Home Manager configurations (standalone)
     homeConfigurations = {
-      "casper@laptop" = hmLib.homeManagerConfiguration {
+      "casper" = hmLib.homeManagerConfiguration {
         pkgs = forSystem defaultSystem;
         modules = [ ./home/casper/default.nix ];
         # Optional: extraSpecialArgs = { inherit inputs; };
