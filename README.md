@@ -522,9 +522,9 @@ graph TB
     F --> K[casper]
     F --> L[koko]
     
-    style A fill:#5277c3
-    style B fill:#7ebae4
-    style E fill:#a3be8c
+    style A fill:#5277c3,color:#000
+    style B fill:#7ebae4,color:#000
+    style E fill:#a3be8c,color:#000
     style F fill:#ebcb8b,color:#000
 ```
 
@@ -545,10 +545,10 @@ flowchart LR
     J[features/applications/] --> I
     K[features/development/] --> I
     
-    style A fill:#bf616a
-    style D fill:#a3be8c
+    style A fill:#bf616a,color:#000
+    style D fill:#a3be8c,color:#000
     style E fill:#ebcb8b,color:#000
-    style I fill:#5277c3
+    style I fill:#5277c3,color:#000
 ```
 
 ### Host Hierarchy
@@ -572,8 +572,8 @@ graph TD
     E --> E2[personal/]
     F --> F1[default.nix]
     
-    style A fill:#5277c3
-    style B fill:#a3be8c
+    style A fill:#5277c3,color:#000
+    style B fill:#a3be8c,color:#000
     style B2 fill:#ebcb8b,color:#000
     style E2 fill:#ebcb8b,color:#000
 ```
