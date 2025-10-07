@@ -90,9 +90,10 @@ Before you can use this configuration, you need to enable flakes in NixOS.
 
 2. **Find the line that looks like `}` at the end of the file.** Scroll down using arrow keys until you see it.
 
-3. **Add this line BEFORE the final `}`:**
+3. **Add these lines BEFORE the final `}`:**
    ```nix
    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   environment.systemPackages = with pkgs; [ git ];
    ```
    
    **Example of what it should look like:**
@@ -102,6 +103,7 @@ Before you can use this configuration, you need to enable flakes in NixOS.
      # ... other configurations ...
      
      nix.settings.experimental-features = [ "nix-command" "flakes" ];
+     environment.systemPackages = with pkgs; [ git ];
    }
    ```
 
@@ -115,7 +117,7 @@ Before you can use this configuration, you need to enable flakes in NixOS.
    sudo nixos-rebuild switch
    ```
    
-   Wait for it to finish (it will download and install git automatically if needed).
+   Wait for it to finish (it will download and install git automatically).
 
 ### Step 2: Clone This Repository
 
@@ -126,7 +128,7 @@ Before you can use this configuration, you need to enable flakes in NixOS.
    cd ~
    ```
 
-2. **Clone the repository:**
+2. **Clone the repository (note the exact capitalization):**
    ```bash
    git clone https://github.com/DandelionBold/MyNixOS.git
    ```
