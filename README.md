@@ -126,7 +126,7 @@ Before you can use this configuration, you need to enable flakes in NixOS.
    sudo nixos-rebuild switch
    ```
    
-   Wait for it to finish (it will download and install git automatically).
+   **Important:** Wait for this to complete successfully before proceeding. This enables flakes and installs git.
 
 ### Step 2: Clone This Repository
 
@@ -191,6 +191,8 @@ Then you can use `sudo nixos-rebuild switch` instead of `sudo nixos-rebuild swit
    Edit the timezone and keyboard layout as needed.
 
 ### Step 4: Build and Apply
+
+> **Note:** If you see a prompt asking about experimental features, type `y` and press Enter. This is normal on first use.
 
 1. **Test the build first** (doesn't make any changes yet):
    ```bash
