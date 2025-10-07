@@ -130,3 +130,87 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 - `cloud` - Cloud instance
 
 ---
+
+## 📁 Project Structure
+
+```
+MyNixOS/
+├── flake.nix                      # Main flake configuration (auto-discovers hosts)
+├── flake.lock                     # Lock file for reproducible builds
+├── LICENSE                        # MIT License
+├── README.md                      # This file
+├── ROADMAP.md                     # Project roadmap and milestones
+│
+├── nixos-settings/                # Centralized configuration management
+│   ├── usersList.nix             # Single source of truth for ALL users
+│   └── README.md                 # User system documentation
+│
+├── hosts/                         # Host configurations (auto-discovered!)
+│   ├── laptop/
+│   │   ├── default.nix           # Base laptop configuration
+│   │   └── personal/
+│   │       ├── personal.nix      # Personal variant
+│   │       └── hardware-configuration.nix
+│   ├── desktop/default.nix
+│   ├── server/default.nix
+│   ├── vm/default.nix
+│   └── cloud/default.nix
+│
+├── features/                      # Reusable feature modules
+│   ├── base.nix                  # Base features (ALL hosts import this)
+│   ├── gaming.nix                # Gaming support (Steam, Proton)
+│   ├── applications/              # Application configurations
+│   │   ├── browsers.nix
+│   │   ├── terminals.nix
+│   │   ├── file-managers.nix
+│   │   ├── gui-text-editors.nix
+│   │   ├── cli-text-editors.nix
+│   │   ├── screenshot-tools.nix
+│   │   ├── media-tools.nix
+│   │   ├── office-suite.nix
+│   │   ├── system-tools.nix
+│   │   └── other-applications.nix
+│   ├── desktop-environments/      # Desktop environment configs
+│   │   ├── desktop-environment.nix
+│   │   └── kde-plasma.nix
+│   ├── development/               # Development tools
+│   │   ├── dev.nix
+│   │   ├── containers.nix        # Docker, k3s
+│   │   ├── databases.nix         # MySQL, MSSQL, Redis
+│   │   ├── programming-languages.nix
+│   │   ├── ides.nix              # VSCode, etc.
+│   │   └── version-control.nix   # Git
+│   ├── hardware/                  # Hardware-related features
+│   │   ├── audio.nix             # PipeWire
+│   │   ├── bluetooth.nix
+│   │   └── printing.nix          # CUPS + SANE
+│   └── system/                    # System-level features
+│       ├── locale.nix            # Timezone, language, keyboard
+│       ├── networking.nix        # NetworkManager
+│       ├── filesystems-btrfs.nix
+│       ├── hibernate.nix
+│       ├── power.nix
+│       └── themes/               # Theme configurations
+│           ├── themes.nix
+│           ├── dark-theme.nix
+│           ├── light-theme.nix
+│           └── backgrounds/
+│
+├── modules/                       # Low-level system modules
+│   ├── users-manager.nix         # Dynamic user creation
+│   ├── home-manager-generator.nix # Automatic HM config generation
+│   ├── vm.nix                    # VM-specific settings
+│   ├── nginx.nix                 # Web server
+│   └── firewall-allowlist.nix    # Firewall rules
+│
+├── docs/                          # Documentation
+│   └── README.md                 # Complete beginner's guide
+│
+├── overlays/                      # Nixpkgs overlays (placeholder)
+│   └── README.md
+│
+└── secrets/                       # Secrets management (placeholder)
+    └── README.md
+```
+
+---
