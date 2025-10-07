@@ -176,21 +176,35 @@ Then you can use `sudo nixos-rebuild switch` instead of `sudo nixos-rebuild swit
    
    Follow the pattern you see there. Press `Ctrl + X` to exit after making changes.
 
-3. **Choose which host configuration to use.** For example, if you have a laptop:
+3. **Generate hardware configuration** (IMPORTANT - do this first!):
+   ```bash
+   # For laptop
+   sudo nixos-generate-config --show-hardware-config > hosts/laptop/personal/hardware-configuration.nix
+   
+   # For desktop
+   sudo nixos-generate-config --show-hardware-config > hosts/desktop/personal/hardware-configuration.nix
+   
+   # For VM
+   sudo nixos-generate-config --show-hardware-config > hosts/vm/personal/hardware-configuration.nix
+   ```
+   
+   **This is crucial!** Each person's hardware is different, so you MUST generate your own hardware configuration.
+
+4. **Choose which host configuration to use.** For example, if you have a laptop:
    ```bash
    nano hosts/laptop/default.nix
    ```
    
    Change the line `system.selectedUsers = [ "casper" ];` to use your username.
 
-4. **Set your timezone and locale:**
+5. **Set your timezone and locale:**
    ```bash
    nano features/system/locale.nix
    ```
    
    Edit the timezone and keyboard layout as needed.
 
-### Step 4: Build and Apply
+### Step 5: Build and Apply
 
 1. **Test the build first** (doesn't make any changes yet):
    ```bash
@@ -253,7 +267,7 @@ Then you can use `sudo nixos-rebuild switch` instead of `sudo nixos-rebuild swit
    sudo reboot
    ```
 
-### Step 5: Home Manager (Optional - User Environment)
+### Step 6: Home Manager (Optional - User Environment)
 
 Home Manager manages user-specific configurations (like dotfiles, shell aliases).
 
