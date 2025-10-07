@@ -58,16 +58,16 @@
   };
 
   # KDE Plasma theme (if using KDE)
+  # Note: This doesn't enable Plasma, just configures its theme
   services.desktopManager.plasma6 = lib.mkIf config.services.desktopManager.plasma6.enable {
-    enable = true;
     # Plasma theme configuration
     theme = "breeze-dark";
     lookAndFeel = "org.kde.breezedark.desktop";
   };
 
-  # SDDM theme
+  # SDDM theme (if using SDDM)
+  # Note: This doesn't enable SDDM, just configures its theme
   services.displayManager.sddm = lib.mkIf config.services.displayManager.sddm.enable {
-    enable = true;
     theme = "breeze";
     settings = {
       Theme = {
