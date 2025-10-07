@@ -525,7 +525,7 @@ graph TB
     style A fill:#5277c3
     style B fill:#7ebae4
     style E fill:#a3be8c
-    style F fill:#ebcb8b
+    style F fill:#ebcb8b,color:#000
 ```
 
 ### Configuration Flow
@@ -547,7 +547,7 @@ flowchart LR
     
     style A fill:#bf616a
     style D fill:#a3be8c
-    style E fill:#ebcb8b
+    style E fill:#ebcb8b,color:#000
     style I fill:#5277c3
 ```
 
@@ -574,8 +574,8 @@ graph TD
     
     style A fill:#5277c3
     style B fill:#a3be8c
-    style B2 fill:#ebcb8b
-    style E2 fill:#ebcb8b
+    style B2 fill:#ebcb8b,color:#000
+    style E2 fill:#ebcb8b,color:#000
 ```
 
 ### User Management Flow
