@@ -9,19 +9,14 @@ in {
   # VM-specific configurations based on _module.args.vmType
   virtualisation = {
     # VirtualBox guest additions
-    virtualbox.guest.enable = lib.mkIf (vmType == "virtualbox") true;
+    virtualbox.guest.enable = (vmType == "virtualbox");
+    virtualbox.guest.x11 = (vmType == "virtualbox");
     
     # VMware guest additions
-    vmware.guest.enable = lib.mkIf (vmType == "vmware") true;
-    
-    # QEMU/KVM guest optimizations
-    qemu.guestAgent.enable = lib.mkIf (vmType == "qemu") true;
-    
-    # Hyper-V guest services
-    hypervGuest.enable = lib.mkIf (vmType == "hyperv") true;
-    
+    vmware.guest.enable = (vmType == "vmware");
+
     # Docker-in-Docker support (for containerized VMs)
-    docker.enable = lib.mkIf (vmType == "docker") true;
+    docker.enable = (vmType == "docker");
   };
 
   # VM-optimized settings regardless of type
@@ -35,10 +30,10 @@ in {
   # VM-specific services
   services = {
     # Enable qemu-guest-agent for better VM integration
-    qemuGuest.enable = lib.mkIf (vmType == "qemu") true;
+    qemuGuest.enable = (vmType == "qemu");
     
-    # VMware tools
-    open-vm-tools.enable = lib.mkIf (vmType == "vmware") true;
+    # Hyper-V
+    hyperv-daemons.enable = (vmType == "hyperv");
   };
 
   # VM-optimized hardware settings
