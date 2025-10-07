@@ -9,4 +9,11 @@
     ../modules/users-manager.nix
     # Add other common modules here that every host needs
   ];
+
+  # Enable Nix experimental features system-wide
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  
+  # Enable Nix substituters for faster downloads
+  nix.settings.substituters = [ "https://cache.nixos.org/" ];
+  nix.settings.trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X43100gWypbMrAURkbJ16ZPMQFGspcDSh.jY=" ];
 }
