@@ -614,3 +614,31 @@ features/
 ```
 
 ---
+
+## 📚 Documentation
+
+Comprehensive documentation is available in the `docs/` directory:
+
+- **[Complete Guide](docs/README.md)** - Comprehensive documentation covering:
+  - Quick start for experienced users
+  - Complete beginner's guide (assumes zero knowledge)
+  - Troubleshooting common issues
+  - Advanced customization techniques
+  
+- **[Features Documentation](features/README.md)** - Detailed feature organization and usage
+
+- **[User Management](nixos-settings/README.md)** - Centralized user system documentation
+
+- **[ROADMAP](ROADMAP.md)** - Project roadmap and implementation status
+
+### Key Concepts
+
+| Concept | Description |
+|---------|-------------|
+| **Hosts** | Individual machine configurations (laptop, desktop, server, etc.) |
+| **Variants** | Host-specific customizations (e.g., `laptop@personal`, `laptop@work`) |
+| **Features** | Reusable configuration modules organized by category |
+| **Modules** | Low-level system components used by features |
+| **Users** | Centrally defined in `usersList.nix`, selected per host |
+
+---
