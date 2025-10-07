@@ -40,10 +40,10 @@ in {
 
   # VM-optimized hardware settings
   hardware = {
-    # Disable audio in VMs by default (can be overridden)
-    pulseaudio.enable = lib.mkDefault false;
-    
     # Disable Bluetooth in VMs
     bluetooth.enable = lib.mkDefault false;
   };
+  
+  # Disable audio services in VMs by default (can be overridden)
+  services.pipewire.enable = lib.mkDefault false;
 }

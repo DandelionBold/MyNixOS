@@ -26,7 +26,6 @@
   powerManagement.enable = false;
   
   # Disable audio in VMs (usually not needed)
-  hardware.pulseaudio.enable = false;
   services.pipewire.enable = false;
   
   # Disable printing in VMs
