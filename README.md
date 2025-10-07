@@ -358,7 +358,7 @@ MyNixOS/
 ├── modules/                       # Low-level system modules
 │   ├── users-manager.nix         # Dynamic user creation
 │   ├── home-manager-generator.nix # Automatic HM config generation
-│   ├── vm.nix                    # VM-specific settings
+│   ├── vm-manager.nix            # VM detection and shared optimizations
 │   ├── nginx.nix                 # Web server
 │   └── firewall-allowlist.nix    # Firewall rules
 │

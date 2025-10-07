@@ -139,7 +139,7 @@ MyNixOS/
 └── modules/                     # Low-level system components
     ├── users-manager.nix       # Dynamic user creation
     ├── home-manager-generator.nix  # Automatic HM configs
-    ├── vm.nix
+    ├── vm-manager.nix
     ├── nginx.nix
     └── firewall-allowlist.nix
 ```
@@ -257,7 +257,7 @@ Contains reusable functionality organized by category:
 Contains basic system components that are used by features:
 - `users-manager.nix` - Dynamic user creation from usersList
 - `home-manager-generator.nix` - Automatic Home Manager config generation
-- `vm.nix` - Virtual machine support
+- `vm-manager.nix` - VM detection and shared optimizations
 - `nginx.nix` - Web server
 - `firewall-allowlist.nix` - Security rules
 
