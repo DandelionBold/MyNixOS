@@ -5,20 +5,20 @@ with lib;
 let
   # Import the users list from nixos-settings
   usersData = import ../nixos-settings/usersList.nix { inherit pkgs; };
-  usersList = usersData.usersList;
+  users = usersData.users;
   
   # Get selected users from host configuration (default to empty list)
   selectedUsers = config.system.selectedUsers or [];
   
   # Filter users based on selection
-  enabledUsers = filter (user: elem user.username selectedUsers) usersList;
+  enabledUsers = map (username: users.${username}) selectedUsers;
   
   # Helper to convert user data to NixOS user config
-  toNixOSUser = user: {
-    name = user.username;
+  toNixOSUser = username: user: {
+    name = username;
     value = {
       isNormalUser = user.isNormalUser;
-      description = user.description or user.username;
+      description = user.description or username;
       extraGroups = user.extraGroups;
       shell = user.shell;
       home = user.homeDirectory;
@@ -52,11 +52,11 @@ in
 
   config = mkIf (length selectedUsers > 0) {
     # Create NixOS system users for all selected users
-    users.users = listToAttrs (map toNixOSUser enabledUsers);
+    users.users = listToAttrs (map (username: toNixOSUser username users.${username}) selectedUsers);
     
     # Enable zsh if any user uses it
     programs.zsh.enable = mkIf 
-      (any (user: user.shell == pkgs.zsh) enabledUsers) 
+      (any (username: users.${username}.shell == pkgs.zsh) selectedUsers) 
       true;
     
     # Enable bash (always, it's the default)

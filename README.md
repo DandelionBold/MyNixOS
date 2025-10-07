@@ -363,11 +363,7 @@ MyNixOS/
 │       ├── filesystems-btrfs.nix
 │       ├── hibernate.nix
 │       ├── power.nix
-│       └── themes/               # Theme configurations
-│           ├── themes.nix
-│           ├── dark-theme.nix
-│           ├── light-theme.nix
-│           └── backgrounds/
+│       └── [removed]             # Themes moved to Home Manager
 │
 ├── modules/                       # Low-level system modules
 │   ├── users-manager.nix         # Dynamic user creation
@@ -783,7 +779,7 @@ features/
 ├── desktop-environments/ (UI)
 ├── development/ (dev tools)
 ├── hardware/ (audio, bluetooth, printing)
-└── system/ (locale, power, themes)
+└── system/ (locale, power)
 ```
 
 ---

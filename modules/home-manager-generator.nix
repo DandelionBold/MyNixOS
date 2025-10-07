@@ -3,42 +3,52 @@
 let
   # Import the users list from nixos-settings
   usersData = import ../nixos-settings/usersList.nix { inherit pkgs; };
-  usersList = usersData.usersList;
+  users = usersData.users;
   
   # Helper to create Home Manager configuration for a user
-  mkHomeConfig = user: {
-    name = user.username;
+  mkHomeConfig = username: user: {
+    name = username;
     value = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
-      modules = [
-        {
-          home.username = user.username;
-          home.homeDirectory = user.homeDirectory;
-          home.stateVersion = "24.05";
-          
-          # Bash configuration
-          programs.bash = user.bash // {
-            enable = user.bash.enable or true;
-          };
-          
-          # Git configuration
-          programs.git = user.git // {
-            enable = user.git.enable or true;
-          };
-          
-          # Vim configuration
-          programs.vim = user.vim // {
-            enable = user.vim.enable or false;
-          };
-          
-          # Zsh configuration (if defined)
-          programs.zsh = if (user ? zsh) then (user.zsh // {
-            enable = user.zsh.enable or true;
-          }) else {
-            enable = false;
-          };
-        }
-      ];
+      modules = 
+        # Import extra modules if defined
+        (user.hm.extraModules or []) ++
+        # Base configuration module
+        [
+          {
+            home.username = username;
+            home.homeDirectory = user.homeDirectory;
+            home.stateVersion = "24.05";
+            
+            # Import user's HM configuration
+            imports = user.hm.imports or [];
+            
+            # Theme configuration
+            theme = user.hm.theme or { enable = false; };
+            
+            # Bash configuration
+            programs.bash = user.hm.bash // {
+              enable = user.hm.bash.enable or true;
+            };
+            
+            # Git configuration
+            programs.git = user.hm.git // {
+              enable = user.hm.git.enable or true;
+            };
+            
+            # Vim configuration
+            programs.vim = user.hm.vim // {
+              enable = user.hm.vim.enable or false;
+            };
+            
+            # Zsh configuration (if defined)
+            programs.zsh = if (user.hm ? zsh) then (user.hm.zsh // {
+              enable = user.hm.zsh.enable or true;
+            }) else {
+              enable = false;
+            };
+          }
+        ];
     };
   };
   
@@ -58,6 +68,6 @@ in
   #   home-manager switch --flake .#koko
   # ============================================================================
 
-  # Generate homeConfigurations for all users in usersList
-  homeConfigurations = builtins.listToAttrs (map mkHomeConfig usersList);
+  # Generate homeConfigurations for all users
+  homeConfigurations = builtins.mapAttrs mkHomeConfig users;
 }

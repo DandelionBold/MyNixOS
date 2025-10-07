@@ -52,7 +52,7 @@ System-level configurations:
 - `filesystems-btrfs.nix` - BTRFS with compression
 - `hibernate.nix` - Hibernation support
 - `power.nix` - Power management
-- `themes/` - Theme and appearance configurations
+- `themes/` - [REMOVED] Themes moved to Home Manager per-user configuration
 
 ### Root Level
 - `base.nix` - Base features imported by ALL hosts
