@@ -219,6 +219,11 @@ Then you can use `sudo nixos-rebuild switch` instead of `sudo nixos-rebuild swit
    > - **What it does:** Saves the binary cache setting permanently
    > - **Why needed:** Prevents this prompt from appearing again in future builds
    > 
+   > **5. Trusted Public Keys:**
+   > - `do you want to allow configuration setting 'trusted-public-keys'...` → Type `y` and press Enter
+   > - **What it does:** Trusts the cryptographic key used to verify binary cache packages
+   > - **Why needed:** Ensures downloaded packages are authentic and haven't been tampered with
+   > 
    > All prompts are normal on first use and make your NixOS experience much better!
    
    Replace `laptop` with your chosen configuration (`desktop`, `server`, `vm`, etc.)
