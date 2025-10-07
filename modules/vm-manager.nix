@@ -10,7 +10,6 @@ in {
   virtualisation = {
     # VirtualBox guest additions
     virtualbox.guest.enable = (vmType == "virtualbox");
-    virtualbox.guest.x11 = (vmType == "virtualbox");
     
     # VMware guest additions
     vmware.guest.enable = (vmType == "vmware");
