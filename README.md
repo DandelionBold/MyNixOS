@@ -515,7 +515,7 @@ graph TB
     D --> F[Generate homeConfigurations]
     
     E --> G[laptop]
-    E --> H[laptop@personal]
+    E --> H[laptop&#64;personal]
     E --> I[desktop]
     E --> J[server]
     
