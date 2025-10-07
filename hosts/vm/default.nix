@@ -27,15 +27,15 @@
   
   # === VM-SPECIFIC SETTINGS (centralized here) ===
   
-  # Disable audio in VMs (usually not needed)
-  services.pipewire.enable = false;
+  # Disable audio in VMs (can be overridden in personal variants)
+  services.pipewire.enable = lib.mkDefault false;
   
-  # Disable printing in VMs
-  services.printing.enable = false;
-  hardware.sane.enable = false;
+  # Disable printing in VMs (can be overridden in personal variants)
+  services.printing.enable = lib.mkDefault false;
+  hardware.sane.enable = lib.mkDefault false;
   
-  # Disable Bluetooth in VMs
-  hardware.bluetooth.enable = false;
+  # Disable Bluetooth in VMs (can be overridden in personal variants)
+  hardware.bluetooth.enable = lib.mkDefault false;
   
   # Optimize for VM performance
   boot.kernelParams = [ "console=ttyS0" ];
