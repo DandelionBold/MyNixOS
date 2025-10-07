@@ -2,21 +2,47 @@
 
 {
   # Background images configuration
-  # Local background images (not from internet)
+  # 
+  # Usage:
+  # 1. For internet images (default): Images are downloaded from URLs
+  # 2. For local images: Place images in ./images/ folder and change source paths below
   
-  # Copy background images to system
-  environment.etc = {
-    "backgrounds" = {
-      source = ./backgrounds;
-      target = "backgrounds";
-    };
-  };
+  # Download default wallpapers from the internet
+  # These will be fetched during system build
+  environment.systemPackages = with pkgs; [
+    (pkgs.runCommand "nixos-wallpapers" {} ''
+      mkdir -p $out/share/backgrounds
+      
+      # Download default wallpaper (NixOS blue/purple abstract)
+      ${pkgs.curl}/bin/curl -L -o $out/share/backgrounds/default.jpg \
+        https://raw.githubusercontent.com/NixOS/nixos-artwork/master/wallpapers/nix-wallpaper-nineish-dark-gray.png || \
+        ${pkgs.curl}/bin/curl -L -o $out/share/backgrounds/default.jpg \
+        https://w.wallhaven.cc/full/pk/wallhaven-pkz3yy.jpg
+      
+      # Use same image for SDDM and GNOME for now
+      cp $out/share/backgrounds/default.jpg $out/share/backgrounds/sddm.jpg
+      cp $out/share/backgrounds/default.jpg $out/share/backgrounds/gnome.jpg
+    '')
+  ];
+
+  # OPTION: To use local images instead:
+  # 1. Create an "images/" folder here: features/system/themes/backgrounds/images/
+  # 2. Add your images: default.jpg, sddm.jpg, gnome.jpg
+  # 3. Uncomment this section and comment out the runCommand above:
+  #
+  # environment.etc = {
+  #   "backgrounds" = {
+  #     source = ./images;
+  #     target = "backgrounds";
+  #   };
+  # };
 
   # KDE Plasma wallpaper configuration
+  # Uses downloaded or local wallpaper
   services.desktopManager.plasma6 = lib.mkIf config.services.desktopManager.plasma6.enable {
     enable = true;
-    # Set default wallpaper
-    wallpaper = "/etc/backgrounds/default.jpg";
+    # Wallpaper will be available at this path after build
+    # Note: You may need to set this manually in KDE settings first time
   };
 
   # SDDM background configuration
@@ -25,8 +51,7 @@
     settings = {
       Theme = {
         Current = "breeze";
-        # Custom background
-        Background = "/etc/backgrounds/sddm.jpg";
+        # Background image (if using local images, set to /etc/backgrounds/sddm.jpg)
       };
     };
   };
@@ -34,7 +59,6 @@
   # GNOME wallpaper (if using GNOME)
   services.xserver.desktopManager.gnome = lib.mkIf config.services.xserver.desktopManager.gnome.enable {
     enable = true;
-    # Set wallpaper
-    wallpaper = "/etc/backgrounds/gnome.jpg";
+    # Wallpaper can be set through GNOME settings
   };
 }

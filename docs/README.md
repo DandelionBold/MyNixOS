@@ -114,22 +114,34 @@ services.new-service = {
 
 ```
 MyNixOS/
-├── flake.nix                    # Main configuration
+├── flake.nix                    # Main configuration (auto-discovers hosts)
 ├── nixos-settings/              # Centralized configuration
-│   ├── usersList.nix           # All user definitions
-│   └── hostTree.nix            # Host hierarchy
-├── hosts/                       # Host configurations
-│   ├── laptop/default.nix       # Laptop + power management
-│   ├── desktop/default.nix      # Desktop + optimizations
-│   ├── vm/default.nix           # VM + minimal services
-│   └── ...
+│   ├── usersList.nix           # All user definitions (system + Home Manager)
+│   └── README.md               # User system documentation
+├── hosts/                       # Host configurations (auto-discovered)
+│   ├── laptop/
+│   │   ├── default.nix         # Base laptop config
+│   │   └── personal/
+│   │       ├── personal.nix    # Personal variant
+│   │       └── hardware-configuration.nix
+│   ├── desktop/default.nix
+│   ├── server/default.nix
+│   ├── vm/default.nix
+│   └── cloud/default.nix
 ├── features/                    # Reusable features
+│   ├── base.nix                # Base features (ALL hosts import this)
+│   ├── gaming.nix              # Gaming support
 │   ├── applications/            # Apps by category
 │   ├── development/             # Dev tools
 │   ├── desktop-environments/    # Desktop UI
 │   ├── hardware/                # Hardware features
 │   └── system/                  # System features
-└── modules/                     # Basic components
+└── modules/                     # Low-level system components
+    ├── users-manager.nix       # Dynamic user creation
+    ├── home-manager-generator.nix  # Automatic HM configs
+    ├── vm.nix
+    ├── nginx.nix
+    └── firewall-allowlist.nix
 ```
 
 ## Commands
@@ -252,8 +264,9 @@ Contains basic system components that are used by features:
 ### nixos-settings/ Folder
 **NEW** - Centralized configuration management:
 - `usersList.nix` - Single source of truth for ALL users (system + Home Manager)
-- `hostTree.nix` - Defines all hosts and their variants
-- All user and host data in ONE place for consistency
+- `README.md` - Documentation for the centralized user system
+- All user data in ONE place for consistency
+- **Note**: Hosts are now auto-discovered from the `hosts/` directory - no manual configuration needed!
 
 ### profiles/ Folder
 ~~Contains machine-specific settings~~ **REMOVED** - All profile settings have been moved directly into their corresponding host `default.nix` files for better organization and clarity.
@@ -325,39 +338,50 @@ This is the most important file. Let's break it down:
 **What this does**: Creates a package set for a specific system with unfree packages allowed (some software requires this).
 
 ```nix
-    mkNixOSConfig = hostName: system: nixpkgs.lib.nixosSystem {
-      inherit system;
-      modules = [ ./hosts/${hostName}/default.nix ];
-    };
+    mkNixOSConfig = configName: system:
+      let
+        # Parse configName to extract host and optional variant
+        parts = nixpkgs.lib.splitString "@" configName;
+        hostName = builtins.head parts;
+        hasVariant = builtins.length parts > 1;
+        variantName = if hasVariant then builtins.elemAt parts 1 else null;
+        
+        # Generate path based on whether variant exists
+        configPath = if hasVariant
+          then ./hosts/${hostName}/${variantName}/${variantName}.nix
+          else ./hosts/${hostName}/default.nix;
+      in
+      nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [ configPath ];
+      };
 ```
-**What this does**: Helper function to create a NixOS configuration for a specific host.
+**What this does**: 
+- Smart helper function that parses host names with optional variants
+- `"laptop"` → loads `hosts/laptop/default.nix`
+- `"laptop@personal"` → loads `hosts/laptop/personal/personal.nix`
+- Works with ANY variant name automatically!
 
 ```nix
-    hostTree = {
-      laptop = [ "personal" ];
-      desktop = [ ];
-      server = [ ];
-      vm = [ "personal" ];
-      wsl = [ ];
-      cloud = [ ];
-    };
+    nixosConfigurations = 
+      let
+        # Automatically scan hosts/ directory
+        hostDirs = builtins.attrNames (builtins.readDir ./hosts);
+        
+        # Create base configs for each host
+        baseConfigs = ... # laptop, desktop, vm, etc.
+        
+        # Automatically discover variants
+        variantConfigs = ... # laptop@personal, vm@personal, etc.
+      in
+      baseConfigs // variantConfigs;
 ```
-**What this does**: Defines which hosts have personal variants (like `laptop@personal`).
-
-```nix
-    nixosConfigurations = {
-      laptop = mkNixOSConfig "laptop" defaultSystem;
-      desktop = mkNixOSConfig "desktop" defaultSystem;
-      server = mkNixOSConfig "server" defaultSystem;
-      vm = mkNixOSConfig "vm" defaultSystem;
-      wsl = mkNixOSConfig "wsl" defaultSystem;
-      cloud = mkNixOSConfig "cloud" defaultSystem;
-      
-      "laptop@personal" = mkNixOSConfig "laptop/personal" defaultSystem;
-      "vm@personal" = mkNixOSConfig "vm/personal" defaultSystem;
-    };
-```
-**What this does**: Creates all the system configurations. You can build any of these with commands like `nixos-rebuild switch --flake .#laptop`.
+**What this does**: 
+- **Automatically discovers** all hosts by scanning `hosts/` directory
+- No manual configuration needed!
+- Just create `hosts/my-host/default.nix` and it appears as `#my-host`
+- Create `hosts/my-host/work/work.nix` and it appears as `#my-host@work`
+- Build with commands like: `nixos-rebuild switch --flake .#laptop`
 
 ### hosts/laptop/default.nix - Laptop Configuration
 
@@ -392,14 +416,14 @@ This is the most important file. Let's break it down:
   imports = [
     ./system/locale.nix
     ./system/networking.nix
-    ../modules/user.nix
+    ../modules/users-manager.nix
   ];
 }
 ```
-**What this does**: Imports common features that all computers need:
-- Locale settings (language, timezone)
-- Networking (internet connection)
-- User management
+**What this does**: Imports common features that ALL computers need:
+- Locale settings (language, timezone, keyboard)
+- Networking (NetworkManager for internet connection)
+- Dynamic user management (creates users based on `system.selectedUsers`)
 
 ### features/system/locale.nix - Language and Region Settings
 
