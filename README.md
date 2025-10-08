@@ -680,6 +680,27 @@ sudo nixos-rebuild switch --flake .#desktop
 home-manager switch --flake .#bob
 ```
 
+### Secrets (optional)
+
+For demos/tests you can keep secrets in separate files under `secrets/` and let a simple feature copy them into `/run/secrets/*`.
+
+```nix
+# hosts/<host>/default.nix (or variant)
+{
+  imports = [
+    ../features/system/secrets.nix
+  ];
+
+  secrets.enable = true;
+  secrets.files = {
+    db_password.source = ../../secrets/db_password.example; # -> /run/secrets/db_password
+    api_key.source     = ../../secrets/api_key.example;     # -> /run/secrets/api_key
+  };
+}
+```
+
+When you move to production, replace this with `sops-nix` or `agenix` (see docs/README.md for examples).
+
 ---
 
 ## 🏗️ Architecture
