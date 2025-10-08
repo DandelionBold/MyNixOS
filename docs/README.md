@@ -1,4 +1,4 @@
-# MyNixOS: Complete Documentation
+# MyNixOS: Complete Documentation (Beginner Friendly)
 
 ## Table of Contents
 1. [Quick Start Guide](#quick-start-guide)
@@ -8,16 +8,16 @@
 
 ---
 
-# Quick Start Guide
+# Quick Start Guide (Simple Path)
 
-For experienced users who want to get started quickly.
+Follow this exactly. You can copy commands line-by-line.
 
-## Prerequisites
-- NixOS system
-- Git installed
-- Basic NixOS knowledge
+## Prerequisites (what you need)
+- A NixOS system installed (even minimal install is OK)
+- Internet connection
+- We will install Git as a first step
 
-## Setup
+## Setup (step by step)
 
 1. **Clone the repository:**
    ```bash
@@ -25,7 +25,13 @@ For experienced users who want to get started quickly.
    cd MyNixOS
    ```
 
-2. **Build a configuration:**
+2. **See available configurations:**
+   ```bash
+   nix flake show
+   ```
+   Look for names like `laptop`, `desktop`, `vm`, or `laptop@personal`.
+
+3. **Build a configuration:**
    ```bash
    # For laptop
    nixos-rebuild switch --flake .#laptop
@@ -37,7 +43,7 @@ For experienced users who want to get started quickly.
    nixos-rebuild switch --flake .#laptop@personal
    ```
 
-## Available Configurations
+## Available Configurations (what these names mean)
 
 | Configuration | Description |
 |---------------|-------------|
@@ -48,7 +54,7 @@ For experienced users who want to get started quickly.
 | `vm` | Virtual machine configuration |
 | `cloud` | Cloud server configuration |
 
-## Key Features
+## Key Features (what you get)
 
 ### Applications
 - **Browsers**: Firefox
@@ -80,7 +86,7 @@ For experienced users who want to get started quickly.
 - **Hibernation**: Laptop support
 - **Networking**: NetworkManager
 
-## Customization
+## Customization (change things safely)
 
 ### Adding Packages
 Edit the relevant feature file in `features/`:
@@ -100,17 +106,62 @@ services.new-service = {
 };
 ```
 
-### Creating New Host
-1. Create `hosts/my-host/default.nix`
-2. Add host-specific settings directly in the file
-3. Add to `flake.nix` nixosConfigurations
-4. Import desired features
+### Creating a New Host (from zero)
+1) Make a folder for your host:
+```bash
+mkdir -p hosts/my-host
+```
+2) Create the main file:
+```bash
+nano hosts/my-host/default.nix
+```
+3) Paste this template and edit the name:
+```nix
+{ config, pkgs, lib, ... }:
+{
+  imports = [
+    ../features/base.nix
+    ../features/desktop-environments/kde-plasma.nix
+    ../features/applications/browsers.nix
+  ];
 
-### Creating New Feature
-1. Create file in appropriate `features/` subfolder
-2. Import in host configuration
+  networking.hostName = "my-host";
+  system.stateVersion = "25.05";
 
-## Project Structure
+  # Choose the users for this machine
+  system.selectedUsers = [ "casper" ];
+}
+```
+4) Generate hardware config for THIS machine:
+```bash
+sudo nixos-generate-config --show-hardware-config > hosts/my-host/personal/hardware-configuration.nix
+```
+5) Build it:
+```bash
+sudo nixos-rebuild switch --flake .#my-host
+```
+
+### Creating a New Feature (your own app list)
+1) Create a file:
+```bash
+nano features/applications/my-apps.nix
+```
+2) Paste this:
+```nix
+{ config, lib, pkgs, ... }:
+{
+  environment.systemPackages = with pkgs; [
+    curl
+    htop
+  ];
+}
+```
+3) Import it in your host:
+```nix
+imports = [ ../features/applications/my-apps.nix ];
+```
+
+## Project Structure (map of the repo)
 
 ```
 MyNixOS/
@@ -144,7 +195,7 @@ MyNixOS/
     └── firewall-allowlist.nix
 ```
 
-## Commands
+## Commands (copy/paste)
 
 ```bash
 # Build configuration
