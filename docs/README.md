@@ -341,7 +341,7 @@ Contains documentation files explaining how everything works.
 
 ## File-by-File Deep Dive
 
-### flake.nix - The Main Recipe
+### flake.nix — The main entry point
 
 This is the most important file. Let's break it down:
 
@@ -490,7 +490,35 @@ This is the most important file. Let's break it down:
 - Networking (NetworkManager for internet connection)
 - Dynamic user management (creates users based on `system.selectedUsers`)
 
-### features/system/locale.nix - Language and Region Settings
+### features/system/home-manager.nix — Enable Home Manager system-wide
+
+Turns on Home Manager integration for all hosts via the feature chain.
+
+```nix
+{ config, lib, pkgs, inputs, ... }:
+{
+  imports = [ inputs.home-manager.nixosModules.home-manager ];
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+}
+```
+
+### features/system/boot-loader.nix — Boot loader settings (GRUB)
+
+Central place for GRUB and boot parameters.
+
+```nix
+{ config, lib, pkgs, ... }:
+{
+  boot.loader.grub = {
+    enable = true;
+    useOSProber = true;
+    device = "/dev/sda"; # adjust per host
+  };
+}
+```
+
+### features/system/locale.nix — Language and region settings
 
 ```nix
 {
@@ -510,7 +538,7 @@ This is the most important file. Let's break it down:
 - Supports both English and Arabic
 - Sets keyboard layout to US and Arabic, with Alt+Shift to switch
 
-### features/applications/browsers.nix - Web Browser
+### features/applications/browsers.nix — Browsers (Firefox, Brave, Chrome)
 
 ```nix
 {
@@ -522,7 +550,7 @@ This is the most important file. Let's break it down:
 ```
 **What this does**: Installs and enables Firefox web browser.
 
-### features/development/dev.nix - Development Environment
+### features/development/dev.nix — Development environment aggregator
 
 ```nix
 {
@@ -542,7 +570,7 @@ This is the most important file. Let's break it down:
 - Code editors (VSCode)
 - Version control (Git)
 
-## How to Use This Project
+## How to Use This Project (current flow)
 
 ### Prerequisites
 1. A computer running NixOS
@@ -621,13 +649,7 @@ services.new-service = {
    }
    ```
 
-3. Add to `flake.nix`:
-   ```nix
-   nixosConfigurations = {
-     # ... existing configurations
-     "my-computer" = mkNixOSConfig "my-computer" defaultSystem;
-   };
-   ```
+3. No change to `flake.nix` is needed — hosts are auto‑discovered from the `hosts/` folder.
 
 ### Creating a New Feature
 
