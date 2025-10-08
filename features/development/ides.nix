@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 
 {
-  # VSCode IDE
+  # VSCode IDE (use VSCodium by default to avoid unfree)
   programs.vscode = {
     enable = true;
-    package = pkgs.vscode;
+    package = pkgs.vscodium;
   };
 }
