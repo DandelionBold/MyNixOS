@@ -757,8 +757,8 @@ There are two ways: local files or an online image.
 1) Local files (simple):
    - Put your desktop wallpaper at: `$HOME/Pictures/default.jpg`
    - Put your login-screen image at: `/etc/sddm/backgrounds/sddm.jpg`
-   - KDE users can set the desktop wallpaper from System Settings.
-   - For SDDM, you can also set it declaratively in a host feature:
+   - KDE desktop (what this means): Open “System Settings → Appearance → Wallpapers”, click “Add Image…”, select your `default.jpg`, click “Apply”. That’s it.
+   - SDDM login screen (what this code does): The snippet below tells NixOS to copy your image into `/etc/sddm/backgrounds/sddm.jpg` and make SDDM use it every boot. Paste this in a host file like `hosts/vm/personal/personal.nix`.
      ```nix
      # Example: set SDDM background system-wide
      services.displayManager.sddm = {
@@ -767,7 +767,9 @@ There are two ways: local files or an online image.
          Background = "/etc/sddm/backgrounds/sddm.jpg";
        };
      };
-     environment.etc."sddm/backgrounds/sddm.jpg".source = ./path/to/sddm.jpg;
+     # This line copies your repo file into /etc at build time
+     # Create an assets folder in the repo and point to your image there
+     environment.etc."sddm/backgrounds/sddm.jpg".source = ./assets/wallpapers/sddm.jpg;
      ```
 
 2) Online image (automatic): use `modules/wallpaper.nix` as shown below.
@@ -791,7 +793,12 @@ hm = {
 2) Rebuild system and re-login. The image is stored as `$HOME/.local/share/wallpaper.jpg` and applied at login.
 
 Notes:
-- If the URL changes often, omit `sha256` while experimenting. For long-term reproducibility, add the correct hash.
+- About `sha256` (plain explanation): Nix requires a checksum to make sure the downloaded image never changes silently. The very first time, you can leave it out (or set to `null`). Nix will stop and show you the correct value to use. Copy the shown `sha256-…` into `wallpaper.sha256` and rebuild.
+- Get the hash yourself (alternative):
+  ```bash
+  nix store prefetch-file https://example.com/wallpaper.jpg
+  # Copy the SRI value that looks like: sha256-xxxxxxxx...
+  ```
 - For a local file instead: set `source = "local"; localPath = "/path/to/image.jpg";`.
 
 ---
