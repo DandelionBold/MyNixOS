@@ -107,9 +107,9 @@
           iconName     = "Papirus-Dark";
           cursorName   = "Bibata-Modern-Ice";
           cursorSize   = 24;
-        }
+        };
       };
-    },
+    };
     
     # -------------------------------------------------------------------------
     # User: koko (Example second user)
@@ -186,9 +186,9 @@
           iconName     = "Papirus";
           cursorName   = "Bibata-Modern-Classic";
           cursorSize   = 20;
-        }
+        };
       };
-    }
+    };
     
     # -------------------------------------------------------------------------
     # Add more users here following the same pattern
