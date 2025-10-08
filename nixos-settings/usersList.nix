@@ -107,7 +107,7 @@
           iconName     = "Papirus-Dark";
           cursorName   = "Bibata-Modern-Ice";
           cursorSize   = 24;
-        };
+        }
       };
     },
     
@@ -186,7 +186,7 @@
           iconName     = "Papirus";
           cursorName   = "Bibata-Modern-Classic";
           cursorSize   = 20;
-        };
+        }
       };
     }
     
