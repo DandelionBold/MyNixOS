@@ -1365,6 +1365,24 @@ sudo mkdir -p /var/lib/sops-nix
 sudo install -m 600 ~/age.key /var/lib/sops-nix/key.txt
 ```
 
+Beginner explanation of the commands above
+- Think of Age keys like a lock and a key. The PUBLIC key (lock) is used to lock/encrypt the secret file you store in Git. The PRIVATE key (key) is kept only on your computer to unlock/decrypt during the build.
+- `nix shell nixpkgs#age -c age-keygen -o ~/age.key`
+  - Runs the Age tool and makes a PRIVATE key file at `~/age.key` (in your home folder).
+- `age-keygen -y ~/age.key > ~/age.pub`
+  - Reads the private key and prints the PUBLIC part. We save that to `~/age.pub`. This file is safe to share and will be used to encrypt `secrets.yaml`.
+- `sudo mkdir -p /var/lib/sops-nix`
+  - Makes the folder where sops‑nix looks for your PRIVATE key (root‑only area).
+- `sudo install -m 600 ~/age.key /var/lib/sops-nix/key.txt`
+  - Copies your PRIVATE key into that folder with strict permissions (`600` means only root can read it). Do NOT commit or share this file.
+
+How to check you did it right
+```bash
+ls -l /var/lib/sops-nix/key.txt     # should show permissions -rw------- (600)
+age-keygen -y /var/lib/sops-nix/key.txt  # prints the PUBLIC key; it should match ~/age.pub
+```
+If the public keys match, you’re ready to encrypt `secrets.yaml` using the content of `~/age.pub` in the next step.
+
 Step 2 — Create and encrypt `secrets.yaml` (in the repo):
 ```yaml
 db_password: "supersecret-password"
