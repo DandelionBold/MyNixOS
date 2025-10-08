@@ -333,10 +333,13 @@ This is the most important file. Let's break it down:
 ```nix
     forSystem = system: import nixpkgs {
       inherit system;
-      config = { allowUnfree = true; };
+      # Unfree is no longer set globally. It is aggregated via
+      # modules/unfree-packages.nix from feature modules using
+      # `my.allowedUnfreePackages`.
+      config = {};
     };
 ```
-**What this does**: Creates a package set for a specific system with unfree packages allowed (some software requires this).
+**What this does**: Creates a package set for a specific system. Unfree packages are no longer enabled globally; instead, feature modules add the specific package names to `my.allowedUnfreePackages`, which is aggregated by `modules/unfree-packages.nix`.
 
 ```nix
     mkNixOSConfig = configName: system:

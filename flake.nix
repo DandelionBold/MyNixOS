@@ -40,10 +40,9 @@
     # Helper to make pkgs for a given system
     forSystem = system: import nixpkgs {
       inherit system;
-      config = {
-        # Global policy per roadmap; allow overrides per host if needed
-        allowUnfree = true;
-      };
+      # Unfree handled via modules/unfree-packages.nix aggregation
+      # (see features/base.nix imports)
+      config = {};
     };
     
     # Helper to create NixOS configurations
