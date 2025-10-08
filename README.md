@@ -364,7 +364,8 @@ MyNixOS/
 │       ├── networking.nix        # NetworkManager
 │       ├── filesystems-btrfs.nix # Example storage config
 │       ├── hibernate.nix         # Suspend/hibernate support
-│       └── power.nix             # Power management defaults
+│       ├── power.nix             # Power management defaults
+│       └── secrets.nix           # Simple file-based secrets (demo)
 │
 ├── modules/                       # Low-level system modules
 │   ├── users-manager.nix         # Dynamic user creation

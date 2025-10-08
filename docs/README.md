@@ -194,6 +194,7 @@ MyNixOS/
 │       ├── filesystems-btrfs.nix  # Example storage config
 │       ├── hibernate.nix          # Suspend/hibernate support
 │       └── power.nix              # Power management defaults
+│       └── secrets.nix            # Simple file-based secrets (demo)
 └── modules/                        # Low-level system components
     ├── users-manager.nix          # Dynamic user creation (from usersList)
     ├── home-manager-generator.nix # Automatic HM configs from usersList
@@ -343,6 +344,19 @@ Contains documentation files explaining how everything works.
 ## File-by-File Deep Dive
 
 ### flake.nix — The main entry point
+### features/system/secrets.nix — Simple secrets for demos/tests
+
+Copies files from `secrets/` into safe paths (e.g., `/run/secrets/db_password`). Use this to keep credentials out of your Nix files while developing. For production use sops‑nix or agenix (see below).
+
+```nix
+imports = [ ../features/system/secrets.nix ];
+secrets.enable = true;
+secrets.files = {
+  db_password.source = ../../secrets/db_password.example;  # -> /run/secrets/db_password
+  api_key.source     = ../../secrets/api_key.example;      # -> /run/secrets/api_key
+};
+```
+
 
 This is the most important file. Let's break it down:
 
@@ -1322,51 +1336,55 @@ Create user-specific configurations:
 
 ## Secrets Management
 
-### Using sops-nix
+### Simple example (this repo)
 
-1. Install sops-nix:
+For demos and tests, we provide a tiny feature `features/system/secrets.nix` that copies example files from `secrets/` into predictable locations.
+
+Enable it on a host:
 ```nix
-# features/system/secrets.nix
-{ config, lib, pkgs, ... }:
+{ config, pkgs, lib, ... }:
+{
+  imports = [ ../features/system/secrets.nix ];
 
+  secrets.enable = true;
+  secrets.files = {
+    db_password.source = ../../secrets/db_password.example; # -> /run/secrets/db_password
+    api_key.source     = ../../secrets/api_key.example;     # -> /run/secrets/api_key
+  };
+}
+```
+
+You can add more entries (e.g., `smtp_password`, `jwt_secret`) pointing to separate files under `secrets/`.
+
+Production tip: Replace these with a real secret manager (sops-nix or agenix) later.
+
+### Using sops‑nix (production)
+
+1) Generate or place an Age key, and create an encrypted `secrets.yaml`.
+2) Reference them in a feature; sops‑nix will decrypt at activation.
+
+```nix
 {
   sops = {
     defaultSopsFile = ./secrets.yaml;
     age.keyFile = "/var/lib/sops-nix/key.txt";
     secrets = {
-      "db_password" = {};
-      "api_key" = {};
+      db_password = {};  # becomes /run/secrets/db_password
+      api_key     = {};  # becomes /run/secrets/api_key
     };
   };
 }
 ```
 
-2. Create secrets file:
-```yaml
-# secrets.yaml
-db_password: ENC[AES256_GCM,data:...]
-api_key: ENC[AES256_GCM,data:...]
-```
+### Using agenix (production)
 
-### Using agenix
+Encrypt individual files and map them to paths:
 
-1. Generate age key:
-```bash
-nix run nixpkgs#agenix -- -i
-```
-
-2. Create secrets:
 ```nix
-# features/system/secrets.nix
-{ config, lib, pkgs, ... }:
-
 {
   age.secrets = {
-    "db_password" = {
-      file = ./secrets/db_password.age;
-      owner = "casper";
-      group = "casper";
-    };
+    db_password = { file = ./secrets/db_password.age; owner = "casper"; group = "casper"; };
+    api_key     = { file = ./secrets/api_key.age;     owner = "casper"; group = "casper"; };
   };
 }
 ```
