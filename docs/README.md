@@ -754,6 +754,138 @@ Do one of the following:
 This keeps unfree usage explicit and tightly scoped.
 
 
+## Zero → Working Install (From a fresh NixOS)
+
+Follow these steps on a brand‑new NixOS install.
+
+1) Enable flakes and install git temporarily
+```bash
+sudo nano /etc/nixos/configuration.nix
+```
+Add (before the final `}`):
+```nix
+nix.settings.experimental-features = [ "nix-command" "flakes" ];
+environment.systemPackages = with pkgs; [ git ];
+```
+Apply:
+```bash
+sudo nixos-rebuild switch
+```
+
+2) Get this repo
+```bash
+cd ~
+git clone https://github.com/DandelionBold/MyNixOS.git
+cd MyNixOS
+```
+
+3) Choose a host to build (see what exists)
+```bash
+nix flake show
+```
+Typical options: `laptop`, `desktop`, `vm`, `laptop@personal`.
+
+4) Generate hardware config for YOUR machine/variant
+```bash
+# example for vm personal
+sudo mkdir -p hosts/vm/personal
+sudo nixos-generate-config --show-hardware-config > hosts/vm/personal/hardware-configuration.nix
+```
+
+5) Pick which users to create on this host
+```bash
+nano hosts/vm/personal/personal.nix
+```
+Find or add:
+```nix
+system.selectedUsers = [ "casper" ];
+```
+
+6) Build and apply
+```bash
+sudo nixos-rebuild switch --flake .#vm@personal
+```
+
+7) Optional: Apply Home Manager for your user
+```bash
+home-manager switch --flake .#casper
+```
+
+Done. You now have a working system driven by this repository.
+
+
+## User Management Deep Dive (One place for all users)
+
+All users live in `nixos-settings/usersList.nix`. Each user has two parts:
+- System account (shell, groups, home)
+- Home Manager settings (shell aliases, git, theme, etc.)
+
+Example skeleton you can copy:
+```nix
+users = {
+  myuser = {
+    # System user
+    username = "myuser";
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" ];
+    shell = pkgs.bashInteractive;
+    homeDirectory = "/home/myuser";
+
+    # Home Manager settings
+    hm = {
+      bash.enable = true;
+      git = {
+        enable = true;
+        userName = "My Name";
+        userEmail = "me@example.com";
+      };
+      theme.enable = true;  # see next section
+    };
+  };
+};
+```
+
+Select users per host with:
+```nix
+system.selectedUsers = [ "myuser" ];
+```
+This creates only the users you list for that machine.
+
+
+## Home Manager & Themes (Per‑user)
+
+Themes are configured per user through a small module already included for you.
+
+1) Make sure Home Manager is active (it is via `features/system/home-manager.nix`).
+2) For a user in `usersList.nix`, set:
+```nix
+hm = {
+  extraModules = [ ../modules/theme.nix ];
+  theme = {
+    enable       = true;
+    gtkThemeName = "adw-gtk3-dark";
+    iconName     = "Papirus-Dark";
+    cursorName   = "Bibata-Modern-Ice";
+    cursorSize   = 24;
+  };
+};
+```
+3) Apply Home Manager for that user:
+```bash
+home-manager switch --flake .#myuser
+```
+
+
+## Desktop Environment (KDE Plasma 6)
+
+KDE Plasma 6 is provided as a feature. Include it in your host:
+```nix
+imports = [
+  ../features/desktop-environments/kde-plasma.nix
+];
+```
+Build and switch as usual.
+
 ## Common Tasks (Cheat‑Sheet)
 
 These are the tasks you’ll do most often.
