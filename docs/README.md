@@ -199,6 +199,7 @@ MyNixOS/
     ├── home-manager-generator.nix # Automatic HM configs from usersList
     ├── vm-manager.nix             # VM detection & guest tools
     ├── theme.nix                  # Per-user theme module (HM)
+    ├── wallpaper.nix              # Per-user wallpaper (local or URL, KDE)
     ├── unfree-packages.nix        # Aggregate unfree allow-list
     ├── nginx.nix                  # Web server
     └── firewall-allowlist.nix     # Example firewall rules
@@ -751,11 +752,25 @@ You can mix and match — for example dark GTK with light icons if you prefer.
 
 ### Adding Background Images
 
-1. Place images in user's home directory or use system-wide wallpapers
-2. Configure via desktop environment settings:
-   - `default.jpg` - Desktop wallpaper
-   - `sddm.jpg` - Login screen
-3. The system will automatically use them
+There are two ways: local files or an online image.
+
+1) Local files (simple):
+   - Put your desktop wallpaper at: `$HOME/Pictures/default.jpg`
+   - Put your login-screen image at: `/etc/sddm/backgrounds/sddm.jpg`
+   - KDE users can set the desktop wallpaper from System Settings.
+   - For SDDM, you can also set it declaratively in a host feature:
+     ```nix
+     # Example: set SDDM background system-wide
+     services.displayManager.sddm = {
+       enable = true;
+       settings.Theme = {
+         Background = "/etc/sddm/backgrounds/sddm.jpg";
+       };
+     };
+     environment.etc."sddm/backgrounds/sddm.jpg".source = ./path/to/sddm.jpg;
+     ```
+
+2) Online image (automatic): use `modules/wallpaper.nix` as shown below.
 
 #### Use an online image as wallpaper (optional)
 
@@ -982,6 +997,22 @@ hm = {
 3) Apply Home Manager for that user:
 ```bash
 home-manager switch --flake .#myuser
+```
+
+### modules/wallpaper.nix — Per-user wallpaper (KDE Plasma)
+
+Lets a user set their wallpaper from a local path or a URL, applied automatically at login.
+
+```nix
+hm = {
+  extraModules = [ ../modules/wallpaper.nix ];
+  wallpaper = {
+    enable = true;
+    source = "local"; # or "url"
+    localPath = "/etc/backgrounds/default.jpg";
+    # url = "https://..."; sha256 = null;  # when using a remote image
+  };
+};
 ```
 
 
