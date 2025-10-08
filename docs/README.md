@@ -757,6 +757,28 @@ You can mix and match — for example dark GTK with light icons if you prefer.
    - `sddm.jpg` - Login screen
 3. The system will automatically use them
 
+#### Use an online image as wallpaper (optional)
+
+We provide a tiny module `modules/wallpaper.nix` that can fetch a remote image during the build and apply it for KDE Plasma users.
+
+1) Add the module to your user via Home Manager (in `nixos-settings/usersList.nix`):
+```nix
+hm = {
+  extraModules = [ ../modules/theme.nix ../modules/wallpaper.nix ];
+  wallpaper = {
+    enable = true;
+    source = "url";  # or "local"
+    url = "https://example.com/wallpaper.jpg";  # direct link to a jpg/png
+    # sha256 = "sha256-...";  # optional: add for fully reproducible builds
+  };
+};
+```
+2) Rebuild system and re-login. The image is stored as `$HOME/.local/share/wallpaper.jpg` and applied at login.
+
+Notes:
+- If the URL changes often, omit `sha256` while experimenting. For long-term reproducibility, add the correct hash.
+- For a local file instead: set `source = "local"; localPath = "/path/to/image.jpg";`.
+
 ---
 
 ## Unfree Packages Policy (VS Code, Brave, Google Chrome)
