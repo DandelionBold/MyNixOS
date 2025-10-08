@@ -1430,6 +1430,41 @@ Pick one approach per host:
 - For quick local testing, use A (repo `secrets/` files).
 - For real deployments, use B (encrypted `secrets.yaml`).
 
+### Can I use both at the same time?
+Yes, but keep names distinct. All methods write files into `/run/secrets/<name>`.
+- If two methods produce the same `<name>`, the last one that runs wins.
+- Safe pattern:
+  ```nix
+  # sops‑nix (from secrets.yaml)
+  sops.secrets.db_password = {};          # -> /run/secrets/db_password
+
+  # agenix or simple file method
+  age.secrets.api_token.file = ./secrets/api_token.age;  # -> /run/secrets/api_token
+  ```
+
+### Where does the decrypted data live?
+- sops‑nix does not leave a decrypted copy of `secrets.yaml` on disk.
+- During activation it decrypts in memory and writes only the keys you select to files under `/run/secrets/<name>`.
+- Your services should read from those files (e.g., `cat /run/secrets/db_password`).
+
+### Where do I put the code?
+- In the host you are building (e.g., `hosts/vm/personal/personal.nix`) or in a feature that host imports.
+- For sops‑nix you may need the `inputs` argument available; typical host header:
+  ```nix
+  # hosts/<host>/default.nix
+  { inputs, config, pkgs, lib, ... }:
+  {
+    imports = [ inputs.sops-nix.nixosModules.sops ];
+    # ... sops config here ...
+  }
+  ```
+- Build and verify:
+  ```bash
+  sudo nixos-rebuild switch --flake .#<host>
+  sudo ls -l /run/secrets
+  sudo head -c 20 /run/secrets/db_password
+  ```
+
 ### Using agenix (production)
 
 Encrypt individual files and map them to paths:
