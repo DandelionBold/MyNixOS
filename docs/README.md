@@ -1396,6 +1396,22 @@ Step 3 — Wire sops‑nix in the host (or a feature the host imports):
 Step 4 — Build: `sudo nixos-rebuild switch --flake .#<host>`
 Step 5 — Use: read from `/run/secrets/db_password`, `/run/secrets/api_key`.
 
+### Which file do I use? (don’t mix unless you know why)
+
+- If you follow method A (quick/dev):
+  - Your secret values live as separate files inside the repo’s `secrets/` folder (e.g., `secrets/db_password.example`).
+  - You map each one with `secrets.files = { … }`.
+  - At runtime, they appear under `/run/secrets/*`.
+
+- If you follow method B (production with sops‑nix):
+  - Your secret values live in a single encrypted file `secrets.yaml` (committed to Git).
+  - sops‑nix decrypts that file at activation using the machine’s private Age key.
+  - At runtime, they also appear under `/run/secrets/*`.
+
+Pick one approach per host:
+- For quick local testing, use A (repo `secrets/` files).
+- For real deployments, use B (encrypted `secrets.yaml`).
+
 ### Using agenix (production)
 
 Encrypt individual files and map them to paths:
