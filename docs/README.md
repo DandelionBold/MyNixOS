@@ -1022,6 +1022,30 @@ hm = {
 home-manager switch --flake .#myuser
 ```
 
+### Plasma wallpaper rotation (KDE slideshow)
+
+Goal: cycle through a folder of images on a schedule.
+
+- Easiest way (recommended):
+  1) Open KDE “System Settings → Appearance → Wallpapers”.
+  2) Select “Slideshow”.
+  3) Click “Add Folder…”, choose your images folder, and set the interval.
+
+- Make wallpapers available system‑wide (optional):
+  Provide a read‑only folder for everyone, then point the slideshow to it in the GUI.
+  ```nix
+  { config, lib, pkgs, ... }:
+  {
+    # Put your images under ./assets/wallpapers in the repo
+    environment.etc."backgrounds/wallpapers".source = ./assets/wallpapers;
+    # You will pick /etc/backgrounds/wallpapers in the KDE Slideshow dialog
+  }
+  ```
+
+Notes:
+- The per‑user wallpaper module sets a single image; slideshow is best configured from the KDE dialog.
+- If images don’t refresh immediately, log out/in or toggle the wallpaper engine once.
+
 ### modules/wallpaper.nix — Per-user wallpaper (KDE Plasma)
 
 Lets a user set their wallpaper from a local path or a URL, applied automatically at login.
@@ -1119,22 +1143,6 @@ theme = {
   cursorPackage = pkgs.my-cursor-theme;
   cursorSize = 32;
 };
-```
-
-### System wallpapers (advanced, optional)
-
-1. Place wallpapers in `/usr/share/backgrounds/` or user's home directory
-2. Configure via desktop environment settings (or use the per‑user wallpaper module explained above).
-
-```nix
-{
-  environment.etc = {
-    "backgrounds" = {
-      source = ./backgrounds;
-      target = "backgrounds";
-    };
-  };
-}
 ```
 
 ### Custom Fonts
