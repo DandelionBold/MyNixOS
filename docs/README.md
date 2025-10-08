@@ -319,6 +319,7 @@ Contains basic system components that are used by features:
 - `home-manager-generator.nix` - Automatic Home Manager config generation
 - `vm-manager.nix` - VM detection and shared optimizations
 - `theme.nix` - Home Manager theme module (GTK, icons, cursor)
+- `unfree-packages.nix` - Aggregates per-feature unfree allow-list
 - `nginx.nix` - Web server
 - `firewall-allowlist.nix` - Security rules
 
