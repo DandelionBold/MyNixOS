@@ -10,12 +10,18 @@
   };
 
   # Additional browsers
-  environment.systemPackages = with pkgs; [
-    brave
-    google-chrome
-    chromium
-  ];
+  let
+    bravePkg = pkgs.brave;
+    chromePkg = pkgs.google-chrome;
+  in
+  {
+    environment.systemPackages = [
+      bravePkg
+      chromePkg
+      pkgs.chromium
+    ];
 
-  # Allow unfree browsers for this feature
-  my.allowedUnfreePackages = [ "brave" "google-chrome" ];
+    # Allow unfree for exactly what we use
+    my.allowedUnfreePackages = [ (lib.getName bravePkg) (lib.getName chromePkg) ];
+  }
 }

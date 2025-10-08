@@ -1,12 +1,17 @@
 { config, lib, pkgs, ... }:
 
 {
-  # VSCode IDE
-  programs.vscode = {
-    enable = true;
-    package = pkgs.vscode;
-  };
+  # VSCode IDE (declare once, reuse for unfree allow-list)
+  let
+    vscodePkg = pkgs.vscode;
+  in
+  {
+    programs.vscode = {
+      enable = true;
+      package = vscodePkg;
+    };
 
-  # Allow unfree VSCode for this feature
-  my.allowedUnfreePackages = [ "vscode" "vscode-with-extensions" ];
+    # Allow unfree for exactly what we use
+    my.allowedUnfreePackages = [ (lib.getName vscodePkg) "vscode-with-extensions" ];
+  }
 }
