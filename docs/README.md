@@ -621,6 +621,88 @@ Each user can have their own theme preferences (dark/light, different themes, et
 
 ---
 
+## Unfree Packages Policy (VS Code, Brave, Google Chrome)
+
+Some software (like VS Code, Brave, and Google Chrome) is distributed under an unfree license. Instead of enabling unfree packages globally, this project uses a safe, modular approach:
+
+- A tiny aggregator module at `modules/unfree-packages.nix` sets `nixpkgs.config.allowUnfreePredicate` based on an accumulated list called `my.allowedUnfreePackages`.
+- Any feature can append the packages it needs to that list. Lists are merged automatically by NixOS options.
+- This keeps the policy explicit, discoverable, and easy to turn off.
+
+### Where it’s configured
+
+- Aggregator: `modules/unfree-packages.nix`
+- Imported by: `features/base.nix` (so it applies to all hosts)
+- Feature declarations:
+  - `features/development/ides.nix` (VS Code)
+  - `features/applications/browsers.nix` (Brave, Google Chrome)
+
+### How features request unfree packages
+
+Example: VS Code in `features/development/ides.nix`
+
+```nix
+{ config, lib, pkgs, ... }:
+{
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscode;
+  };
+
+  # Tell the aggregator which unfree package names to allow
+  my.allowedUnfreePackages = [ "vscode" "vscode-with-extensions" ];
+}
+```
+
+Example: Browsers in `features/applications/browsers.nix`
+
+```nix
+{ config, lib, pkgs, ... }:
+{
+  programs.firefox.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    brave
+    google-chrome
+    chromium
+  ];
+
+  # Allow unfree for exactly what we use
+  my.allowedUnfreePackages = [ "brave" "google-chrome" ];
+}
+```
+
+### How to disable unfree globally (temporary or per host)
+
+- Temporary, one-off build (shell only):
+  ```bash
+  export NIXPKGS_ALLOW_UNFREE=1
+  nixos-rebuild build --flake .#laptop --impure
+  ```
+  This is mainly for emergency builds; we prefer the declarative approach above.
+
+- Per host, hard-disable unfree (overrides aggregator):
+  ```nix
+  # hosts/my-host/default.nix
+  nixpkgs.config.allowUnfreePredicate = pkg: false;  # Disallow all unfree here
+  ```
+
+### Troubleshooting: “unfree license” error
+
+If you see an error like:
+
+```
+error: Package <name> has an unfree license, refusing to evaluate.
+```
+
+Do one of the following:
+
+1) Preferred: Add the package name to `my.allowedUnfreePackages` in the relevant feature and rebuild.
+2) Temporary: Use the environment variable method above for a single build.
+
+This keeps unfree usage explicit and tightly scoped.
+
+
 # Troubleshooting Guide
 
 ## Build Errors
