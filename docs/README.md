@@ -1323,11 +1323,19 @@ Create user-specific configurations:
 
 ## Secrets Management
 
-### Simple example (this repo)
+### What is a secret?
+- A small text value (password, API key) that your services need at runtime.
+- We expose secrets as files under `/run/secrets/*` and never hard‑code them in Nix.
 
-For demos and tests, we provide a tiny feature `features/system/secrets.nix` that copies example files from `secrets/` into predictable locations.
+### A) Quick local/dev method (file‑based)
+Use `features/system/secrets.nix` to copy files from the repo’s `secrets/` folder to `/run/secrets/*`.
 
-Enable it on a host:
+1) Create files in the repo:
+```
+secrets/db_password.example
+secrets/api_key.example
+```
+2) Enable on a host (adjust `../../` if your host file is deeper):
 ```nix
 { config, pkgs, lib, ... }:
 {
@@ -1335,33 +1343,58 @@ Enable it on a host:
 
   secrets.enable = true;
   secrets.files = {
-    db_password.source = ../../secrets/db_password.example; # -> /run/secrets/db_password
-    api_key.source     = ../../secrets/api_key.example;     # -> /run/secrets/api_key
+    db_password.source = ../../secrets/db_password.example;  # -> /run/secrets/db_password
+    api_key.source     = ../../secrets/api_key.example;      # -> /run/secrets/api_key
+    # Add more if needed: smtp_password, jwt_secret, ...
   };
 }
 ```
+3) Build: `sudo nixos-rebuild switch --flake .#<host>`
+4) Use: read from `/run/secrets/db_password` or `/run/secrets/api_key` in your services/scripts.
 
-You can add more entries (e.g., `smtp_password`, `jwt_secret`) pointing to separate files under `secrets/`.
+This is for demos/tests. For production, use sops‑nix or agenix.
 
-Production tip: Replace these with a real secret manager (sops-nix or agenix) later.
+### B) Production method — sops‑nix (encrypted in Git)
+Keep an encrypted `secrets.yaml` in Git. The machine decrypts it using a private Age key stored locally.
 
-### Using sops‑nix (production)
+Step 1 — Create/install the Age key (on the target machine):
+```bash
+nix shell nixpkgs#age -c age-keygen -o ~/age.key
+age-keygen -y ~/age.key > ~/age.pub
+sudo mkdir -p /var/lib/sops-nix
+sudo install -m 600 ~/age.key /var/lib/sops-nix/key.txt
+```
 
-1) Generate or place an Age key, and create an encrypted `secrets.yaml`.
-2) Reference them in a feature; sops‑nix will decrypt at activation.
+Step 2 — Create and encrypt `secrets.yaml` (in the repo):
+```yaml
+db_password: "supersecret-password"
+api_key: "abcd-1234-xyz"
+```
+Encrypt it using your public key:
+```bash
+nix shell nixpkgs#sops -c sops --age "$(cat ~/age.pub)" -e -i secrets.yaml
+```
+Commit the encrypted file (never the private key).
 
+Step 3 — Wire sops‑nix in the host (or a feature the host imports):
 ```nix
+{ inputs, ... }:
 {
+  imports = [ inputs.sops-nix.nixosModules.sops ];
+
   sops = {
-    defaultSopsFile = ./secrets.yaml;
-    age.keyFile = "/var/lib/sops-nix/key.txt";
+    defaultSopsFile = ./secrets.yaml;          # encrypted in Git
+    age.keyFile     = "/var/lib/sops-nix/key.txt"; # private key on this machine
     secrets = {
-      db_password = {};  # becomes /run/secrets/db_password
-      api_key     = {};  # becomes /run/secrets/api_key
+      db_password = {};  # -> /run/secrets/db_password
+      api_key     = {};  # -> /run/secrets/api_key
     };
   };
 }
 ```
+
+Step 4 — Build: `sudo nixos-rebuild switch --flake .#<host>`
+Step 5 — Use: read from `/run/secrets/db_password`, `/run/secrets/api_key`.
 
 ### Using agenix (production)
 
