@@ -7,6 +7,7 @@
     ./system/networking.nix
     ./system/boot-loader.nix
     ./system/home-manager.nix
+    ../modules/unfree-packages.nix
     ../modules/users-manager.nix
     # Add other common modules here that every host needs
   ];

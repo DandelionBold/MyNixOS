@@ -9,11 +9,13 @@
     package = pkgs.firefox;
   };
 
-  # Additional browsers (avoid unfree by default)
-  # Uncomment brave or chrome on hosts that explicitly allow unfree
+  # Additional browsers
   environment.systemPackages = with pkgs; [
-    # brave        # Privacy-focused browser (unfree)
-    chromium       # Open-source Chrome
-    # google-chrome # Google Chrome (unfree)
+    brave
+    google-chrome
+    chromium
   ];
+
+  # Allow unfree browsers for this feature
+  my.allowedUnfreePackages = [ "brave" "google-chrome" ];
 }

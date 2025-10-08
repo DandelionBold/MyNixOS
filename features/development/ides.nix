@@ -1,9 +1,12 @@
 { config, lib, pkgs, ... }:
 
 {
-  # VSCode IDE (use VSCodium by default to avoid unfree)
+  # VSCode IDE
   programs.vscode = {
     enable = true;
-    package = pkgs.vscodium;
+    package = pkgs.vscode;
   };
+
+  # Allow unfree VSCode for this feature
+  my.allowedUnfreePackages = [ "vscode" "vscode-with-extensions" ];
 }
