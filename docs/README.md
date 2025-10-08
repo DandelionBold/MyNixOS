@@ -1124,8 +1124,9 @@ theme = {
 ### System wallpapers (advanced, optional)
 
 1. Place wallpapers in `/usr/share/backgrounds/` or user's home directory
-2. Configure via desktop environment settings (or use the per‑user wallpaper module explained above):
+2. Configure via desktop environment settings (or use the per‑user wallpaper module explained above).
 
+```nix
 {
   environment.etc = {
     "backgrounds" = {
@@ -1133,16 +1134,12 @@ theme = {
       target = "backgrounds";
     };
   };
-
-  # (Example stub removed; Plasma wallpaper rotation is usually configured
-  # interactively or via plasma-specific scripts. Use the per-user wallpaper
-  # module above for declarative wallpaper setup.)
 }
 ```
 
 ### Custom Fonts
 
-Add custom fonts to `themes.nix`:
+Add custom fonts (example):
 
 ```nix
 fonts = {
