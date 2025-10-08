@@ -2,7 +2,8 @@
 
 {
   # File manager applications
+  # Dolphin moved to Qt6; use kdePackages.dolphin
   environment.systemPackages = with pkgs; [
-    dolphin
+    kdePackages.dolphin
   ];
 }
