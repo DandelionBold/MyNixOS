@@ -46,7 +46,7 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 - **Complete font stack** (Fira Code, Noto fonts)
 
 ### 📦 Applications
-- **Browsers**: Firefox (default), Brave
+- **Browsers**: Firefox (default), Brave, Google Chrome
 - **Terminals**: Alacritty, Kitty, GNOME Terminal, Konsole
 - **File Managers**: Dolphin, Thunar, Ranger, Nautilus
 - **Text Editors**: Vim, Emacs, Neovim, Kate, Gedit
@@ -128,7 +128,7 @@ Before you can use this configuration, you need to enable flakes in NixOS.
    
    **Important:** Wait for this to complete successfully before proceeding. This enables flakes and installs git.
 
-### Step 2: Clone This Repository
+### Step 2: Clone This Repository (Beginner path)
 
 > **Important:** With flakes, your configuration does NOT need to be in `/etc/nixos/`. You can keep it anywhere (like your home directory) and point to it with the `--flake` flag. This guide uses `~/MyNixOS`.
 
@@ -794,13 +794,11 @@ features/
 
 ## 📚 Documentation
 
-Comprehensive documentation is available in the `docs/` directory:
+Comprehensive documentation is available in the `docs/` directory (beginner-first):
 
-- **[Complete Guide](docs/README.md)** - Comprehensive documentation covering:
-  - Quick start for experienced users
-  - Complete beginner's guide (assumes zero knowledge)
-  - Troubleshooting common issues
-  - Advanced customization techniques
+- **[Complete Guide](docs/README.md)** - Zero→Working Install, detailed User Management, Home Manager & Themes, cheat‑sheets
+
+Unfree packages policy (for VS Code, Brave, Chrome) is handled per‑feature via an allow-list; see the Unfree section in `docs/README.md`.
   
 - **[Features Documentation](features/README.md)** - Detailed feature organization and usage
 
