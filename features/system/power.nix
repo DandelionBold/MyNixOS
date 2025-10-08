@@ -1,11 +1,11 @@
 { config, lib, pkgs, ... }:
 
 {
-  # Power management defaults
+  # Power management defaults (can be overridden by hosts)
   powerManagement = {
-    enable = true;
+    enable = lib.mkDefault true;
     powertop.enable = lib.mkDefault false;
   };
 
-  services.power-profiles-daemon.enable = true;
+  services.power-profiles-daemon.enable = lib.mkDefault true;
 }
