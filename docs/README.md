@@ -344,19 +344,6 @@ Contains documentation files explaining how everything works.
 ## File-by-File Deep Dive
 
 ### flake.nix — The main entry point
-### features/system/secrets.nix — Simple secrets for demos/tests
-
-Copies files from `secrets/` into safe paths (e.g., `/run/secrets/db_password`). Use this to keep credentials out of your Nix files while developing. For production use sops‑nix or agenix (see below).
-
-```nix
-imports = [ ../features/system/secrets.nix ];
-secrets.enable = true;
-secrets.files = {
-  db_password.source = ../../secrets/db_password.example;  # -> /run/secrets/db_password
-  api_key.source     = ../../secrets/api_key.example;      # -> /run/secrets/api_key
-};
-```
-
 
 This is the most important file. Let's break it down:
 
