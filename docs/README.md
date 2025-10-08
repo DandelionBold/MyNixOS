@@ -1497,12 +1497,6 @@ Encrypt individual files and map them to paths:
     python3Packages.black
     python3Packages.flake8
   ];
-
-  # Python environment
-  programs.python3 = {
-    enable = true;
-    package = pkgs.python3;
-  };
 }
 ```
 
@@ -1635,10 +1629,7 @@ Encrypt individual files and map them to paths:
     enable = true;
     allowedTCPPorts = [ 22 80 443 ];
     allowedUDPPorts = [ 53 67 68 ];
-    extraCommands = ''
-      iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --set
-      iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --update --seconds 60 --hitcount 4 -j DROP
-    '';
+    # Optional iptables hardening can be added here if you use the iptables backend
   };
 }
 ```
