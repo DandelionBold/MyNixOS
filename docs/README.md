@@ -694,6 +694,61 @@ theme = {
 
 Each user can have their own theme preferences (dark/light, different themes, etc.).
 
+#### What do these theme fields mean?
+
+- `gtkThemeName`: How windows, buttons and menus look in most apps. Examples: `adw-gtk3-dark` (dark), `adw-gtk3` (light). This changes colors, shapes, and spacing.
+- `iconName`: The style of icons for folders, files and toolbar buttons. Examples: `Papirus-Dark`, `Papirus`. This changes the icon artwork only, not window colors.
+- `cursorName`: The mouse pointer theme (shape/color). Examples: `Bibata-Modern-Ice` (light cursor), `Bibata-Modern-Classic` (darker).
+- `cursorSize`: Size of the mouse pointer in pixels. If the cursor feels too small/large, raise or lower this number.
+
+These values are purely visual. They don’t change functionality — only appearance.
+
+#### How do I find valid theme names?
+
+1) Use the names we ship by default (already valid):
+   - GTK: `adw-gtk3`, `adw-gtk3-dark`
+   - Icons: `Papirus`, `Papirus-Dark`
+   - Cursor: `Bibata-Modern-Ice`, `Bibata-Modern-Classic`
+
+2) Search available themes in nixpkgs:
+```bash
+nix search nixpkgs adw-gtk3
+nix search nixpkgs papirus-icon-theme
+nix search nixpkgs bibata
+```
+Open the package page (e.g., on search.nixos.org) and look for the theme names it provides. Usually the `name` you set in Home Manager matches the visible theme name inside apps (e.g., `Papirus-Dark`).
+
+3) Install extra themes if desired by adding them to user packages:
+```nix
+hm = {
+  packages = with pkgs; [
+    adw-gtk3            # GTK theme package
+    papirus-icon-theme  # Icon theme package
+    bibata-cursor-theme # Cursor theme package
+  ];
+};
+```
+Then set the names in `theme = { ... }` to match the installed theme’s display names.
+
+#### Dark vs Light
+
+- Dark: `adw-gtk3-dark` + `Papirus-Dark` + a light cursor like `Bibata-Modern-Ice`.
+- Light: `adw-gtk3` + `Papirus` + a darker cursor like `Bibata-Modern-Classic`.
+
+You can mix and match — for example dark GTK with light icons if you prefer.
+
+#### Where is this applied?
+
+- GTK apps (Firefox, Files, etc.) read from the Home Manager config and apply the theme on login.
+- KDE apps may use their own theme controls, but icon/cursor themes still apply system‑wide.
+- Environment variables are also set for consistency: `GTK_THEME`, `XCURSOR_THEME`, `XCURSOR_SIZE`.
+
+#### Troubleshooting
+
+- Theme doesn’t change after rebuild: log out and log back in (or reboot). Some apps cache theme settings.
+- Cursor changes only in some apps: set `cursorSize` and ensure `bibata-cursor-theme` is installed; then log out/in.
+- Icons look mixed: ensure only one icon theme is selected; remove extra icon packs from `packages` and rebuild.
+
 ### Adding Background Images
 
 1. Place images in user's home directory or use system-wide wallpapers
