@@ -13,6 +13,8 @@
   let
     bravePkg = pkgs.brave;
     chromePkg = pkgs.google-chrome;
+    unfreePkgs = [ bravePkg chromePkg ];
+    unfreeNames = map (p: lib.getName p) unfreePkgs;
   in
   {
     environment.systemPackages = [
@@ -22,6 +24,6 @@
     ];
 
     # Allow unfree for exactly what we use
-    my.allowedUnfreePackages = [ (lib.getName bravePkg) (lib.getName chromePkg) ];
+    my.allowedUnfreePackages = unfreeNames;
   }
 }
