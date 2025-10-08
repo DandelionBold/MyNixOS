@@ -358,17 +358,20 @@ MyNixOS/
 │   │   ├── bluetooth.nix
 │   │   └── printing.nix          # CUPS + SANE
 │   └── system/                    # System-level features
+│       ├── boot-loader.nix       # GRUB and boot behavior
+│       ├── home-manager.nix      # Enable HM at system level
 │       ├── locale.nix            # Timezone, language, keyboard
 │       ├── networking.nix        # NetworkManager
-│       ├── filesystems-btrfs.nix
-│       ├── hibernate.nix
-│       ├── power.nix
-│       └── [removed]             # Themes moved to Home Manager
+│       ├── filesystems-btrfs.nix # Example storage config
+│       ├── hibernate.nix         # Suspend/hibernate support
+│       └── power.nix             # Power management defaults
 │
 ├── modules/                       # Low-level system modules
 │   ├── users-manager.nix         # Dynamic user creation
 │   ├── home-manager-generator.nix # Automatic HM config generation
 │   ├── vm-manager.nix            # VM detection and shared optimizations
+│   ├── theme.nix                 # Per-user theme module (HM)
+│   ├── unfree-packages.nix       # Aggregate unfree allow-list
 │   ├── nginx.nix                 # Web server
 │   └── firewall-allowlist.nix    # Firewall rules
 │

@@ -165,34 +165,43 @@ imports = [ ../features/applications/my-apps.nix ];
 
 ```
 MyNixOS/
-├── flake.nix                    # Main configuration (auto-discovers hosts)
-├── nixos-settings/              # Centralized configuration
-│   ├── usersList.nix           # All user definitions (system + Home Manager)
-│   └── README.md               # User system documentation
-├── hosts/                       # Host configurations (auto-discovered)
+├── flake.nix                       # Main configuration (auto-discovers hosts)
+├── nixos-settings/                 # Centralized configuration
+│   ├── usersList.nix              # All user definitions (system + Home Manager)
+│   └── README.md                  # User system documentation
+├── hosts/                          # Host configurations (auto-discovered)
 │   ├── laptop/
-│   │   ├── default.nix         # Base laptop config
+│   │   ├── default.nix            # Base laptop config
 │   │   └── personal/
-│   │       ├── personal.nix    # Personal variant
+│   │       ├── personal.nix       # Personal variant
 │   │       └── hardware-configuration.nix
 │   ├── desktop/default.nix
 │   ├── server/default.nix
 │   ├── vm/default.nix
 │   └── cloud/default.nix
-├── features/                    # Reusable features
-│   ├── base.nix                # Base features (ALL hosts import this)
-│   ├── gaming.nix              # Gaming support
-│   ├── applications/            # Apps by category
-│   ├── development/             # Dev tools
-│   ├── desktop-environments/    # Desktop UI
-│   ├── hardware/                # Hardware features
-│   └── system/                  # System features
-└── modules/                     # Low-level system components
-    ├── users-manager.nix       # Dynamic user creation
-    ├── home-manager-generator.nix  # Automatic HM configs
-    ├── vm-manager.nix
-    ├── nginx.nix
-    └── firewall-allowlist.nix
+├── features/                       # Reusable features
+│   ├── base.nix                   # Base features (ALL hosts import this)
+│   ├── gaming.nix                 # Gaming support
+│   ├── applications/               # Apps by category (browsers, editors, etc.)
+│   ├── development/                # Dev tools (ides, containers, languages)
+│   ├── desktop-environments/       # Desktop UI (KDE Plasma 6)
+│   ├── hardware/                   # Hardware features (audio, printing, ...)
+│   └── system/                     # System features
+│       ├── boot-loader.nix        # GRUB and boot behavior
+│       ├── home-manager.nix       # Enable HM at system level
+│       ├── locale.nix             # Timezone, locale, keyboard
+│       ├── networking.nix         # NetworkManager
+│       ├── filesystems-btrfs.nix  # Example storage config
+│       ├── hibernate.nix          # Suspend/hibernate support
+│       └── power.nix              # Power management defaults
+└── modules/                        # Low-level system components
+    ├── users-manager.nix          # Dynamic user creation (from usersList)
+    ├── home-manager-generator.nix # Automatic HM configs from usersList
+    ├── vm-manager.nix             # VM detection & guest tools
+    ├── theme.nix                  # Per-user theme module (HM)
+    ├── unfree-packages.nix        # Aggregate unfree allow-list
+    ├── nginx.nix                  # Web server
+    └── firewall-allowlist.nix     # Example firewall rules
 ```
 
 ## Commands (copy/paste)
