@@ -684,12 +684,21 @@ services.new-service = {
 Edit `nixos-settings/usersList.nix` to configure themes for each user:
 
 ```nix
+# nixos-settings/usersList.nix (inside hm = { ... }; for a user)
 theme = {
-  enable       = true;
-  gtkThemeName = "adw-gtk3-dark";
-  iconName     = "Papirus-Dark";
-  cursorName   = "Bibata-Modern-Ice";
-  cursorSize   = 24;
+  enable       = true;                # Turn theme control ON for this user
+
+  gtkThemeName = "adw-gtk3-dark";    # Window/button style (dark vs light). See "Modifying Themes" above
+  # gtkThemePackage can be added if you install a different GTK theme package
+  # gtkThemePackage = pkgs.adw-gtk3;
+
+  iconName     = "Papirus-Dark";     # Icons style (files, folders, toolbar icons)
+  # iconPackage = pkgs.papirus-icon-theme; # Optional: ensures the icon pack is installed
+
+  cursorName   = "Bibata-Modern-Ice"; # Pointer theme (shape/color)
+  # cursorPackage = pkgs.bibata-cursor-theme; # Optional: ensures cursor pack is installed
+
+  cursorSize   = 24;                  # Pointer size (raise/lower if too small/large)
 };
 ```
 
@@ -1105,10 +1114,10 @@ theme = {
 };
 ```
 
-### Custom Wallpapers
+### System wallpapers (advanced, optional)
 
 1. Place wallpapers in `/usr/share/backgrounds/` or user's home directory
-2. Configure via desktop environment settings:
+2. Configure via desktop environment settings (or use the per‑user wallpaper module explained above):
 
 {
   environment.etc = {
