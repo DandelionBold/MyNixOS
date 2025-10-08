@@ -11,9 +11,9 @@
   systemd.targets.hibernate.enable = lib.mkDefault true;
   systemd.targets.suspend-then-hibernate.enable = lib.mkDefault true;
   
-  # Power management for hibernation
+  # Power management for hibernation (can be overridden by hosts)
   powerManagement = {
-    enable = true;
+    enable = lib.mkDefault true;
     cpuFreqGovernor = lib.mkDefault "powersave";
   };
 }
