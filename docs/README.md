@@ -997,16 +997,23 @@ This creates only the users you list for that machine.
 Themes are configured per user through a small module already included for you.
 
 1) Make sure Home Manager is active (it is via `features/system/home-manager.nix`).
-2) For a user in `usersList.nix`, set:
+2) For a user in `usersList.nix`, set (with comments). See “Modifying Themes” above for what each field means and example names:
 ```nix
 hm = {
   extraModules = [ ../modules/theme.nix ];
   theme = {
-    enable       = true;
-    gtkThemeName = "adw-gtk3-dark";
-    iconName     = "Papirus-Dark";
-    cursorName   = "Bibata-Modern-Ice";
-    cursorSize   = 24;
+    enable       = true;                # Turn theme control ON for this user
+
+    gtkThemeName = "adw-gtk3-dark";    # Window/button style (dark vs light)
+    # gtkThemePackage = pkgs.adw-gtk3;  # Optional: install a different GTK theme
+
+    iconName     = "Papirus-Dark";     # Icons style (files, folders, toolbar icons)
+    # iconPackage = pkgs.papirus-icon-theme; # Optional: install the icon pack
+
+    cursorName   = "Bibata-Modern-Ice"; # Pointer theme (shape/color)
+    # cursorPackage = pkgs.bibata-cursor-theme; # Optional: install the cursor pack
+
+    cursorSize   = 24;                  # Pointer size in pixels
   };
 };
 ```
@@ -1127,11 +1134,9 @@ theme = {
     };
   };
 
-  # Custom wallpaper rotation
-  services.desktopManager.plasma6 = lib.mkIf config.services.desktopManager.plasma6.enable {
-    enable = true;
-    wallpaper = "/etc/backgrounds/rotating-wallpaper.jpg";
-  };
+  # (Example stub removed; Plasma wallpaper rotation is usually configured
+  # interactively or via plasma-specific scripts. Use the per-user wallpaper
+  # module above for declarative wallpaper setup.)
 }
 ```
 
