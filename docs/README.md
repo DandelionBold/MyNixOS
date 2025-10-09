@@ -915,7 +915,7 @@ sudo nixos-rebuild switch
 
 2) Enable Faster Downloads (Optional but Recommended)
 
-**Important:** If you will use this manually, you will need to enable `nix-command` first. Make sure you have added `nix.settings.experimental-features = [ "nix-command" "flakes" ];` to your `/etc/nixos/configuration.nix` as described in **Step 1**.
+**Important:** If you will use this manually, you will need to enable `nix-command` first. Make sure you have added `nix.settings.experimental-features = [ "nix-command" "flakes" ];` to your `/etc/nixos/configuration.nix` as described in **Step 4**.
 
 **Recommended sequence:** First, perform **Step 7** (Build and apply) to ensure `nix-command` is active. Then proceed with this step (Step 2) to add the keys and substituters. Finally, perform **Step 7** again to apply the updated configuration.
 
