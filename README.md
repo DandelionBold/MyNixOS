@@ -123,18 +123,18 @@ Before you can use this configuration, you need to enable flakes in NixOS.
 
 6. **Enable Faster Downloads (Optional but Recommended)**
 
-This configuration includes **optimized binary caches** for much faster package downloads. When you use this flake, it automatically configures:
+   This configuration includes **optimized binary caches** for much faster package downloads. When you use this flake, it automatically configures:
 
-- **`cache.nixos.org`** - Official NixOS binary cache
-- **`hydra.nixos.org`** - Full nixpkgs ecosystem cache
+   - **`cache.nixos.org`** - Official NixOS binary cache
+   - **`hydra.nixos.org`** - Full nixpkgs ecosystem cache
 
-**What this means for you:**
-- ✅ **10x faster builds** - Downloads pre-built packages instead of compiling from source
-- ✅ **Lower bandwidth usage** - Only downloads what you don't have
-- ✅ **Automatic verification** - Cryptographically signed packages ensure security
-- ✅ **Zero configuration** - Works automatically when you use this flake
+   **What this means for you:**
+   - ✅ **10x faster builds** - Downloads pre-built packages instead of compiling from source
+   - ✅ **Lower bandwidth usage** - Only downloads what you don't have
+   - ✅ **Automatic verification** - Cryptographically signed packages ensure security
+   - ✅ **Zero configuration** - Works automatically when you use this flake
 
-**No additional setup needed!** These optimizations are built into the flake configuration and activate automatically when you build your system.
+   **No additional setup needed!** These optimizations are built into the flake configuration and activate automatically when you build your system.
 
 7. **Apply the change to your system:**
    ```bash
