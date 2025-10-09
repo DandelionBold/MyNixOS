@@ -83,6 +83,18 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 
 Before you can use this configuration, you need to enable flakes in NixOS.
 
+**Example of what your `/etc/nixos/configuration.nix` should look like:**
+```nix
+{ config, pkgs, ... }:
+{
+  # ... other configurations ...
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  environment.systemPackages = with pkgs; [ git ];  # Add this if not present
+  # OR add 'git' to existing systemPackages list
+}
+```
+
 1. **Open the configuration file with nano (text editor):**
    ```bash
    sudo nano /etc/nixos/configuration.nix
@@ -104,17 +116,6 @@ Before you can use this configuration, you need to enable flakes in NixOS.
    environment.systemPackages = with pkgs; [ git ];
    ```
    
-   **Example of what it should look like:**
-   ```nix
-   { config, pkgs, ... }:
-   {
-     # ... other configurations ...
-     
-     nix.settings.experimental-features = [ "nix-command" "flakes" ];
-     environment.systemPackages = with pkgs; [ git ];  # Add this if not present
-     # OR add 'git' to existing systemPackages list
-   }
-   ```
 
 5. **Save and exit nano:**
    - Press `Ctrl + O` (WriteOut) to save
