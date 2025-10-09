@@ -136,14 +136,18 @@ Before you can use this configuration, you need to enable flakes in NixOS.
 
    **How to manually add these to your `/etc/nixos/configuration.nix`:**
    ```nix
-   nix.settings.substituters = [
-     "https://cache.nixos.org/"
-     "https://hydra.nixos.org"
-   ];
-   nix.settings.trusted-public-keys = [
-     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-     "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
-   ];
+   nix.settings = {
+     experimental-features = [ "nix-command" "flakes" ];
+     # Prefer well-known binary caches for faster builds
+     substituters = [
+       "https://cache.nixos.org/"
+       "https://hydra.nixos.org"
+     ];
+     trusted-public-keys = [
+       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+       "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
+     ];
+   };
    ```
 
    **No additional setup needed!** These optimizations are built into the flake configuration and activate automatically when you build your system.
