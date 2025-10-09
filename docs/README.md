@@ -926,6 +926,18 @@ This configuration includes **optimized binary caches** for much faster package 
 - ✅ **Automatic verification** - Cryptographically signed packages ensure security
 - ✅ **Zero configuration** - Works automatically when you use this flake
 
+**How to manually add these to your `/etc/nixos/configuration.nix`:**
+```nix
+nix.settings.substituters = [
+  "https://cache.nixos.org/"
+  "https://hydra.nixos.org"
+];
+nix.settings.trusted-public-keys = [
+  "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+  "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
+];
+```
+
 **No additional setup needed!** These optimizations are built into the flake configuration and activate automatically when you build your system.
 
 3) Get this repo
