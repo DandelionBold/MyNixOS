@@ -31,21 +31,6 @@ Follow this exactly. You can copy commands line-by-line.
    ```
    Look for names like `laptop`, `desktop`, `vm`, or `laptop@personal`.
 
-### 🚀 Faster Downloads (Automatic)
-
-This configuration includes **optimized binary caches** for much faster package downloads. When you use this flake, it automatically configures:
-
-- **`cache.nixos.org`** - Official NixOS binary cache
-- **`hydra.nixos.org`** - Full nixpkgs ecosystem cache
-
-**What this means for you:**
-- ✅ **10x faster builds** - Downloads pre-built packages instead of compiling from source
-- ✅ **Lower bandwidth usage** - Only downloads what you don't have
-- ✅ **Automatic verification** - Cryptographically signed packages ensure security
-- ✅ **Zero configuration** - Works automatically when you use this flake
-
-**No additional setup needed!** These optimizations are built into the flake configuration and activate automatically when you build your system.
-
 3. **Build a configuration:**
    ```bash
    # For laptop
@@ -928,27 +913,42 @@ Apply:
 sudo nixos-rebuild switch
 ```
 
-2) Get this repo
+2) Enable Faster Downloads (Optional but Recommended)
+
+This configuration includes **optimized binary caches** for much faster package downloads. When you use this flake, it automatically configures:
+
+- **`cache.nixos.org`** - Official NixOS binary cache
+- **`hydra.nixos.org`** - Full nixpkgs ecosystem cache
+
+**What this means for you:**
+- ✅ **10x faster builds** - Downloads pre-built packages instead of compiling from source
+- ✅ **Lower bandwidth usage** - Only downloads what you don't have
+- ✅ **Automatic verification** - Cryptographically signed packages ensure security
+- ✅ **Zero configuration** - Works automatically when you use this flake
+
+**No additional setup needed!** These optimizations are built into the flake configuration and activate automatically when you build your system.
+
+3) Get this repo
 ```bash
 cd ~
 git clone https://github.com/DandelionBold/MyNixOS.git
 cd MyNixOS
 ```
 
-3) Choose a host to build (see what exists)
+4) Choose a host to build (see what exists)
 ```bash
 nix flake show
 ```
 Typical options: `laptop`, `desktop`, `vm`, `laptop@personal`.
 
-4) Generate hardware config for YOUR machine/variant
+5) Generate hardware config for YOUR machine/variant
 ```bash
 # example for vm personal
 sudo mkdir -p hosts/vm/personal
 sudo nixos-generate-config --show-hardware-config > hosts/vm/personal/hardware-configuration.nix
 ```
 
-5) Pick which users to create on this host
+6) Pick which users to create on this host
 ```bash
 nano hosts/vm/personal/personal.nix
 ```
@@ -957,12 +957,12 @@ Find or add:
 system.selectedUsers = [ "casper" ];
 ```
 
-6) Build and apply
+7) Build and apply
 ```bash
 sudo nixos-rebuild switch --flake .#vm@personal
 ```
 
-7) Optional: Apply Home Manager for your user
+8) Optional: Apply Home Manager for your user
 ```bash
 home-manager switch --flake .#casper
 ```
