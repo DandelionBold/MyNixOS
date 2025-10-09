@@ -225,6 +225,82 @@ nix flake update
 nixos-option services.nginx.enable
 ```
 
+### Updates: Keep your system and this repo current (step-by-step)
+
+There are two different things you may want to update:
+
+- The repository itself (new features, docs, fixes) → `git pull`
+- The package versions (apps from nixpkgs, Home Manager, etc.) → `nix flake update`
+
+Follow these steps exactly. You can copy/paste the commands.
+
+1) Get the latest repository changes
+```bash
+cd ~/MyNixOS
+git pull
+```
+This only updates the files in the repo; it does NOT change your running system yet.
+
+2) Optional: Update package versions (flake inputs)
+```bash
+# Update all inputs (nixpkgs, home-manager, etc.) pinned in flake.lock
+nix flake update
+
+# Safer alternative: update a single input (example: nixpkgs only)
+nix flake lock --update-input nixpkgs
+```
+What changed? Look at the lockfile diff:
+```bash
+git diff flake.lock
+```
+
+3) Apply changes to your NixOS system
+```bash
+sudo nixos-rebuild switch --flake .#<host>
+```
+Replace `<host>` with one from `nix flake show` (e.g., `laptop`, `desktop`, `vm@personal`).
+
+4) Update your user environment (Home Manager)
+```bash
+home-manager switch --flake .#<username>
+```
+
+5) If something breaks, roll back calmly
+```bash
+# System rollback to previous generation
+sudo nixos-rebuild switch --rollback
+
+# Home Manager rollback
+home-manager rollback
+
+# Undo package version bump (revert lockfile change)
+git restore --source=HEAD~1 flake.lock   # if you committed the lockfile
+git checkout -- flake.lock               # if you didn’t commit it yet
+```
+
+6) Free up disk space after many builds (optional)
+```bash
+sudo nix-collect-garbage -d
+sudo nix-store --optimise
+```
+
+Tips for beginners
+- You do NOT need to update packages every time. `git pull` + rebuild is enough to get new features we add to this repo.
+- After running `nix flake update`, always commit `flake.lock` so your versions are reproducible:
+  ```bash
+  git add flake.lock && git commit -m "chore: update flake inputs"
+  ```
+- To see available hosts and users exposed by the flake, use:
+  ```bash
+  nix flake show
+  ```
+- Dockerized MSSQL image updates independently. To refresh it manually:
+  ```bash
+  sudo docker pull mcr.microsoft.com/mssql/server:2022-latest
+  sudo systemctl restart docker
+  sudo nixos-rebuild switch --flake .#<host>
+  ```
+
 ---
 
 # Complete Beginner's Guide
