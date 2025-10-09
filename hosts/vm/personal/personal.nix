@@ -9,7 +9,6 @@
     
     # Desktop Environment
     ../../../features/desktop-environments/desktop-environment.nix
-    ../../../features/desktop-environments/kde-plasma.nix
     
     # Development Tools
     ../../../features/development/dev.nix
@@ -45,4 +44,22 @@
   # Enable services you need
   # services.nginx.enable = true;
   # services.mysql.enable = true;
+
+  # Databases
+  services.mysql.enable = true;
+  services.redis.enable = true;
+
+  # MSSQL via Docker (SQL Server 2022)
+  virtualisation.oci-containers = {
+    backend = "docker";
+    containers.mssql = {
+      image = "mcr.microsoft.com/mssql/server:2022-latest";
+      ports = [ "1433:1433" ];
+      environment = {
+        ACCEPT_EULA = "Y";
+        MSSQL_SA_PASSWORD = "ChangeMe123!"; # change me or wire via secrets
+      };
+      extraOptions = [ "--restart=unless-stopped" ];
+    };
+  };
 }
