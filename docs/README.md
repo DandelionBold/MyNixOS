@@ -899,25 +899,15 @@ This keeps unfree usage explicit and tightly scoped.
 
 Follow these steps on a brand‑new NixOS install.
 
-**Example of what your `/etc/nixos/configuration.nix` should look like:**
-```nix
-{ config, pkgs, ... }:
-{
-  # ... other configurations ...
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  environment.systemPackages = with pkgs; [ git ];  # Add this if not present
-  # OR add 'git' to existing systemPackages list
-}
-```
-
 1) Enable flakes and install git temporarily
 ```bash
 sudo nano /etc/nixos/configuration.nix
 ```
 Add (before the final `}`):
-- `nix.settings.experimental-features = [ "nix-command" "flakes" ];`
-- `environment.systemPackages = with pkgs; [ git ];`
+```nix
+nix.settings.experimental-features = [ "nix-command" "flakes" ];
+environment.systemPackages = with pkgs; [ git ];
+```
 Apply:
 ```bash
 sudo nixos-rebuild switch
