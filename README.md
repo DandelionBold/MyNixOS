@@ -121,7 +121,7 @@ Before you can use this configuration, you need to enable flakes in NixOS.
    - Press `Enter` to confirm the filename
    - Press `Ctrl + X` to exit
 
-### Step 1.5: Enable Faster Downloads (Optional but Recommended)
+6. **Enable Faster Downloads (Optional but Recommended)**
 
 This configuration includes **optimized binary caches** for much faster package downloads. When you use this flake, it automatically configures:
 
@@ -136,7 +136,7 @@ This configuration includes **optimized binary caches** for much faster package 
 
 **No additional setup needed!** These optimizations are built into the flake configuration and activate automatically when you build your system.
 
-6. **Apply the change to your system:**
+7. **Apply the change to your system:**
    ```bash
    sudo nixos-rebuild switch
    ```
