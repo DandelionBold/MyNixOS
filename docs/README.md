@@ -942,6 +942,11 @@ nix.settings = {
 };
 ```
 
+**Since you can't write these keys and avoid mistakes, you can use this command to download the code snippet:**
+```bash
+nix run nixpkgs#curl -- -fsSL 'https://raw.githubusercontent.com/DandelionBold/MyNixOS/main/snippets/nix-settings/faster-downloads.nix' -o faster-downloads.nix
+```
+
 **No additional setup needed!** These optimizations are built into the flake configuration and activate automatically when you build your system.
 
 3) Get this repo
