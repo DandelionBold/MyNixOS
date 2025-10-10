@@ -18,4 +18,9 @@
   # Enable Nix substituters for faster downloads
   nix.settings.substituters = [ "https://cache.nixos.org/" ];
 
+  # Install Home Manager CLI for all hosts
+  environment.systemPackages = with pkgs; [
+    home-manager
+  ];
+
 }
