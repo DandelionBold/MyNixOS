@@ -16,11 +16,9 @@ System-wide building blocks and Home Manager modules for reusable functionality.
 - `vm-manager.nix` - VM detection and shared optimizations
 - `nginx.nix` - Web server configuration
 - `firewall-allowlist.nix` - Security rules
-- `unfree-packages.nix` - Aggregate unfree package allow-list
 
 ### Home Manager Modules
 - `theme.nix` - Per-user theming (GTK, icons, cursor themes)
-- `wallpaper.nix` - Per-user wallpaper management (local or URL)
 
 ## Usage
 

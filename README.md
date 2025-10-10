@@ -8,7 +8,6 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 
 ## 📑 Table of Contents
 
-- [Testing Status](#-testing-status)
 - [Features](#-features)
 - [Quick Start](#-quick-start)
   - [Prerequisites](#prerequisites)
@@ -27,24 +26,6 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 - [Architecture](#-architecture)
 - [Contributing](#-contributing)
 - [License](#-license)
-
----
-
-## 🧪 Testing Status
-
-### Currently Tested Configurations
-
-✅ **Fully Tested:**
-- **Host**: `vm@personal` - Virtual machine personal variant
-- **User**: `casper` - Main user with full Home Manager configuration
-- **Features Verified**:
-  - System builds successfully
-  - Home Manager applies user configurations
-  - Dark theme (adw-gtk3-dark, Papirus-Dark, Bibata-Modern-Ice)
-  - Base features working
-  - Development tools (Docker, databases)
-
-⚠️ **Other Configurations**: Not yet tested in production. Configurations for `laptop`, `desktop`, `server`, and `cloud` hosts are provided but require testing on actual hardware.
 
 ---
 
@@ -76,7 +57,7 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 ### 💻 Development
 - **Languages**: Python (extensible to others)
 - **Containers**: Docker, Kubernetes (k3s)
-- **Databases**: MySQL, Redis (MSSQL via Docker - commented out due to startup issues)
+- **Databases**: MySQL, Redis
 - **IDEs**: VSCode
 - **Version Control**: Git, GitHub CLI
 
@@ -386,9 +367,6 @@ MyNixOS/
 │   ├── desktop/default.nix
 │   ├── server/default.nix
 │   ├── vm/default.nix
-│   │   └── personal/
-│   │       ├── personal.nix      # Personal VM variant
-│   │       └── hardware-configuration.nix
 │   └── cloud/default.nix
 │
 ├── features/                      # Reusable feature modules
@@ -411,7 +389,7 @@ MyNixOS/
 │   ├── development/               # Development tools
 │   │   ├── dev.nix
 │   │   ├── containers.nix        # Docker, k3s
-│   │   ├── databases.nix         # MySQL, Redis (MSSQL commented out)
+│   │   ├── databases.nix         # MySQL, Redis
 │   │   ├── programming-languages.nix
 │   │   ├── ides.nix              # VSCode, etc.
 │   │   └── version-control.nix   # Git
@@ -434,7 +412,6 @@ MyNixOS/
 │   ├── home-manager-generator.nix # Automatic HM config generation
 │   ├── vm-manager.nix            # VM detection and shared optimizations
 │   ├── theme.nix                 # Per-user theme module (HM)
-│   ├── wallpaper.nix             # Per-user wallpaper module (HM)
 │   ├── unfree-packages.nix       # Aggregate unfree allow-list
 │   ├── nginx.nix                 # Web server
 │   └── firewall-allowlist.nix    # Firewall rules
@@ -445,13 +422,8 @@ MyNixOS/
 ├── overlays/                      # Nixpkgs overlays (placeholder)
 │   └── README.md
 │
-├── secrets/                       # Secrets management
-│   ├── README.md
-│   ├── api_key.example
-│   └── db_password.example
-└── snippets/                      # Code snippets for manual configuration
-    └── nix-settings/
-        └── faster-downloads.nix
+└── secrets/                       # Secrets management (placeholder)
+    └── README.md
 ```
 
 ---
