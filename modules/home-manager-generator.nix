@@ -9,7 +9,7 @@ let
   mkHomeConfig = username: user: {
     name = username;
     value = home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
+      pkgs = pkgs;
       extraSpecialArgs = { };
       modules = 
         # Import extra modules if defined
