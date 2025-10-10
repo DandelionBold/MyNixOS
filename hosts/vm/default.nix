@@ -48,6 +48,12 @@
       PasswordAuthentication = false;
     };
   };
+
+  # Default filesystem configuration for VM (can be overridden by hardware-configuration.nix)
+  fileSystems."/" = lib.mkDefault {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "ext4";
+  };
 }
 
 
