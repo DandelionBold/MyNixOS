@@ -11,7 +11,7 @@ in
     iconPackage     = lib.mkOption { type = lib.types.package; default = pkgs.papirus-icon-theme; };
     iconName        = lib.mkOption { type = lib.types.str;     default = "Papirus-Dark"; };
 
-    cursorPackage   = lib.mkOption { type = lib.types.package; default = pkgs.bibata-cursor-theme; };
+    cursorPackage   = lib.mkOption { type = lib.types.package; default = pkgs.bibata-cursors; };
     cursorName      = lib.mkOption { type = lib.types.str;     default = "Bibata-Modern-Ice"; };
     cursorSize      = lib.mkOption { type = lib.types.int;     default = 24; };
   };
