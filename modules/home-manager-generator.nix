@@ -5,6 +5,9 @@ let
   usersData = import ../nixos-settings/usersList.nix { inherit pkgs; };
   users = usersData.users;
   
+  # Debug: Check if users are loaded correctly
+  debugUsers = builtins.trace "DEBUG: Users loaded: ${builtins.toString (builtins.attrNames users)}" users;
+  
   # Helper to create Home Manager configuration for a user
   mkHomeConfig = username: user: home-manager.lib.homeManagerConfiguration {
     pkgs = pkgs;
@@ -73,8 +76,5 @@ in
   # ============================================================================
 
   # Generate homeConfigurations for all users
-  homeConfigurations = {
-    casper = mkHomeConfig "casper" users.casper;
-    koko = mkHomeConfig "koko" users.koko;
-  };
+  homeConfigurations = builtins.mapAttrs mkHomeConfig debugUsers;
 }
