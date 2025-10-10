@@ -26,19 +26,25 @@ let
             # Theme configuration
             theme = user.hm.theme or { enable = false; };
             
-            # Bash configuration
-            programs.bash = user.hm.bash // {
+            # Bash configuration (if defined)
+            programs.bash = if (user.hm ? bash) then (user.hm.bash // {
               enable = user.hm.bash.enable or true;
+            }) else {
+              enable = false;
             };
             
-            # Git configuration
-            programs.git = user.hm.git // {
+            # Git configuration (if defined)
+            programs.git = if (user.hm ? git) then (user.hm.git // {
               enable = user.hm.git.enable or true;
+            }) else {
+              enable = false;
             };
             
-            # Vim configuration
-            programs.vim = user.hm.vim // {
+            # Vim configuration (if defined)
+            programs.vim = if (user.hm ? vim) then (user.hm.vim // {
               enable = user.hm.vim.enable or false;
+            }) else {
+              enable = false;
             };
             
             # Zsh configuration (if defined)
