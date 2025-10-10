@@ -10,6 +10,7 @@ let
     name = username;
     value = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
+      extraSpecialArgs = { };
       modules = 
         # Import extra modules if defined
         (user.hm.extraModules or []) ++
