@@ -59,6 +59,7 @@
   - Verify: `docker run hello-world`; `kubectl get nodes` on k3s hosts.
 - [x] Databases: MySQL, Redis (client and server via features)
   - Verify: Services start and accept local connections.
+  - [~] MSSQL via Docker - commented out due to startup issues
 - [ ] Desktop: KDE Plasma 6 + SDDM on desktop/laptop (Wayland)
   - Verify: Wayland session works; SDDM greeter loads.
 - [ ] User: `casper` (bash)
@@ -80,10 +81,11 @@
   - Verify: `nix flake check` and `nix flake metadata` succeed.
 - [x] Create folder structure
   - [x] `hosts/` per machine (auto-discovered, each with minimal `default.nix`)
-  - [x] `modules/` focused NixOS modules (users-manager, home-manager-generator, vm, nginx, firewall)
+  - [x] `modules/` focused NixOS modules (users-manager, home-manager-generator, vm, nginx, firewall, theme, wallpaper, unfree-packages)
   - [x] `features/` composable features (applications, development, desktop-environments, hardware, system)
-  - [x] ~~`profiles/`~~ REMOVED - settings moved directly into host default.nix files
-  - [x] ~~`home/`~~ REMOVED - replaced by centralized nixos-settings/usersList.nix
+- [x] ~~`profiles/`~~ REMOVED - settings moved directly into host default.nix files
+- [x] ~~`home/`~~ REMOVED - replaced by centralized nixos-settings/usersList.nix
+- [x] `snippets/` - Code snippets for manual configuration (faster-downloads.nix)
   - [x] `nixos-settings/` centralized user management
   - [x] `overlays/` empty placeholder
   - [x] `secrets/` placeholder with README (tooling TBD)
@@ -166,7 +168,7 @@
   - Verify: Steam runs when role enabled
 - [x] `roles/db`
   - [ ] MySQL server + client (disabled by default)
-  - [x] ~~MSSQL server + tools (EULA)~~ - Not available in standard NixOS, use Docker
+  - [~] ~~MSSQL server + tools (EULA)~~ - Not available in standard NixOS, use Docker (commented out due to startup issues)
   - [ ] Redis server + client (disabled by default)
   - Verify: Services start and bind only when host enables
 - [x] `roles/dev`
@@ -205,6 +207,7 @@
   - Verify: `kubectl get nodes` OK
   - [x] Databases: MySQL, Redis service modules
   - [x] Unit files and basics; services off by default
+  - [~] MSSQL via Docker - commented out due to startup issues
   - Verify: Services start when host enables
 - [x] Firewall rules module: off by default; declarative allowed ports list
   - [x] Option `allowedTCPPorts`/`allowedUDPPorts` per host

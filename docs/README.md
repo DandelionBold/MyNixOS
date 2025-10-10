@@ -68,7 +68,7 @@ Follow this exactly. You can copy commands line-by-line.
 ### Development
 - **Languages**: Python, Node.js (extensible)
 - **Containers**: Docker, Kubernetes (k3s)
-- **Databases**: MySQL, Redis
+- **Databases**: MySQL, Redis (MSSQL via Docker - commented out due to startup issues)
 - **IDEs**: VSCode
 - **Version Control**: Git, GitHub CLI
 
@@ -193,7 +193,7 @@ MyNixOS/
 │       ├── networking.nix         # NetworkManager
 │       ├── filesystems-btrfs.nix  # Example storage config
 │       ├── hibernate.nix          # Suspend/hibernate support
-│       └── power.nix              # Power management defaults
+│       ├── power.nix              # Power management defaults
 │       └── secrets.nix            # Simple file-based secrets (demo)
 └── modules/                        # Low-level system components
     ├── users-manager.nix          # Dynamic user creation (from usersList)
@@ -332,11 +332,10 @@ Contains basic system components that are used by features:
 - All user data in ONE place for consistency
 - **Note**: Hosts are auto-discovered from the `hosts/` directory - no manual configuration needed!
 
-### profiles/ Folder
-~~Contains machine-specific settings~~ **REMOVED** - All profile settings have been moved directly into their corresponding host `default.nix` files for better organization and clarity.
-
-### home/ Folder
-~~Contains user environment configurations~~ **REMOVED** - User configurations are now centrally managed in `nixos-settings/usersList.nix` with automatic Home Manager generation.
+### ~~profiles/~~ and ~~home/~~ Folders
+**REMOVED** - These directories have been restructured:
+- Profile settings moved directly into host `default.nix` files
+- User configurations centralized in `nixos-settings/usersList.nix` with automatic Home Manager generation
 
 ### docs/ Folder
 Contains documentation files explaining how everything works.
@@ -559,7 +558,7 @@ Central place for GRUB and boot parameters.
   imports = [
     ./containers.nix
     ./programming-languages.nix
-    ./databases.nix
+    ./databases.nix         # MySQL, Redis (MSSQL commented out)
     ./ides.nix
     ./version-control.nix
   ];
@@ -568,7 +567,7 @@ Central place for GRUB and boot parameters.
 **What this does**: Imports all development-related features:
 - Docker containers
 - Programming languages (Python, etc.)
-- Databases (MySQL, Redis, etc.)
+- Databases (MySQL, Redis, MSSQL via Docker - commented out)
 - Code editors (VSCode)
 - Version control (Git)
 

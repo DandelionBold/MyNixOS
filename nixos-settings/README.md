@@ -35,10 +35,13 @@ rec {
   homeDirectory = "/home/${username}";
   
   # === Home Manager Configuration ===
-  bash = { ... };
-  git = { ... };
-  vim = { ... };
-  zsh = { ... };  # optional
+  hm = {
+    bash = { ... };
+    git = { ... };
+    vim = { ... };
+    zsh = { ... };  # optional
+    theme = { ... }; # per-user theming
+  };
 }
 ```
 
@@ -56,15 +59,24 @@ rec {
   shell = pkgs.bashInteractive;
   homeDirectory = "/home/${username}";
   
-  bash = {
-    enable = true;
-    shellAliases = { ll = "ls -la"; };
-  };
-  
-  git = {
-    enable = true;
-    userName = "Alice";
-    userEmail = "alice@example.com";
+  hm = {
+    bash = {
+      enable = true;
+      shellAliases = { ll = "ls -la"; };
+    };
+    
+    git = {
+      enable = true;
+      userName = "Alice";
+      userEmail = "alice@example.com";
+    };
+    
+    theme = {
+      enable = true;
+      gtkThemeName = "adw-gtk3-dark";
+      iconName = "Papirus-Dark";
+      cursorName = "Bibata-Modern-Ice";
+    };
   };
 }
 ```
@@ -218,6 +230,8 @@ system.selectedUsers = [ "alice" ];   # Only alice at work
 - Home Manager configs are available for ALL users (activate per user)
 - User data includes both system AND personal configurations
 - Comments in `usersList.nix` clearly separate system from Home Manager config
+- Theme configuration is handled per-user via Home Manager (`modules/theme.nix`)
+- Wallpaper configuration is available per-user via Home Manager (`modules/wallpaper.nix`)
 
 ## 🚀 Quick Reference
 

@@ -34,7 +34,7 @@ Desktop environment configurations:
 Development tool configurations:
 - `dev.nix` - Main development feature importer
 - `containers.nix` - Docker and Kubernetes (k3s)
-- `databases.nix` - MySQL, Redis
+- `databases.nix` - MySQL, Redis (MSSQL via Docker - commented out due to startup issues)
 - `programming-languages.nix` - Language toolchains (Python, etc.)
 - `ides.nix` - IDEs and code editors (VSCode)
 - `version-control.nix` - Git and related tools
@@ -52,7 +52,7 @@ System-level configurations:
 - `filesystems-btrfs.nix` - BTRFS with compression
 - `hibernate.nix` - Hibernation support
 - `power.nix` - Power management
-- `themes/` - [REMOVED] Themes moved to Home Manager per-user configuration
+- `themes/` - [REMOVED] Themes moved to Home Manager per-user configuration in `modules/theme.nix`
 
 ### Root Level
 - `base.nix` - Base features imported by ALL hosts
