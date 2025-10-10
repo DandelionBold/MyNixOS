@@ -8,6 +8,7 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 
 ## 📑 Table of Contents
 
+- [Testing Status & Implementation Checklist](#-testing-status--implementation-checklist)
 - [Features](#-features)
 - [Quick Start](#-quick-start)
   - [Prerequisites](#prerequisites)
@@ -26,6 +27,118 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 - [Architecture](#-architecture)
 - [Contributing](#-contributing)
 - [License](#-license)
+
+---
+
+## 🧪 Testing Status & Implementation Checklist
+
+> **Legend**: `[x]` = Completed & Tested | `[~]` = In Progress / Partially Working | `[ ]` = Not Yet Tested
+
+### 🖥️ Hosts (Machine Configurations)
+
+- [x] **`vm`** - Base virtual machine configuration with auto-detection and guest tools
+- [x] **`vm@personal`** - Personal VM variant with hardware config and customizations (✅ **FULLY TESTED**)
+- [ ] **`laptop`** - Base laptop configuration with power management and hibernate support
+- [ ] **`laptop@personal`** - Personal laptop variant (hardware config needed)
+- [ ] **`desktop`** - Base desktop configuration with full hardware support
+- [ ] **`server`** - Headless server configuration with SSH and optional services
+- [ ] **`cloud`** - Cloud instance configuration with cloud-init compatibility
+
+### 👤 Users (User Accounts & Home Manager)
+
+- [x] **`casper`** - Main user with bash, git, vim, and dark theme (✅ **FULLY TESTED on vm@personal**)
+  - [x] System user creation working
+  - [x] Home Manager configuration applying successfully
+  - [x] Dark theme (adw-gtk3-dark, Papirus-Dark, Bibata-Modern-Ice)
+  - [x] Shell aliases and git configuration
+- [x] **`koko`** - Example second user with light theme (defined but not tested)
+  - [x] Configuration defined in usersList.nix
+  - [ ] Not yet tested on any host
+
+### 🎨 Features (Functional Modules)
+
+#### Base System
+- [x] **`base.nix`** - Core features imported by all hosts (locale, networking, users, unfree packages)
+- [x] **Locale & Keyboard** - Cairo timezone, en_US + ar_EG locales, US+Arabic keyboard layouts
+- [x] **Networking** - NetworkManager for WiFi and Ethernet
+- [x] **Boot Loader** - GRUB configuration with OS detection
+- [x] **Home Manager Integration** - System-wide Home Manager enablement
+
+#### Desktop Environment
+- [x] **KDE Plasma 6** - Wayland desktop environment with SDDM display manager
+- [x] **Per-User Themes** - GTK themes, icon themes, cursor themes via Home Manager
+- [ ] **Per-User Wallpapers** - Local and URL-based wallpaper management (defined but not tested)
+
+#### Applications
+- [x] **Browsers** - Firefox (default), Brave, Google Chrome
+- [x] **Terminals** - Alacritty, Kitty, GNOME Terminal, Konsole
+- [x] **File Managers** - Dolphin, Thunar, Ranger, Nautilus
+- [x] **Text Editors (GUI)** - Kate, Gedit, Geany
+- [x] **Text Editors (CLI)** - Vim, Emacs, Neovim
+- [x] **Screenshot Tools** - Spectacle, Flameshot, OBS Studio
+- [x] **Media Tools** - VLC, GIMP, Krita, Audacity, FFmpeg
+- [x] **Office Suite** - LibreOffice, OnlyOffice, Calibre
+- [x] **System Tools** - btop, htop, neofetch, wireshark, and more
+
+#### Development
+- [x] **Docker** - Container engine with user group membership
+- [x] **Kubernetes (k3s)** - Lightweight Kubernetes (defined but not tested)
+- [x] **MySQL** - MariaDB database server (enabled by default in databases.nix)
+- [x] **Redis** - In-memory data store (enabled by default in databases.nix)
+- [~] **MSSQL** - SQL Server via Docker (commented out due to startup issues)
+- [x] **Python** - Python 3 with pip and development tools
+- [x] **VSCode** - Visual Studio Code IDE (unfree package)
+- [x] **Git** - Version control with GitHub CLI
+
+#### Hardware
+- [x] **Audio** - PipeWire with WirePlumber for modern audio stack
+- [x] **Bluetooth** - Full Bluetooth support with bluez
+- [x] **Printing & Scanning** - CUPS printing and SANE scanning support
+
+#### System Features
+- [x] **Power Management** - Laptop power optimizations
+- [ ] **Hibernation** - Suspend-to-disk support (defined but not tested)
+- [x] **Filesystems (BTRFS)** - BTRFS with compression and subvolumes (example config)
+- [x] **Secrets Management** - Simple file-based secrets for development (sops-nix for production)
+
+#### Gaming
+- [x] **Steam & Proton** - Gaming platform with compatibility layer (defined but not tested)
+
+### 🔧 Modules (Low-Level Components)
+
+- [x] **`users-manager.nix`** - Dynamic user creation from centralized usersList.nix
+- [x] **`home-manager-generator.nix`** - Automatic Home Manager config generation for all users
+- [x] **`vm-manager.nix`** - VM detection and automatic guest tools installation
+- [x] **`theme.nix`** - Per-user theme module (GTK, icons, cursor) for Home Manager
+- [x] **`wallpaper.nix`** - Per-user wallpaper module (local or URL) for Home Manager (defined but not tested)
+- [x] **`unfree-packages.nix`** - Aggregate unfree package allow-list (VSCode, Brave, Chrome)
+- [x] **`nginx.nix`** - Web server configuration (defined but not tested)
+- [x] **`firewall-allowlist.nix`** - Declarative firewall rules (defined but not tested)
+
+### 📦 Additional Components
+
+- [x] **Flake System** - Auto-discovery of hosts and variants, reproducible builds
+- [x] **Binary Caches** - Optimized with cache.nixos.org and hydra.nixos.org
+- [x] **Unfree Packages** - Modular per-feature unfree package allowance
+- [x] **Secrets Examples** - Example secret files (db_password, api_key)
+- [x] **Code Snippets** - Downloadable nix-settings for manual configuration
+
+### 🎯 Current Testing Focus
+
+**Active Configuration**: `vm@personal` with user `casper`
+- ✅ System builds and applies successfully
+- ✅ Home Manager applies user configurations
+- ✅ Dark theme working correctly
+- ✅ Base applications installed and accessible
+- ✅ Development tools (Docker, databases) configured
+
+**Next Steps for Testing**:
+1. Test laptop configuration on real hardware
+2. Test hibernation support
+3. Test wallpaper module functionality
+4. Test gaming features (Steam)
+5. Test server configuration in production
+6. Test cloud deployment
 
 ---
 
