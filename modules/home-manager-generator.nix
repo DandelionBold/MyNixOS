@@ -73,5 +73,8 @@ in
   # ============================================================================
 
   # Generate homeConfigurations for all users
-  homeConfigurations = builtins.mapAttrs mkHomeConfig users;
+  homeConfigurations = {
+    casper = mkHomeConfig "casper" users.casper;
+    koko = mkHomeConfig "koko" users.koko;
+  };
 }
