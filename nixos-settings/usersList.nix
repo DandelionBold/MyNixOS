@@ -103,9 +103,9 @@
         # Theme configuration
         theme = {
           enable       = true;
-          gtkThemeName = "adw-gtk3-dark";
-          iconName     = "Papirus-Dark";
-          cursorName   = "Bibata-Modern-Ice";
+          gtkThemeName = "adw-gtk3";
+          iconName     = "Papirus";
+          cursorName   = "Bibata-Modern-Classic";
           cursorSize   = 24;
         };
       };
