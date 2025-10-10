@@ -36,6 +36,12 @@
 
   # Desktop profile: no laptop-specific power tweaks by default
   services.power-profiles-daemon.enable = true;
+
+  # Default filesystem configuration for desktop (can be overridden by hardware-configuration.nix)
+  fileSystems."/" = lib.mkDefault {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "ext4";
+  };
 }
 
 

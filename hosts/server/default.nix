@@ -35,6 +35,12 @@
 
   # Select which users to create on this host
   system.selectedUsers = [ "casper" ];
+
+  # Default filesystem configuration for server (can be overridden by hardware-configuration.nix)
+  fileSystems."/" = lib.mkDefault {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "ext4";
+  };
 }
 
 

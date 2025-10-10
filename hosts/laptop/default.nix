@@ -42,6 +42,12 @@
 
   # Hibernate support (requires swap and resume configured per host)
   systemd.targets.hibernate.enable = lib.mkDefault true;
+
+  # Default filesystem configuration for laptop (can be overridden by hardware-configuration.nix)
+  fileSystems."/" = lib.mkDefault {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "ext4";
+  };
 }
 
 
