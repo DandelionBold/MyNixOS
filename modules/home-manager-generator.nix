@@ -20,7 +20,7 @@ let
           home.stateVersion = "24.05";
           
           # Import user's HM configuration
-          imports = user.hm.imports or [];
+          imports = (user.hm.imports or []) ++ (user.hm.extraModules or []);
           
           # Theme configuration
           theme = user.hm.theme or { enable = false; };
