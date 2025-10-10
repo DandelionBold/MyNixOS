@@ -36,7 +36,7 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 
 ### 🖥️ Hosts (Machine Configurations)
 
-- [x] **`vm`** - Base virtual machine configuration with auto-detection and guest tools
+- [ ] **`vm`** - Base virtual machine configuration with auto-detection and guest tools
 - [x] **`vm@personal`** - Personal VM variant with hardware config and customizations (✅ **FULLY TESTED**)
 - [ ] **`laptop`** - Base laptop configuration with power management and hibernate support
 - [ ] **`laptop@personal`** - Personal laptop variant (hardware config needed)
@@ -46,13 +46,13 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 
 ### 👤 Users (User Accounts & Home Manager)
 
-- [x] **`casper`** - Main user with bash, git, vim, and dark theme (✅ **FULLY TESTED on vm@personal**)
+- 🚧 **`casper`** - Main user with bash, git, vim, and dark theme (✅ **FULLY TESTED on vm@personal**)
   - [x] System user creation working
   - [x] Home Manager configuration applying successfully
-  - [x] Dark theme (adw-gtk3-dark, Papirus-Dark, Bibata-Modern-Ice)
-  - [x] Shell aliases and git configuration
-- [x] **`koko`** - Example second user with light theme (defined but not tested)
-  - [x] Configuration defined in usersList.nix
+  - 🚧 Dark theme (adw-gtk3-dark, Papirus-Dark, Bibata-Modern-Ice)
+  - [ ] Shell aliases and git configuration
+- [ ] **`koko`** - Example second user with light theme (defined but not tested)
+  - [ ] Configuration defined in usersList.nix
   - [ ] Not yet tested on any host
 
 ### 🎨 Features (Functional Modules)
@@ -60,13 +60,13 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 #### Base System
 - [x] **`base.nix`** - Core features imported by all hosts (locale, networking, users, unfree packages)
 - [x] **Locale & Keyboard** - Cairo timezone, en_US + ar_EG locales, US+Arabic keyboard layouts
-- [x] **Networking** - NetworkManager for WiFi and Ethernet
+- [ ] **Networking** - NetworkManager for WiFi and Ethernet
 - [x] **Boot Loader** - GRUB configuration with OS detection
 - [x] **Home Manager Integration** - System-wide Home Manager enablement
 
 #### Desktop Environment
 - [x] **KDE Plasma 6** - Wayland desktop environment with SDDM display manager
-- [x] **Per-User Themes** - GTK themes, icon themes, cursor themes via Home Manager
+- [ ] **Per-User Themes** - GTK themes, icon themes, cursor themes via Home Manager
 - [ ] **Per-User Wallpapers** - Local and URL-based wallpaper management (defined but not tested)
 
 #### Applications
@@ -81,46 +81,46 @@ A modern, declarative, and reproducible NixOS configuration system designed for 
 - [x] **System Tools** - btop, htop, neofetch, wireshark, and more
 
 #### Development
-- [x] **Docker** - Container engine with user group membership
-- [x] **Kubernetes (k3s)** - Lightweight Kubernetes (defined but not tested)
-- [x] **MySQL** - MariaDB database server (enabled by default in databases.nix)
-- [x] **Redis** - In-memory data store (enabled by default in databases.nix)
-- [~] **MSSQL** - SQL Server via Docker (commented out due to startup issues)
+- [ ] **Docker** - Container engine with user group membership
+- [ ] **Kubernetes (k3s)** - Lightweight Kubernetes (defined but not tested)
+- [ ] **MySQL** - MariaDB database server (enabled by default in databases.nix)
+- [ ] **Redis** - In-memory data store (enabled by default in databases.nix)
+- [ ] **MSSQL** - SQL Server via Docker (commented out due to startup issues)
 - [x] **Python** - Python 3 with pip and development tools
 - [x] **VSCode** - Visual Studio Code IDE (unfree package)
 - [x] **Git** - Version control with GitHub CLI
 
 #### Hardware
-- [x] **Audio** - PipeWire with WirePlumber for modern audio stack
-- [x] **Bluetooth** - Full Bluetooth support with bluez
-- [x] **Printing & Scanning** - CUPS printing and SANE scanning support
+- [ ] **Audio** - PipeWire with WirePlumber for modern audio stack
+- [ ] **Bluetooth** - Full Bluetooth support with bluez
+- [ ] **Printing & Scanning** - CUPS printing and SANE scanning support
 
 #### System Features
-- [x] **Power Management** - Laptop power optimizations
+- [ ] **Power Management** - Laptop power optimizations
 - [ ] **Hibernation** - Suspend-to-disk support (defined but not tested)
 - [x] **Filesystems (BTRFS)** - BTRFS with compression and subvolumes (example config)
-- [x] **Secrets Management** - Simple file-based secrets for development (sops-nix for production)
+- [ ] **Secrets Management** - Simple file-based secrets for development (sops-nix for production)
 
 #### Gaming
-- [x] **Steam & Proton** - Gaming platform with compatibility layer (defined but not tested)
+- [ ] **Steam & Proton** - Gaming platform with compatibility layer (defined but not tested)
 
 ### 🔧 Modules (Low-Level Components)
 
 - [x] **`users-manager.nix`** - Dynamic user creation from centralized usersList.nix
 - [x] **`home-manager-generator.nix`** - Automatic Home Manager config generation for all users
 - [x] **`vm-manager.nix`** - VM detection and automatic guest tools installation
-- [x] **`theme.nix`** - Per-user theme module (GTK, icons, cursor) for Home Manager
-- [x] **`wallpaper.nix`** - Per-user wallpaper module (local or URL) for Home Manager (defined but not tested)
+- [ ] **`theme.nix`** - Per-user theme module (GTK, icons, cursor) for Home Manager
+- [ ] **`wallpaper.nix`** - Per-user wallpaper module (local or URL) for Home Manager (defined but not tested)
 - [x] **`unfree-packages.nix`** - Aggregate unfree package allow-list (VSCode, Brave, Chrome)
-- [x] **`nginx.nix`** - Web server configuration (defined but not tested)
-- [x] **`firewall-allowlist.nix`** - Declarative firewall rules (defined but not tested)
+- [ ] **`nginx.nix`** - Web server configuration (defined but not tested)
+- [ ] **`firewall-allowlist.nix`** - Declarative firewall rules (defined but not tested)
 
 ### 📦 Additional Components
 
 - [x] **Flake System** - Auto-discovery of hosts and variants, reproducible builds
 - [x] **Binary Caches** - Optimized with cache.nixos.org and hydra.nixos.org
 - [x] **Unfree Packages** - Modular per-feature unfree package allowance
-- [x] **Secrets Examples** - Example secret files (db_password, api_key)
+- [ ] **Secrets Examples** - Example secret files (db_password, api_key)
 - [x] **Code Snippets** - Downloadable nix-settings for manual configuration
 
 ### 🎯 Current Testing Focus
